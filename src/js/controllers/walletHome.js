@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txSignService) {
+angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txSignService, addonManager) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -815,14 +815,18 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         self.setOngoingProcess(gettextCatalog.getString('Creating transaction'));
         getFee(function(err, feePerKb) {
           if (err) $log.debug(err);
-          fc.sendTxProposal({
+          
+          var txOpts = {
             toAddress: address,
             amount: amount,
             message: comment,
             payProUrl: paypro ? paypro.url : null,
             feePerKb: feePerKb,
             excludeUnconfirmedUtxos: currentSpendUnconfirmed ? false : true
-          }, function(err, txp) {
+          };
+          addonManager.processCreateTxOpts(txOpts);
+          
+          fc.sendTxProposal(txOpts, function(err, txp) {
             if (err) {
               self.setOngoingProcess();
               return self.setSendError(err);
