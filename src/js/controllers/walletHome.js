@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService) {
+angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService, addonManager) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -901,6 +901,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         payProUrl: paypro ? paypro.url : null,
         lockedCurrentFeePerKb: self.lockedCurrentFeePerKb
       };
+      addonManager.processCreateTxOpts(opts);
 
       self.setOngoingProcess(gettextCatalog.getString('Creating transaction'));
       txService.createTx(opts, function(err, txp) {
