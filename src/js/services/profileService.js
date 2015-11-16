@@ -271,7 +271,8 @@ angular.module('copayApp.services')
         var walletName = gettextCatalog.getString('Personal Wallet');
         var me = gettextCatalog.getString('me');
         walletClient.createWallet(walletName, me, 1, 1, {
-          network: 'livenet'
+          network: 'livenet',
+          customData: opts.customData
         }, function(err) {
           if (err) return bwsError.cb(err, gettext('Error creating wallet'), cb);
           var p = Profile.create({
@@ -288,7 +289,8 @@ angular.module('copayApp.services')
         if (err) return cb(err);
 
         walletClient.createWallet(opts.name, opts.myName || 'me', opts.m, opts.n, {
-          network: opts.networkName
+          network: opts.networkName,
+          customData: opts.customData
         }, function(err, secret) {
           if (err) return bwsError.cb(err, gettext('Error creating wallet'), cb);
 
@@ -549,6 +551,9 @@ angular.module('copayApp.services')
       configService.get(function(err) {
         bwcService.setBaseUrl(defaults.bws.url);
         bwcService.setTransports(['polling']);
+        opts.customData = {
+          walletAsset: defaults.assets.defaultAsset
+        };
         root._createNewProfile(opts, function(err, p) {
           if (err) return cb(err);
 
