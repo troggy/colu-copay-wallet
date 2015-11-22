@@ -12,7 +12,7 @@ angular.module('copayApp.services').factory('configService', function(storageSer
 
     // Bitcore wallet service URL
     bws: {
-      url: 'https://bws.bitpay.com/bws/api',
+      url: 'http://127.0.0.1:3232/bws/api',
     },
 
     // wallet default config
@@ -30,6 +30,16 @@ angular.module('copayApp.services').factory('configService', function(storageSer
         alternativeName: 'US Dollar',
         alternativeIsoCode: 'USD',
       }
+    },
+
+    assets: {
+      supported: [
+        { assetId: "LGtULHaC7yYuMoyM6fcQuNsLyW958CH4oHRpV" },
+        { assetId: "LCRSiyBZ1C8fTBDbWk2hB91NJ4eSbdgWTA9Xx" },
+        { assetId: "LDqBhNkag45R8KurLqB8mT2okmdtdksjkxBYh" },
+        { assetId: "U4hcbSD61752BbU9FrkVzYo1cCgQtAuBezxVD", symbol: "R$" }
+      ],
+      defaultAsset: "U4hcbSD61752BbU9FrkVzYo1cCgQtAuBezxVD"
     },
 
     // External services
@@ -92,6 +102,7 @@ angular.module('copayApp.services').factory('configService', function(storageSer
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;
         }
+        configCache.assets = defaultConfig.assets;
 
       } else {
         configCache = lodash.clone(defaultConfig);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, assetsService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   var errors = bwcService.getErrors();
@@ -372,6 +372,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         self.walletStatus = walletStatus.wallet.status;
         self.walletScanStatus = walletStatus.wallet.scanStatus;
         self.copayers = walletStatus.wallet.copayers;
+        self.walletAsset = assetsService.walletAsset();
         self.preferences = walletStatus.preferences;
         self.setBalance(walletStatus.balance);
         self.otherWallets = lodash.filter(profileService.getWallets(self.network), function(w) {
@@ -379,12 +380,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         });
 
 
-        var defaults = configService.getDefaults();
         $rootScope.$on('ColoredCoins/AssetsUpdated', function(event, assets) {
-          var walletAsset = walletStatus.wallet.customData && walletStatus.wallet.customData.walletAsset
-              ? walletStatus.wallet.customData.walletAsset : defaults.assets.defaultAsset;
           assets = lodash.filter(assets, function(asset) {
-            return asset.assetId == walletAsset;
+            return asset.assetId == self.walletAsset;
           });
 
           var coloredBalance = lodash.reduce(assets, function(total, asset) {
