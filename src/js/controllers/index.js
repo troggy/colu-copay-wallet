@@ -366,7 +366,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         self.walletStatus = walletStatus.wallet.status;
         self.walletScanStatus = walletStatus.wallet.scanStatus;
         self.copayers = walletStatus.wallet.copayers;
-        self.walletAsset = assetsService.walletAsset();
         self.preferences = walletStatus.preferences;
         self.setBalance(walletStatus.balance);
         self.otherWallets = lodash.filter(profileService.getWallets(self.network), function(w) {
@@ -374,8 +373,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         });
 
 
-        $rootScope.$on('ColoredCoins/AssetsUpdated', function(event, assets) {
-          assets = lodash.filter(assets, function(asset) {
+        function updateAssetBalance(event) {
+          self.walletAsset = assetsService.walletAsset();
+
+          var assets = lodash.filter(coloredCoins.assets, function(asset) {
             return asset.assetId == self.walletAsset;
           });
 
@@ -385,7 +386,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
           }, 0);
 
           self.totalAssetBalanceStr = coloredCoins.formatAssetAmount(coloredBalance, assets[0]);
-        });
+        }
+
+        $rootScope.$on('ColoredCoins/AssetsUpdated', updateAssetBalance);
+        $rootScope.$on('Local/WalletAssetUpdated', updateAssetBalance);
 
         // Notify external addons or plugins
         $rootScope.$emit('Local/BalanceUpdated', walletStatus.balance);
