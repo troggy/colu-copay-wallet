@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, assetsService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, walletService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   var errors = bwcService.getErrors();
@@ -374,6 +374,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         self.walletScanStatus = walletStatus.wallet.scanStatus;
         self.copayers = walletStatus.wallet.copayers;
         self.preferences = walletStatus.preferences;
+        self.walletAsset = walletService.updateWalletAsset();
+        self.isAssetWallet = walletService.isAssetWallet;
         self.setBalance(walletStatus.balance);
         self.otherWallets = lodash.filter(profileService.getWallets(self.network), function(w) {
           return w.id != self.walletId;
@@ -381,18 +383,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
 
         function updateAssetBalance(event) {
-          self.walletAsset = assetsService.walletAsset();
-
-          var assets = lodash.filter(coloredCoins.assets, function(asset) {
-            return asset.assetId == self.walletAsset;
-          });
-
-          var coloredBalance = lodash.reduce(assets, function(total, asset) {
-            total += asset.asset.amount;
-            return total;
-          }, 0);
-
-          self.totalAssetBalanceStr = coloredCoins.formatAssetAmount(coloredBalance, assets[0]);
+          self.walletAsset = walletService.updateWalletAsset();
+          self.isAssetWallet = walletService.isAssetWallet;
+          self.totalAssetBalanceStr = walletService.totalAssetBalanceStr;
         }
 
         $rootScope.$on('ColoredCoins/AssetsUpdated', updateAssetBalance);
@@ -645,6 +638,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.totalBalanceStr = profileService.formatAmount(self.totalBalanceSat) + ' ' + self.unitName;
     self.lockedBalanceStr = profileService.formatAmount(self.lockedBalanceSat) + ' ' + self.unitName;
     self.availableBalanceStr = profileService.formatAmount(self.availableBalanceSat) + ' ' + self.unitName;
+
+    walletService.btcBalance = self.totalBalanceStr;
 
     if (self.pendingAmount) {
       self.pendingAmountStr = profileService.formatAmount(self.pendingAmount) + ' ' + self.unitName;
