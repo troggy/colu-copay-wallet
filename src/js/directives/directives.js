@@ -345,11 +345,11 @@ angular.module('copayApp.directives')
             return true;
           });
 
-          element.on('touchend', function(event) { 
+          element.on('touchend', function(event) {
             if (trackingClick) {
               scope.someCtrlFn();
               event.preventDefault();
-            } 
+            }
             trackingClick = false;
             return false;
           });
@@ -376,7 +376,7 @@ angular.module('copayApp.directives')
           });
         }
       }
-    } 
+    }
   }]);
-  
+
 ;
