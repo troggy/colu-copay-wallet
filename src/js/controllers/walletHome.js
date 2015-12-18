@@ -266,7 +266,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
     $rootScope.modalOpened = true;
     var fc = profileService.focusedClient;
     var currentSpendUnconfirmed = configWallet.spendUnconfirmed;
-    var ModalInstanceCtrl = function($scope, $modalInstance) {
+    var ModalInstanceCtrl = function($scope, $modalInstance, walletService) {
       $scope.error = null;
       $scope.copayers = copayers
       $scope.copayerId = fc.credentials.copayerId;
@@ -274,6 +274,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
       $scope.loading = null;
       $scope.color = fc.backgroundColor;
       $scope.isShared = fc.credentials.n > 1;
+      $scope.isAsset = walletService.isAssetWallet;
 
       // ToDo: use tx.customData instead of tx.message
       if (tx.message === 'Glidera transaction' && isGlidera) {
