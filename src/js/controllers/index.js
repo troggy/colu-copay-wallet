@@ -384,6 +384,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
           self.totalAssetBalanceStr = walletService.totalAssetBalanceStr;
           $rootScope.$emit('Local/AssetBalanceUpdated');
           self.setPendingTxps(walletStatus.pendingTxps);
+          self.updateRelevantPendingTxps();
         }
 
         $rootScope.$on('ColoredCoins/AssetsUpdated', updateAssetBalance);
@@ -491,6 +492,13 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       });
     });
   };
+  
+  self.updateRelevantPendingTxps = function() {
+      self.txps = lodash.filter(self.allTxps, function(txp) {
+        return !walletService.isAssetWallet || 
+          (txp.customData && txp.customData.asset.assetId === walletService.walletAsset);
+      });
+  };
 
   self.setPendingTxps = function(txps) {
     self.pendingTxProposalsCountForUs = 0;
@@ -548,6 +556,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       addonManager.formatPendingTxp(tx);
     });
     self.txps = txps;
+    self.allTxps = self.txps;
+    self.updateRelevantPendingTxps();
   };
 
   var SAFE_CONFIRMATIONS = 6;
