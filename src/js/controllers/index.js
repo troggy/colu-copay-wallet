@@ -383,6 +383,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
           self.walletAsset = walletService.updateWalletAsset();
           self.totalAssetBalanceStr = walletService.totalAssetBalanceStr;
           $rootScope.$emit('Local/AssetBalanceUpdated');
+          self.setPendingTxps(walletStatus.pendingTxps);
         }
 
         $rootScope.$on('ColoredCoins/AssetsUpdated', updateAssetBalance);
