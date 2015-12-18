@@ -303,7 +303,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     $rootScope.modalOpened = true;
     var fc = profileService.focusedClient;
     var currentSpendUnconfirmed = configWallet.spendUnconfirmed;
-    var ModalInstanceCtrl = function($scope, $modalInstance) {
+    var ModalInstanceCtrl = function($scope, $modalInstance, walletService) {
       $scope.paymentExpired = null;
       checkPaypro();
       $scope.error = null;
@@ -314,6 +314,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       $scope.color = fc.backgroundColor;
       $scope.isShared = fc.credentials.n > 1;
       var now = Math.floor(Date.now() / 1000);
+      $scope.isAsset = walletService.isAssetWallet;
 
       // ToDo: use tx.customData instead of tx.message
       if (tx.message === 'Glidera transaction' && isGlidera) {
