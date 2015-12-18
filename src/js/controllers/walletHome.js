@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService, addonManager) {
+angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService, addonManager, coloredCoins) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -885,7 +885,11 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       var address, amount;
 
       address = form.address.$modelValue;
-      amount = parseInt((form.amount.$modelValue * unitToSat).toFixed(0));
+      if (walletAsset.isAsset) {
+        amount = form.amount.$modelValue;
+      } else {
+        amount = parseInt((form.amount.$modelValue * unitToSat).toFixed(0));
+      }
 
       outputs.push({
         'toAddress': address,
