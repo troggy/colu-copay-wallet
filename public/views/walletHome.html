@@ -134,7 +134,7 @@
         </div>
       </div>
 
-      <div class="oh pr" ng-if="index.txps[0]" ng-show="!index.isSearching">
+      <div class="oh pr" ng-if="index.txps[0] && index.asset.assetId" ng-show="!index.isSearching">
         <h4 ng-show="index.requiresMultipleSignatures" class="title m0" translate>Payment Proposals</h4>
         <h4 ng-show="!index.requiresMultipleSignatures" class="title m0" translate>Unsent transactions</h4>
         <div class="last-transactions pr" ng-repeat="tx in index.txps | filter: index.filterProposals">
@@ -158,7 +158,7 @@
         No transactions yet
       </div>
 
-      <div class="oh pr" ng-show="index.txHistory[0] || index.txProgress > 5">
+      <div class="oh pr" ng-show="(index.txHistory[0] || index.txProgress > 5) && index.asset.assetId">
         <h4 class="title" ng-click="index.startSearch(); search=''" ng-show="!index.isSearching">
           <span translate>Activity</span>
           <i class="dib m5l size-16 pointer fi-magnifying-glass"></i>
