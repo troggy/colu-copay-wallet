@@ -214,7 +214,7 @@
             <a ng-click="index.cancelSearch()" translate>Cancel</a>
           </div>
         </div>
-        <div ng-repeat="btx in index.txHistorySearchResults track by btx.txid | filter: index.filterHistory"
+        <div ng-repeat="btx in index.txHistorySearchResults track by btx.txid"
           fast-click callback-fn="home.openTxModal(btx)"
           class="row collapse last-transactions-content">
           <div class="large-6 medium-6 small-6 columns size-14">
