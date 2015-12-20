@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, walletService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, walletService, $q) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   var errors = bwcService.getErrors();
@@ -87,7 +87,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.spendUnconfirmed = null;
 
     self.totalBalanceStr = null;
-    self.walletAsset = {};
+    self.asset = {};
     self.availableBalanceStr = null;
     self.lockedBalanceStr = null;
 
@@ -336,7 +336,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         self.setOngoingProcess('updatingStatus', true);
 
       $log.debug('Updating Status:', fc.credentials.walletName, tries);
-      self.walletAsset = {};
+      self.asset = {};
       get(function(err, walletStatus) {
         var currentStatusHash = _walletStatusHash(walletStatus);
         $log.debug('Status update. hash:' + currentStatusHash + ' Try:' + tries);
@@ -371,18 +371,12 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         self.otherWallets = lodash.filter(profileService.getWallets(self.network), function(w) {
           return w.id != self.walletId;
         });
-
-        function updateAssetBalance(event) {
-          self.walletAsset = walletService.updateWalletAsset();
-          self.totalAssetBalanceStr = walletService.totalAssetBalanceStr;
-          $rootScope.$emit('Local/AssetBalanceUpdated');
-          self.setPendingTxps(walletStatus.pendingTxps);
-          self.updateRelevantPendingTxps();
-        }
-
-        $rootScope.$on('ColoredCoins/AssetsUpdated', updateAssetBalance);
-        $rootScope.$on('Local/WalletAssetUpdated', updateAssetBalance);
-
+        self.setPendingTxps(walletStatus.pendingTxps);
+        
+        $rootScope.$on('Local/WalletAssetUpdated', function() {
+          self.asset = walletService.walletAsset;
+        });
+        
         // Notify external addons or plugins
         $rootScope.$emit('Local/BalanceUpdated', walletStatus.balance);
 
@@ -520,13 +514,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     });
   };
   
-  self.updateRelevantPendingTxps = function() {
-      self.txps = lodash.filter(self.allTxps, function(txp) {
-        return !walletService.isAssetWallet || 
-          (txp.customData && txp.customData.asset.assetId === walletService.walletAsset);
-      });
-  };
-
   self.setPendingTxps = function(txps) {
     self.pendingTxProposalsCountForUs = 0;
     var now = Math.floor(Date.now() / 1000);
@@ -584,8 +571,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       addonManager.formatPendingTxp(tx);
     });
     self.txps = txps;
-    self.allTxps = self.txps;
-    self.updateRelevantPendingTxps();
   };
 
   var SAFE_CONFIRMATIONS = 6;
@@ -675,7 +660,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.lockedBalanceStr = profileService.formatAmount(self.lockedBalanceSat) + ' ' + self.unitName;
     self.availableBalanceStr = profileService.formatAmount(self.availableBalanceSat) + ' ' + self.unitName;
 
-    walletService.btcBalance = self.totalBalanceStr;
+    walletService.setBtcBalance(self.totalBalanceStr);
 
     if (self.pendingAmount) {
       self.pendingAmountStr = profileService.formatAmount(self.pendingAmount) + ' ' + self.unitName;
@@ -1184,6 +1169,22 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     }
 
   };
+  
+  self.filterProposals = function(txp) {
+    return true;
+    return !self.asset.isAsset || 
+      (txp.customData && txp.customData.asset.assetId === self.asset.assetId);
+  };
+  
+  self.filterHistory = function(tx) {
+    return true;
+    if (self.asset.isAsset) {
+      // for asset wallet show only colored tx of the wallet color
+      return tx.isColored && tx.assetId === self.asset.assetId; 
+    } else {
+      return !tx.isColored; // show only colorless tx for btc wallet
+    }
+  };
 
   self.setAddressbook = function(ab) {
     if (ab) {
@@ -1343,6 +1344,26 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         navigator.app.exitApp();
       }
     });
+  });
+  
+  $scope.$watch(function() { return self.txHistory; }, function() {
+    $q.all(coloredCoins.getAssets(), coloredCoins.getColorTransactions())
+      .then(function(assets, colorHistory) {
+        lodash.forEach(self.txHistory, function(tx) {
+          var colorTx = colorHistory[tx.txid];
+          if (tx.isColored || !colorTx || !colorTx.colored) return;
+          
+          tx.isColored = true;
+          tx.assetId = colorTx.vout[0].assets[0].assetId;
+
+          var asset = coloredCoins.assetsMap[tx.assetId];
+          var amount = lodash.sum(lodash.pluck(colorTx.vout[0].assets, 'amount'));
+          tx.assetAmountStr = coloredCoins.formatAssetAmount(amount, asset);
+        });
+        $timeout(function() {
+          $rootScope.$digest();
+        });
+      });
   });
 
   $rootScope.$on('Local/WalletImported', function(event, walletId) {
