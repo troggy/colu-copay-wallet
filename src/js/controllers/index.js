@@ -68,11 +68,15 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       return isOn;
     });
     // The first one
-    self.onGoingProcessName = name;
+    self.onGoingProcessName = name || processName;
     $timeout(function() {
       $rootScope.$apply();
     });
   };
+  
+  var disableOngoingProcessListener = $rootScope.$on('Addon/OngoingProcess', function(e, name) {
+    self.setOngoingProcess(name, false);
+  });
 
   self.cleanInstance = function() {
     $log.debug('Cleaning Index Instance');
