@@ -887,7 +887,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
 
       address = form.address.$modelValue;
       if (walletAsset.isAsset) {
-        amount = form.amount.$modelValue * Math.pow(10, walletAsset.asset.divisible);
+        amount = form.amount.$modelValue * Math.pow(10, walletAsset.divisible);
       } else {
         amount = parseInt((form.amount.$modelValue * unitToSat).toFixed(0));
       }
