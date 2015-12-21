@@ -85,10 +85,10 @@
               <br><span translate>Tap to retry</span>
             </div>
 
-            <div ng-click='index.updateAll({triggerTxUpdate: true})' 
+            <div ng-click='index.updateAll({triggerTxUpdate: true})'
               ng-show="index.asset.assetId && !index.updateError && index.walletScanStatus != 'error'">
               <strong class="size-36" ng-show="index.asset.isAsset">{{index.asset.balanceStr}}</strong>
-              
+
               <strong class="size-36" ng-show="!index.asset.isAsset">{{index.totalBalanceStr}}</strong>
               <div class="size-14"
                 ng-if="index.totalBalanceAlternative && !index.asset.isAsset">
@@ -161,7 +161,7 @@
 
       <div
           class="oh pr m20t text-gray size-12 text-center"
-          ng-show="!index.loadingWallet && !index.txHistory[0] && !index.updatingTxHistory && !index.txHistoryError && !index.updateError" translate>
+          ng-show="!index.loadingWallet && !index.txHistory[0] && !index.updatingTxHistory && !index.txHistoryError && !index.updateError && index.asset.assetId" translate>
         No transactions yet
       </div>
 
