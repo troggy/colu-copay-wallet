@@ -58,7 +58,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "./node_modules/.bin/grunt test-coveralls",
-    "build": "cd ~/projects/coloredcoins/colored-copay/ && grunt && cd - && grunt"
+    "build": "cd ../colu-copay-addon/ && grunt && cd - && grunt"
   },
   "devDependencies": {
     "adm-zip": "^0.4.7",
