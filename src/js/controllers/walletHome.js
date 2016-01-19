@@ -1111,7 +1111,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
     $rootScope.modalOpened = true;
     var self = this;
     var fc = profileService.focusedClient;
-    var ModalInstanceCtrl = function($scope, $filter, $log, $modalInstance) {
+    var ModalInstanceCtrl = function($scope, $filter, $log, $modalInstance, profileService) {
       $scope.btx = btx;
       $scope.settings = walletSettings;
       $scope.color = fc.backgroundColor;
@@ -1149,6 +1149,18 @@ angular.module('copayApp.controllers').controller('walletHomeController',
       $scope.getShortNetworkName = function() {
         var n = fc.credentials.network;
         return n.substring(0, 4);
+      };
+      
+      $scope.openInExplorer = function() {
+        var link,
+            network = profileService.focusedClient.credentials.network;
+        if (btx.isColored) {
+          var networkSuffix = (network == 'testnet' ? 'testnet/' : '');
+          link = 'http://coloredcoins.org/explorer/' + networkSuffix + 'tx/' + btx.issuanceTxId;
+        } else {
+          link = 'https://' + (network == 'testnet' ? 'test-' : '') + 'insight.bitpay.com/tx/' + btx.txid;
+        }
+        $rootScope.openExternalLink(link);
       };
 
       $scope.copyAddress = function(addr) {
