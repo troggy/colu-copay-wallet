@@ -58,6 +58,19 @@ angular.module('copayApp.controllers').controller('txController',
       }
     };
 
+    this.openInExplorer = function(tx) {
+      var link,
+          shortNetworkName = this.getShortNetworkName();
+      if (btx.isColored) {
+        var networkSuffix = (shortNetworkName == 'test' ? 'testnet/' : '');
+        link = 'http://coloredcoins.org/explorer/' + networkSuffix + 'tx/' + tx.issuanceTxId;
+      } else {
+        link = 'https://' + (shortNetworkName == 'test' ? 'test-' : '') + 'insight.bitpay.com/tx/' + tx.txid;
+      }
+      $rootScope.openExternalLink(link);
+    };
+
+
     this.cancel = lodash.debounce(function() {
       m.addClass(animationService.modalAnimated.slideOutRight);
       if (isCordova) {
