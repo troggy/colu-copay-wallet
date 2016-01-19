@@ -17,7 +17,7 @@
   </div>
 
   <div ng-include="'views/includes/progressReport.html'"></div>
-  
+
   <div class="oh" ng-show="!index.noFocusedWallet">
 
     <!--
@@ -313,7 +313,7 @@
           </div>
         </div>
         <div class="row m20t">
-          <div class="small-12 columns" ng-show="index.isCordova && home.addr">
+          <div class="small-12 columns" ng-show="index.isCordova && home.addr && !index.asset.isAsset">
             <button class="button outline light-gray small round expand"
               ng-click="home.shareAddress(home.addr)"
               ng-disabled="home.generatingAddress">
@@ -354,7 +354,7 @@
             ng-show="home.lockedCurrentFeePerKb || home.blockUx || home.lockAmount"
             class="text-gray" translate>Send All</span>
           <a
-            ng-show="index.availableBalanceSat > 0 && !home.lockedCurrentFeePerKb && !home.blockUx && !home.lockAmount"
+            ng-show="index.availableBalanceSat > 0 && !home.lockedCurrentFeePerKb && !home.blockUx && !home.lockAmount && !index.asset.isAsset"
             ng-click="home.sendAll(index.totalBytesToSendMax, index.availableBalanceSat)"
              translate> Send All
           </a>
