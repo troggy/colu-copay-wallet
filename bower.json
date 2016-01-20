@@ -22,6 +22,6 @@
     "ng-lodash": "0.2.3",
     "qrcode-decoder-js": "*",
     "trezor-connect": "~1.0.1",
-    "colu-copay-addon": "~0.1.1"
+    "colu-copay-addon": "~0.1.2"
   }
 }
