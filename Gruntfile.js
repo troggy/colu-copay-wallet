@@ -171,7 +171,7 @@ module.exports = function(grunt) {
     },
     nodewebkit: {
       options: {
-        appName: 'Copay',
+        appName: 'urv2',
         platforms: ['win64', 'osx64', 'linux64'],
         buildDir: './webkitbuilds',
         version: '0.12.2',
