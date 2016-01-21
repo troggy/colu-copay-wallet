@@ -859,7 +859,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
         
         if (walletAsset.isAsset) {
           coloredCoins.sendTransferTxProposal(
-            amount, address, walletAsset, signAndBroadcast
+            amount, address, comment, walletAsset, signAndBroadcast
           );
         } else {
           var txOpts = {
