@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.bitpay.copay" 
-  version="1.8.2"
-  android-versionCode="67"
-  ios-CFBundleVersion="1.8.2">
-    <name>Copay</name>
+<widget id="br.com.urv2" 
+  version="1.1.0"
+  android-versionCode="1"
+  ios-CFBundleVersion="1.1.0">
+    <name>urv2</name>
     <description>
       A secure bitcoin wallet for friends and companies.
     </description>
-    <author email="support@bitpay.com" href="https://copay.io">
-        BitPay Inc.
+    <author email="cejotagui@yahoo.com.br" href="http://urv2.com.br">
+        Guillermo Haddad
     </author>
     <content src="index.html" />
     <access origin="*" />

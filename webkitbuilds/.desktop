@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Version=1.8.2
-Name=Copay
+Version=1.1.0
+Name=urv2
 Comment=A multisignature wallet
-Exec=copay
+Exec=urv2
 Icon=icon-256.png
 Terminal=false
 Categories=Finance
