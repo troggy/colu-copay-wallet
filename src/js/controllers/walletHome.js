@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService, addonManager, coloredCoins) {
+angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $interval, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txService, addonManager, walletService) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -299,9 +299,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     $rootScope.modalOpened = true;
     var fc = profileService.focusedClient;
     var currentSpendUnconfirmed = configWallet.spendUnconfirmed;
-    var ModalInstanceCtrl = function($scope, $modalInstance, walletService) {
-      $scope.paymentExpired = null;
-      checkPaypro();
+    var ModalInstanceCtrl = function($scope, $modalInstance) {
       $scope.error = null;
       $scope.copayers = copayers
       $scope.copayerId = fc.credentials.copayerId;
@@ -882,11 +880,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       var address, amount;
 
       address = form.address.$modelValue;
-      if (walletAsset.isAsset) {
-        amount = form.amount.$modelValue * Math.pow(10, walletAsset.divisible);
-      } else {
-        amount = parseInt((form.amount.$modelValue * unitToSat).toFixed(0));
-      }
+      amount = walletService.getNormalizedAmount(form.amount.$modelValue);
 
       outputs.push({
         'toAddress': address,

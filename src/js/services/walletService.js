@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('copayApp.services').factory('walletService',
-  function(profileService, coloredCoins, lodash, configService, $q, $log, $rootScope, go) {
+  function(profileService, coloredCoins, addonManager, lodash, configService, $q, $log, $rootScope, go) {
   
   var root = {},
       self = this,
@@ -100,6 +100,25 @@ angular.module('copayApp.services').factory('walletService',
       updateAssetBalance();
       go.walletHome();
     });
+  };
+  
+  root.getNormalizedAmount = function(amount) {
+    if (root.walletAsset.isAsset) {
+      return amount * Math.pow(10, root.walletAsset.divisible);
+    } else {
+      return parseInt((amount * unitToSat).toFixed(0));
+    }
+  };
+  
+  root.sendTxProposal = function(txOpts, cb) {
+    var fc = profileService.focusedClient;
+    if (root.walletAsset.isAsset) {
+      coloredCoins.sendTransferTxProposal(
+        txOpts.amount, txOpts.toAddress, txOpts.message, root.walletAsset, cb
+      );
+    } else {
+      fc.sendTxProposal(addonManager.processCreateTxOpts(txOpts), cb); 
+    }
   };
 
   return root;
