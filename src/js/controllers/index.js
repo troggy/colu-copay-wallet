@@ -69,6 +69,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     });
     // The first one
     self.onGoingProcessName = name || processName;
+    if (isOn !== undefined) {
+      self.onGoingProcessName = null;
+    }
     $timeout(function() {
       $rootScope.$apply();
     });
