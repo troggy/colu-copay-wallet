@@ -69,7 +69,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     });
     // The first one
     self.onGoingProcessName = name || processName;
-    if (isOn !== undefined) {
+    if (!self.anyOnGoingProcess && isOn === false) {
       self.onGoingProcessName = null;
     }
     $timeout(function() {
@@ -78,7 +78,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   };
 
   var disableOngoingProcessListener = $rootScope.$on('Addon/OngoingProcess', function(e, name) {
-    self.setOngoingProcess(name, false);
+    self.setOngoingProcess(name);
   });
 
   self.cleanInstance = function() {
