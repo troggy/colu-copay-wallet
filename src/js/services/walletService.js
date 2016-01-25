@@ -106,6 +106,7 @@ angular.module('copayApp.services').factory('walletService',
     if (root.walletAsset.isAsset) {
       return amount * Math.pow(10, root.walletAsset.divisible);
     } else {
+      var unitToSat = configService.getSync().wallet.settings.unitToSatoshi;
       return parseInt((amount * unitToSat).toFixed(0));
     }
   };

@@ -38,6 +38,7 @@ angular.module('copayApp.services').service('addonManager', function (lodash) {
         addon.processCreateTxOpts(txOpts);
       }
     });
+    return txOpts;
   };
 
 });

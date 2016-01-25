@@ -75,6 +75,7 @@ angular.module('copayApp.services')
           notification.error(gettext('Payment Proposal Rejected'),
             name, {color: color} );
           break;
+        case 'NewOutgoingTxByThirdParty':
         case 'NewOutgoingTx':
           notification.sent(gettext('Payment Sent'),
             name, {color: color} );

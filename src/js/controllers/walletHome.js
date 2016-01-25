@@ -396,7 +396,8 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         $scope.loading = true;
 
         txService.prepareAndSignAndBroadcast(txp, {
-          reporterFn: self.setOngoingProcess.bind(self)
+          reporterFn: self.setOngoingProcess.bind(self),
+          broadcastByThirdParty: $scope.isAsset
         }, function(err, txp) {
           $scope.loading = false;
           $scope.$emit('UpdateTx');
@@ -459,7 +460,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         $scope.loading = true;
         $scope.error = null;
         $timeout(function() {
-          fc.broadcastTxProposal(txp, function(err, txpb, memo) {
+          fc.broadcastTxProposal(txp, { broadcastByThirdParty: $scope.isAsset }, function(err, txpb, memo) {
             self.setOngoingProcess();
             $scope.loading = false;
             if (err) {
@@ -937,7 +938,8 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
           self.setSendError(err);
         } else {
           txService.signAndBroadcast(txpPublished, {
-            reporterFn: self.setOngoingProcess.bind(self)
+            reporterFn: self.setOngoingProcess.bind(self),
+            broadcastByThirdParty: txp.customData && txp.customData.asset
           }, function(err, txp) {
             self.resetForm();
 
