@@ -157,7 +157,7 @@ angular.module('copayApp.services').factory('txSignService', function($rootScope
       }
 
       reportBroadcastingStatus(opts);
-      fc.broadcastTxProposal(txp, function(err, txp, memo) {
+      fc.broadcastTxProposal(txp, opts, function(err, txp, memo) {
         stopReport(opts);
 
         if (err) {
