@@ -79,7 +79,7 @@ angular.module('copayApp.services').factory('walletService',
           config = configService.getSync();
           
       config.assetFor = config.assetFor || {};
-      self.selectedAssetId = config.assetFor[walletId] || configService.getDefaults().assets.defaultAsset;
+      self.selectedAssetId = config.assetFor[walletId] || configService.getDefaults().assets.default;
     }
     
     return updateAssetBalance();
