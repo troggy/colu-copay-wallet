@@ -7,7 +7,7 @@ angular.module('copayApp.controllers').controller('walletInfoController',
 
   function initAssets(assets) {
     
-    var assets = configService.getDefaults().assets.supported,
+    var assets = configService.getDefaults().supportedAssets,
         assetsMap = coloredCoins.assetsMap || {},
         name, balanceStr;
     

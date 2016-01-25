@@ -32,20 +32,21 @@ angular.module('copayApp.services').factory('configService', function(storageSer
       }
     },
 
+    supportedAssets: [
+      { 
+        assetId: "LDqBhNkag45R8KurLqB8mT2okmdtdksjkxBYh",
+        name: "Orange",
+        symbol: { 
+          symbol: 'Orange',
+          pluralSymbol: 'Oranges'
+        }
+      },
+      { assetId: "U4hcbSD61752BbU9FrkVzYo1cCgQtAuBezxVD", name: "Cryptoreal", symbol: "R$" },
+      { assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz", name: "Cryptoreal2", symbol: "R$" }
+    ],
+    
     assets: {
-      supported: [
-        { 
-          assetId: "LDqBhNkag45R8KurLqB8mT2okmdtdksjkxBYh",
-          name: "Orange",
-          symbol: { 
-            symbol: 'Orange',
-            pluralSymbol: 'Oranges'
-          }
-        },
-        { assetId: "U4hcbSD61752BbU9FrkVzYo1cCgQtAuBezxVD", name: "Cryptoreal", symbol: "R$" },
-        { assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz", name: "Cryptoreal2", symbol: "R$" }
-      ],
-      defaultAsset: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz"
+      default: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz"
     },
 
     // External services
@@ -106,8 +107,9 @@ angular.module('copayApp.services').factory('configService', function(storageSer
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;
         }
+        
+        configCache.supportedAssets = defaultConfig.supportedAssets;
         configCache.assets = defaultConfig.assets;
-
       } else {
         configCache = lodash.clone(defaultConfig);
       };
@@ -134,6 +136,8 @@ angular.module('copayApp.services').factory('configService', function(storageSer
         newOpts = JSON.parse(newOpts);
       }
       lodash.merge(config, oldOpts, newOpts);
+      config.supportedAssets = lodash.clone(defaultConfig.supportedAssets);
+      config.assets = lodash.clone(defaultConfig.assets);
       configCache = config;
 
       storageService.storeConfig(JSON.stringify(config), cb);
