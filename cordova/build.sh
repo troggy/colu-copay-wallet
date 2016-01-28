@@ -211,16 +211,16 @@ if [ $CURRENT_OS == "IOS" ]; then
   cp ios/Copay-Info.plist $PROJECT/platforms/ios/Copay-Info.plist
   checkOK
 
-  mkdir -p $PROJECT/platforms/ios/Copay/Resources/icons
+  mkdir -p $PROJECT/platforms/ios/urv2/Resources/icons
   checkOK
 
-  mkdir -p $PROJECT/platforms/ios/Copay/Resources/splash
+  mkdir -p $PROJECT/platforms/ios/urv2/Resources/splash
   checkOK
 
-  cp -R ios/icons/* $PROJECT/platforms/ios/Copay/Resources/icons
+  cp -R ios/icons/* $PROJECT/platforms/ios/urv2/Resources/icons
   checkOK
 
-  cp -R ios/splash/* $PROJECT/platforms/ios/Copay/Resources/splash
+  cp -R ios/splash/* $PROJECT/platforms/ios/urv2/Resources/splash
   checkOK
 fi
 

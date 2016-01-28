@@ -44,12 +44,12 @@ wp8-debug:
 ios-prod:
 	cordova/build.sh IOS --clear
 	cd cordova/project && cordova build ios
-	open cordova/project/platforms/ios/Copay.xcodeproj
+	open cordova/project/platforms/ios/urv2.xcodeproj
 
 ios-debug:
 	cordova/build.sh IOS --dbgjs
 	cd cordova/project && cordova build ios
-	open cordova/project/platforms/ios/Copay.xcodeproj
+	open cordova/project/platforms/ios/urv2.xcodeproj
 
 android-prod:
 	cordova/build.sh ANDROID --clear
