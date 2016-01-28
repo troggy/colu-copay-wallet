@@ -5,10 +5,10 @@
   ios-CFBundleVersion="1.1.0">
     <name>urv2</name>
     <description>
-      A secure bitcoin wallet for friends and companies.
+      Conta Corrente Digital
     </description>
-    <author email="cejotagui@yahoo.com.br" href="http://urv2.com.br">
-        Guillermo Haddad
+    <author email="financeiro@catalao72.com.br" href="http://urv2.com.br">
+        Catalão 72
     </author>
     <content src="index.html" />
     <access origin="*" />
