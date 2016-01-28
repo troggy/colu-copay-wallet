@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.urv2.carteira" 
   version="1.1.0"
-  android-versionCode="1"
+  android-versionCode="2"
   ios-CFBundleVersion="1.1.0">
     <name>urv2</name>
     <description>
