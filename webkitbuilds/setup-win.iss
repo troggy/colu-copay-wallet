@@ -3,7 +3,7 @@
 
 #define MyAppName "urv2"
 #define MyAppVersion "1.1.0"
-#define MyAppPublisher "Guillermo Haddad"
+#define MyAppPublisher "Catalão 72"
 #define MyAppURL "http://urv2.com.br"
 #define MyAppExeName "urv2.exe"
 

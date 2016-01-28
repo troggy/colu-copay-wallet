@@ -1,7 +1,7 @@
 {
   "name": "urv2",
   "description": "A multisignature wallet",
-  "author": "Guillermo Haddad",
+  "author": "Catalão 72",
   "version": "1.1.0",
   "keywords": [
     "wallet",
@@ -33,7 +33,7 @@
   "homepage": "http://urv2.com.br",
   "license": "MIT",
   "repository": {
-    "url": "git://github.com/troggy/copay.git",
+    "url": "git://github.com/urv2/wallet.git",
     "type": "git"
   },
   "dependencies": {
