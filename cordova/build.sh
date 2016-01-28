@@ -56,7 +56,7 @@ echo "Project directory is $PROJECT"
 if [ ! -d $PROJECT ]; then
   cd $BUILDDIR
   echo "${OpenColor}${Green}* Creating project... ${CloseColor}"
-  cordova create project br.com.urv2 urv2
+  cordova create project br.com.urv2.carteira urv2
   checkOK
 
   cd $PROJECT
