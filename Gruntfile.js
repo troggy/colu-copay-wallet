@@ -59,6 +59,7 @@ module.exports = function(grunt) {
           'bower_components/angular-gettext/dist/angular-gettext.js',
           'bower_components/angular-touch/angular-touch.js',
           'bower_components/angular-ui-switch/angular-ui-switch.js',
+          'bower_components/angular-loggly-logger/angular-loggly-logger.js',
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js',
           'bower_components/colu-copay-addon/dist/coluCopayAddon.js',
           'bower_components/colu-copay-addon/config.js'
@@ -196,6 +197,21 @@ module.exports = function(grunt) {
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js': ['angular-bitcore-wallet-client/index.js']
         },
       }
+    },
+    includereplace: {
+      loggly: {
+        options: {
+          globals: {
+              urv2_log_env: process.env.URV2_LOG_ENV,
+              urv2_log_token: process.env.URV2_LOG_TOKEN,
+              urv2_log_enabled: !!process.env.URV2_LOG_TOKEN && !!process.env.URV2_LOG_ENV
+          }
+        },
+        // Files to perform replacements and includes with
+        src: 'public/js/*.js',
+        // Destination directory to copy files to
+        dest: './'
+      }
     }
   });
 
@@ -210,8 +226,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma-coveralls');
   grunt.loadNpmTasks('grunt-node-webkit-builder');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-include-replace');
 
-  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons']);
+  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'includereplace', 'copy:icons']);
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
   grunt.registerTask('test', ['karma:unit']);
