@@ -16,8 +16,16 @@ if (window && window.navigator) {
 //Setting up route
 angular
   .module('copayApp')
-  .config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider) {
+  .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
+                   $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider) {
     $urlRouterProvider.otherwise('/');
+    
+    if (loggly.enabled) {
+      LogglyLoggerProvider
+        .inputToken(loggly.token)
+        .inputTag(loggly.env)
+        .sendConsoleErrors(true);
+    }
 
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'isDevel',

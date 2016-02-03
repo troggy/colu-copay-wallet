@@ -153,6 +153,14 @@ if [ ! -d $PROJECT ]; then
 
 fi
 
+if [ $CURRENT_OS == "ANDROID" ]; then
+  export URV2_LOG_ENV=android
+fi
+
+if [ $CURRENT_OS == "IOS" ]; then
+  export URV2_LOG_ENV=ios
+fi
+
 if $DBGJS
 then
   echo "${OpenColor}${Green}* Generating copay bundle (debug js)...${CloseColor}"
