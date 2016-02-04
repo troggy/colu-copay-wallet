@@ -6,7 +6,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
     storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit,
     addressService, ledger, bwsError, confirmDialog, txFormatService,
     animationService, addressbookService, go, feeService, txSignService,
-    walletService) {
+    walletService, addonManager) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -303,6 +303,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
               copayerId: fc.credentials.copayerId
             });
             $scope.tx = txFormatService.processTx(tx);
+            addonManager.formatPendingTxp($scope.tx);
             if (!action && tx.status == 'pending')
               $scope.tx.pendingForUs = true;
             $scope.updateCopayerList();
