@@ -951,9 +951,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         if (walletId == profileService.focusedClient.credentials.walletId) {
           self.completeHistory = newHistory;
           self.setCompactTxHistory();
-          updateHistoryColors();
-          updateAndFilterHistory(false);
-
+          updateHistoryColors(function() {
+              updateAndFilterHistory(false);
+          });
         }
 
         return storageService.setTxHistory(historyToSave, walletId, function() {
@@ -1458,8 +1458,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       }
     });
   });
-
-  var updateHistoryColors = function() {
+  
+  var updateHistoryColors = function(cb) {
     coloredCoins.whenAvailable(function(assets, coloredTxs) {
       lodash.forEach(self.completeHistory, function(tx) {
         var colorTx = coloredTxs[tx.txid];
@@ -1477,6 +1477,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         tx.amountStr = tx.assetAmountStr; // for history details
         tx.addressTo = tx.outputs[0].toAddress || tx.outputs[0].address;
       });
+      cb(self.completeHistory);
     });
   };
 
