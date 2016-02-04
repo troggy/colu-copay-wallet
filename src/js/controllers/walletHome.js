@@ -370,7 +370,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
             });
 
             $scope.tx = txFormatService.processTx(tx);
-
+            addonManager.formatPendingTxp($scope.tx);
             if (!action && tx.status == 'pending')
               $scope.tx.pendingForUs = true;
 
