@@ -1144,7 +1144,7 @@ angular.module('copayApp.controllers').controller('walletHomeController',
             network = profileService.focusedClient.credentials.network;
         if (btx.isColored) {
           var networkSuffix = (network == 'testnet' ? 'testnet/' : '');
-          link = 'http://coloredcoins.org/explorer/' + networkSuffix + 'tx/' + btx.issuanceTxId;
+          link = 'http://coloredcoins.org/explorer/' + networkSuffix + 'tx/' + btx.txid;
         } else {
           link = 'https://' + (network == 'testnet' ? 'test-' : '') + 'insight.bitpay.com/tx/' + btx.txid;
         }
