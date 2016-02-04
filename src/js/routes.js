@@ -22,6 +22,7 @@ angular
     
     if (loggly.enabled) {
       LogglyLoggerProvider
+        .level('ERROR')
         .inputToken(loggly.token)
         .inputTag(loggly.env)
         .sendConsoleErrors(true);
