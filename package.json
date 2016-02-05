@@ -57,7 +57,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "./node_modules/.bin/grunt test-coveralls",
-    "build": "cd ../colu-copay-addon/ && grunt && cd - && grunt"
+    "build": "cd bower_components/colu-copay-addon/ && grunt && cd - && grunt"
   },
   "devDependencies": {
     "adm-zip": "^0.4.7",

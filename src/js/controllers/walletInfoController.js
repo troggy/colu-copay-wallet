@@ -14,11 +14,7 @@ angular.module('copayApp.controllers').controller('walletInfoController',
     this.assets = assets
         .map(function(asset) {
           var existingAsset = assetsMap[asset.assetId];
-          if (existingAsset && existingAsset.metadata.assetName) {
-            name = existingAsset.metadata.assetName; 
-          } else {
-            name = asset.name || asset.symbol || asset.assetId;
-          }
+          name = asset.name || asset.symbol || asset.assetId;
           
           if (existingAsset) {
             balanceStr = existingAsset.balanceStr; 
