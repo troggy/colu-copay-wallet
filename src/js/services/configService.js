@@ -12,7 +12,7 @@ angular.module('copayApp.services').factory('configService', function(storageSer
 
     // Bitcore wallet service URL
     bws: {
-      url: 'https://bws.urv2.com.br/bws/api',
+      url: 'https://bws.coloredcoins.org/bws/api',
       //url: 'http://localhost:3232/bws/api',
     },
 
@@ -34,16 +34,7 @@ angular.module('copayApp.services').factory('configService', function(storageSer
     },
 
     supportedAssets: [
-      { 
-        assetId: "LDqBhNkag45R8KurLqB8mT2okmdtdksjkxBYh",
-        name: "Orange",
-        symbol: { 
-          symbol: 'Orange',
-          pluralSymbol: 'Oranges'
-        }
-      },
-      { assetId: "U4hcbSD61752BbU9FrkVzYo1cCgQtAuBezxVD", name: "Cryptoreal", symbol: "R$" },
-      { assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz", name: "Cryptoreal2", symbol: "R$" }
+      { assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz", name: "Bitreal", symbol: "R$" }
     ],
     
     assets: {
