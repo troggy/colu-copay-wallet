@@ -34,11 +34,18 @@ angular.module('copayApp.services').factory('configService', function(storageSer
     },
 
     supportedAssets: [
-      { assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz", name: "Bitreal", symbol: "R$" }
+      { 
+        assetId: "@@assetId",
+        name: "@@assetName",
+        symbol: {
+          symbol: "@@assetSymbol",
+          pluralSymbol: "@@assetPluralSymbol",
+        }
+      }
     ],
     
     assets: {
-      default: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz"
+      default: "@@assetId"
     },
 
     // External services
