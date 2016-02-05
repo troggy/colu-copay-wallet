@@ -1,5 +1,11 @@
 module.exports = function(grunt) {
 
+  var defaultAsset = {
+    assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz",
+    name: "Bitreal",
+    symbol: "R$"
+  };
+
   // Project Configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -205,6 +211,20 @@ module.exports = function(grunt) {
               unicoisa_log_env: process.env.UNICOISA_LOG_ENV,
               unicoisa_log_token: process.env.UNICOISA_LOG_TOKEN,
               unicoisa_log_enabled: !!process.env.UNICOISA_LOG_TOKEN && !!process.env.UNICOISA_LOG_ENV
+          }
+        },
+        // Files to perform replacements and includes with
+        src: 'public/js/*.js',
+        // Destination directory to copy files to
+        dest: './'
+      },
+      assets: {
+        options: {
+          globals: {
+            assetId: grunt.option("assetId") || defaultAsset.assetId,
+            assetName: grunt.option("assetName") || defaultAsset.name,
+            assetSymbol: grunt.option("assetSymbol") || defaultAsset.symbol,
+            assetPluralSymbol: grunt.option("assetPluralSymbol") || grunt.option("assetSymbol") || defaultAsset.symbol
           }
         },
         // Files to perform replacements and includes with
