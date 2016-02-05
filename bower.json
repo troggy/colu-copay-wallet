@@ -23,7 +23,7 @@
     "qrcode-decoder-js": "*",
     "trezor-connect": "~1.0.1",
     "ng-csv": "~0.3.6",
-    "colu-copay-addon": "~0.2.3",
+    "colu-copay-addon": "~0.3.0",
     "angular-loggly-logger": "~0.2.0"
   },
   "resolutions": {
