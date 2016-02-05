@@ -44,17 +44,17 @@ wp8-debug:
 ios-prod:
 	cordova/build.sh IOS --clear
 	cd cordova/project && cordova build ios
-	open cordova/project/platforms/ios/urv2.xcodeproj
+	open cordova/project/platforms/ios/Unicoisa.xcodeproj
 
 ios-debug:
 	cordova/build.sh IOS --dbgjs
 	cd cordova/project && cordova build ios
-	open cordova/project/platforms/ios/urv2.xcodeproj
+	open cordova/project/platforms/ios/Unicoisa.xcodeproj
 
 android-prod:
 	cordova/build.sh ANDROID --clear
 	cd cordova/project && cordova build android --release
-	jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../urv2-play.keystore -signedjar cordova/project/platforms/android/build/outputs/apk/android-release-signed.apk  cordova/project/platforms/android/build/outputs/apk/android-release-unsigned.apk urv2-play 
+	jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../Unicoisa-play.keystore -signedjar cordova/project/platforms/android/build/outputs/apk/android-release-signed.apk  cordova/project/platforms/android/build/outputs/apk/android-release-unsigned.apk Unicoisa-play 
 	zipalign -v 4 cordova/project/platforms/android/build/outputs/apk/android-release-signed.apk cordova/project/platforms/android/build/outputs/apk/android-release-signed-aligned.apk 
 
 android-debug:

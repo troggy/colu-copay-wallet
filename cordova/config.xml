@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.com.urv2.carteira" 
-  version="1.1.1"
-  android-versionCode="6"
-  ios-CFBundleVersion="1.1.1">
-    <name>urv2</name>
+<widget id="org.coloredcoins.unicoisa" 
+  version="1.0.0"
+  android-versionCode="1"
+  ios-CFBundleVersion="1.0.0">
+    <name>Unicoisa</name>
     <description>
-      Conta Corrente Digital
+      Digital Wallet
     </description>
-    <author email="financeiro@catalao72.com.br" href="http://urv2.com.br">
-        Catalão 72
+    <author email="7r0ggy@gmail.com" href="http://unicoisa.coloredcoins.org">
+        Kosta Korenkov
     </author>
     <content src="index.html" />
     <access origin="*" />

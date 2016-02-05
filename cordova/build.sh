@@ -56,7 +56,7 @@ echo "Project directory is $PROJECT"
 if [ ! -d $PROJECT ]; then
   cd $BUILDDIR
   echo "${OpenColor}${Green}* Creating project... ${CloseColor}"
-  cordova create project br.com.urv2.carteira urv2
+  cordova create project org.coloredcoins.unicoisa Unicoisa
   checkOK
 
   cd $PROJECT
@@ -157,11 +157,11 @@ if [ ! -d $PROJECT ]; then
 fi
 
 if [ $CURRENT_OS == "ANDROID" ]; then
-  export URV2_LOG_ENV=android
+  export UNICOISA_LOG_ENV=android
 fi
 
 if [ $CURRENT_OS == "IOS" ]; then
-  export URV2_LOG_ENV=ios
+  export UNICOISA_LOG_ENV=ios
 fi
 
 if $DBGJS
@@ -219,16 +219,16 @@ if [ $CURRENT_OS == "IOS" ]; then
   cp ios/Copay-Info.plist $PROJECT/platforms/ios/Copay-Info.plist
   checkOK
 
-  mkdir -p $PROJECT/platforms/ios/urv2/Resources/icons
+  mkdir -p $PROJECT/platforms/ios/Unicoisa/Resources/icons
   checkOK
 
-  mkdir -p $PROJECT/platforms/ios/urv2/Resources/splash
+  mkdir -p $PROJECT/platforms/ios/Unicoisa/Resources/splash
   checkOK
 
-  cp -R ios/icons/* $PROJECT/platforms/ios/urv2/Resources/icons
+  cp -R ios/icons/* $PROJECT/platforms/ios/Unicoisa/Resources/icons
   checkOK
 
-  cp -R ios/splash/* $PROJECT/platforms/ios/urv2/Resources/splash
+  cp -R ios/splash/* $PROJECT/platforms/ios/Unicoisa/Resources/splash
   checkOK
 fi
 

@@ -74,14 +74,14 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
             return;
           };
 
-          var body = 'urv2 Wallet "' + $scope.walletName + '" Addresses\n  Only Main Addresses are  shown.\n\n';
+          var body = 'Unicoisa Wallet "' + $scope.walletName + '" Addresses\n  Only Main Addresses are  shown.\n\n';
           body += "\n";
           body += addrs.map(function(v) {
             return ('* ' + v.address + ' ' + base + v.path.substring(1) + ' ' + formatDate(v.createdOn));
           }).join("\n");
 
           var properties = {
-            subject: 'urv2 Addresses',
+            subject: 'Unicoisa Addresses',
             body: body,
             isHtml: false
           };
