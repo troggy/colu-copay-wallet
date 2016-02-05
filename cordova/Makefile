@@ -8,7 +8,7 @@ plugins:
 	make -C project plugins
 
 project: 
-	cordova create project br.com.urv2.carteira urv2
+	cordova create project org.coloredcoins.unicoisa Unicoisa
 	cp config.xml project/config.xml
 	cp ProjectMakefile project/Makefile
 	cp -af ../dist/web/** project/www

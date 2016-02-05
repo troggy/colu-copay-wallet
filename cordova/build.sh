@@ -56,7 +56,7 @@ echo "Project directory is $PROJECT"
 if [ ! -d $PROJECT ]; then
   cd $BUILDDIR
   echo "${OpenColor}${Green}* Creating project... ${CloseColor}"
-  cordova create project br.com.urv2.carteira urv2
+  cordova create project org.coloredcoins.unicoisa Unicoisa
   checkOK
 
   cd $PROJECT
@@ -154,11 +154,11 @@ if [ ! -d $PROJECT ]; then
 fi
 
 if [ $CURRENT_OS == "ANDROID" ]; then
-  export URV2_LOG_ENV=android
+  export UNICOISA_LOG_ENV=android
 fi
 
 if [ $CURRENT_OS == "IOS" ]; then
-  export URV2_LOG_ENV=ios
+  export UNICOISA_LOG_ENV=ios
 fi
 
 if $DBGJS

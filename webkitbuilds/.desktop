@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
 Version=1.1.0
-Name=urv2
+Name=Unicoisa
 Comment=A multisignature wallet
-Exec=urv2
+Exec=Unicoisa
 Icon=icon-256.png
 Terminal=false
 Categories=Finance

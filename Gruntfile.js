@@ -172,7 +172,7 @@ module.exports = function(grunt) {
     },
     nodewebkit: {
       options: {
-        appName: 'urv2',
+        appName: 'Unicoisa',
         platforms: ['win64', 'osx64', 'linux64'],
         buildDir: './webkitbuilds',
         version: '0.12.2',
@@ -203,9 +203,9 @@ module.exports = function(grunt) {
       loggly: {
         options: {
           globals: {
-              urv2_log_env: process.env.URV2_LOG_ENV,
-              urv2_log_token: process.env.URV2_LOG_TOKEN,
-              urv2_log_enabled: !!process.env.URV2_LOG_TOKEN && !!process.env.URV2_LOG_ENV
+              unicoisa_log_env: process.env.UNICOISA_LOG_ENV,
+              unicoisa_log_token: process.env.UNICOISA_LOG_TOKEN,
+              unicoisa_log_enabled: !!process.env.UNICOISA_LOG_TOKEN && !!process.env.UNICOISA_LOG_ENV
           }
         },
         // Files to perform replacements and includes with
