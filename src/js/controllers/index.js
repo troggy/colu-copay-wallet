@@ -17,6 +17,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   ret.historyShowMoreLimit = 100;
   ret.isSearching = false;
   ret.prevState = 'walletHome';
+  ret.instanceName = instanceConfig.walletName;
 
   ret.menu = [{
     'title': gettext('Receive'),
