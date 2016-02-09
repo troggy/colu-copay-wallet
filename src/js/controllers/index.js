@@ -13,6 +13,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.historyShowLimit = 10;
   self.updatingTxHistory = {};
   self.prevState = 'walletHome';
+  self.instanceName = instanceConfig.walletName;
 
   function strip(number) {
     return (parseFloat(number.toPrecision(12)));
