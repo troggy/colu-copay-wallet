@@ -18,6 +18,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   ret.isSearching = false;
   ret.prevState = 'walletHome';
   ret.instanceName = instanceConfig.walletName;
+  ret.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
 
   ret.menu = [{
     'title': gettext('Receive'),

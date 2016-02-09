@@ -1,6 +1,6 @@
 <nav ng-controller="topbarController as topbar"
-  class="tab-bar"
-  ng-style="{'background-color': noColor ? '#4B6178' : index.backgroundColor}">
+  class="tab-bar" 
+  ng-style="{'background-color': noColor ? index.secondaryColor : index.backgroundColor}">
   <section class="left-small">
     <a id="hamburger" class="p10" ng-show="!goBackToState && !closeToHome  && !index.noFocusedWallet"
       fast-click callback-fn="index.openMenu()"><i class="fi-list size-24"></i>
