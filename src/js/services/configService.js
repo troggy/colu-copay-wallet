@@ -35,17 +35,17 @@ angular.module('copayApp.services').factory('configService', function(instanceCo
 
     supportedAssets: [
       { 
-        assetId: instanceConfig.asset.assetId,
-        name: instanceConfig.asset.name,
+        assetId: instanceConfig.assetId,
+        name: instanceConfig.assetName,
         symbol: {
-          symbol: instanceConfig.asset.symbol,
-          pluralSymbol: instanceConfig.asset.pluralSymbol
+          symbol: instanceConfig.symbol,
+          pluralSymbol: instanceConfig.pluralSymbol
         }
       }
     ],
     
     assets: {
-      default: instanceConfig.asset.assetId
+      default: instanceConfig.assetId
     },
 
     // External services

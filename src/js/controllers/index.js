@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, walletService, $q) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, bwcService, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, coloredCoins, walletService, $q, instanceConfig) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   var errors = bwcService.getErrors();
@@ -626,7 +626,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.updateColor = function() {
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
-    self.backgroundColor = config.colorFor[self.walletId] || '#4A90E2';
+    self.backgroundColor = instanceConfig.mainColor;
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
     if (isCordova && StatusBar.isVisible) {
