@@ -1,11 +1,5 @@
 module.exports = function(grunt) {
 
-  var defaultAsset = {
-    assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz",
-    name: "Bitreal",
-    symbol: "R$"
-  };
-
   // Project Configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -140,6 +134,10 @@ module.exports = function(grunt) {
       },
     },
     copy: {
+      config: {
+          src: 'config.js',
+          dest: 'public/js/'
+      },
       icons: {
         expand: true,
         flatten: true,
@@ -214,21 +212,7 @@ module.exports = function(grunt) {
           }
         },
         // Files to perform replacements and includes with
-        src: 'public/js/*.js',
-        // Destination directory to copy files to
-        dest: './'
-      },
-      assets: {
-        options: {
-          globals: {
-            assetId: grunt.option("assetId") || defaultAsset.assetId,
-            assetName: grunt.option("assetName") || defaultAsset.name,
-            assetSymbol: grunt.option("assetSymbol") || defaultAsset.symbol,
-            assetPluralSymbol: grunt.option("assetPluralSymbol") || grunt.option("assetSymbol") || defaultAsset.symbol
-          }
-        },
-        // Files to perform replacements and includes with
-        src: 'public/js/*.js',
+        src: 'public/js/copay.js',
         // Destination directory to copy files to
         dest: './'
       }
@@ -248,9 +232,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-include-replace');
 
-  grunt.registerTask('build', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons']);
-  grunt.registerTask('default', ['build', 'configure']);
-  grunt.registerTask('configure', ['includereplace']);
+  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons', 'copy:config', 'includereplace']);
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
   grunt.registerTask('test', ['karma:unit']);

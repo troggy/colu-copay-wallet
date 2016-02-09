@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.services').factory('configService', function(storageService, lodash, $log) {
+angular.module('copayApp.services').factory('configService', function(instanceConfig, storageService, lodash, $log) {
   var root = {};
 
   var defaultConfig = {
@@ -35,17 +35,17 @@ angular.module('copayApp.services').factory('configService', function(storageSer
 
     supportedAssets: [
       { 
-        assetId: "@@assetId",
-        name: "@@assetName",
+        assetId: instanceConfig.asset.assetId,
+        name: instanceConfig.asset.name,
         symbol: {
-          symbol: "@@assetSymbol",
-          pluralSymbol: "@@assetPluralSymbol",
+          symbol: instanceConfig.asset.symbol,
+          pluralSymbol: instanceConfig.asset.pluralSymbol
         }
       }
     ],
     
     assets: {
-      default: "@@assetId"
+      default: instanceConfig.asset.assetId
     },
 
     // External services
