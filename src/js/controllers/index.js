@@ -14,6 +14,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.updatingTxHistory = {};
   self.prevState = 'walletHome';
   self.instanceName = instanceConfig.walletName;
+  self.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
 
   function strip(number) {
     return (parseFloat(number.toPrecision(12)));

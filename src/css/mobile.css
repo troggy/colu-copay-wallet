@@ -312,10 +312,6 @@ a.missing-copayers {
   padding: 0.2rem 0.2rem;
 }
 
-.sidebar {
-  background: #2C3E50;
-}
-
 .sidebar .icon, .modal-content .icon {
   width:  39px;
   text-align: center;
@@ -326,11 +322,11 @@ a.missing-copayers {
 
 .sidebar li {
   overflow: hidden;
-  border-bottom: 1px solid #384B5F;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .sidebar li.nav-item.selected {
-  background-color: #122232;
+  background: rgba(255,255,255,0.1);
 }
 
 .sidebar .avatar-wallet, .payment-uri .avatar-wallet, .modal-content .avatar-wallet {
@@ -349,7 +345,7 @@ a.missing-copayers {
 .sidebar header {
   text-align: center;
   padding: 1.7rem;
-  border-bottom: 1px solid #384B5F;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
 }
 
 .sidebar header h1 {
