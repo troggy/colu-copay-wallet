@@ -17,8 +17,13 @@ if (window && window.navigator) {
 angular
   .module('copayApp')
   .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
-                   $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider) {
+                   $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider,
+                   coluProvider, instanceConfig) {
     $urlRouterProvider.otherwise('/');
+    
+    if (instanceConfig.coluApiKey) {
+      coluProvider.setApiKey(instanceConfig.coluApiKey);
+    }
     
     if (loggly.enabled) {
       LogglyLoggerProvider
