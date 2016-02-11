@@ -1346,9 +1346,9 @@ input.ng-invalid-match, input.ng-invalid-match:focus {
 .splash {
   top: 0;
   background: #2C3E50;
-  background-image: -webkit-linear-gradient(#3D5672 0%, #223243 100%);
+/*  background-image: -webkit-linear-gradient(#3D5672 0%, #223243 100%);
   background-image: -o-linear-gradient(#3D5672 0%, #223243 100%);
-  background-image: linear-gradient(#3D5672 0%, #223243 100%);
+  background-image: linear-gradient(#3D5672 0%, #223243 100%);*/
 }
 
 .splash .start-button button.black {

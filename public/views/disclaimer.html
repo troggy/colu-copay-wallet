@@ -1,4 +1,5 @@
 <div class="splash extra-padding-bottom p20t content text-center"
+  ng-style="{'background-color': index.secondaryColor }"
   ng-controller="disclaimerController as disclaimer" ng-init="disclaimer.init()">
   <div class="row">
     <div class="medium-centered small-centered large-centered columns size-14">
@@ -7,7 +8,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="scrollArea">
+    <div class="scrollArea" ng-style="{'background-color': index.secondaryColor }">
       <p class="enable_text_select m0">
         <div class="size-14 text-gray" translate>Terms of Use</div>
         <div ng-include="'views/includes/terms.html'"></div>
@@ -37,7 +38,7 @@
         <span translate>Creating Wallet...</span>
       </div>
     </div>
-    <div class="start-button columns button-box">
+    <div class="start-button columns button-box" ng-style="{'background-color': index.secondaryColor }">
       <button ng-disabled="creatingProfile" ng-click="index.acceptDisclaimer()" class="button black expand round size-12 text-spacing m0" translate>
         I AGREE. GET STARTED
       </button>
