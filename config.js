@@ -5,5 +5,7 @@ window.unicoisaConfig = {
   assetId: "LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz",
   assetName: "Bitreal",
   symbol: "R$",
-  pluralSymbol: "R$"
+  pluralSymbol: "R$",
+  //logo: "",
+  coluApiKey: "ApiKey"
 };
