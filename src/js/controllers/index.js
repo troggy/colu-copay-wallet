@@ -19,6 +19,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   ret.prevState = 'walletHome';
   ret.instanceName = instanceConfig.walletName;
   ret.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
+  ret.allowAssetChange = instanceConfig.allowAssetChange;
 
   ret.menu = [{
     'title': gettext('Receive'),
@@ -82,6 +83,12 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   var disableOngoingProcessListener = $rootScope.$on('Addon/OngoingProcess', function(e, name) {
     self.setOngoingProcess(name);
   });
+
+  self.openWalletInfo = function() {
+    if (self.allowAssetChange) {
+        go.path('walletInfo');
+    }
+  };
 
   self.cleanInstance = function() {
     $log.debug('Cleaning Index Instance');
