@@ -8,5 +8,6 @@ window.unicoisaConfig = {
   pluralSymbol: "R$",
   logo: "",
   coluApiKey: "ApiKey",
-  allowAssetChange: false
+  allowAssetChange: false,
+  needsBackup: true
 };
