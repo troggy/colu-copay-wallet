@@ -15,6 +15,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.prevState = 'walletHome';
   self.instanceName = instanceConfig.walletName;
   self.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
+  self.allowAssetChange = instanceConfig.allowAssetChange;
 
   function strip(number) {
     return (parseFloat(number.toPrecision(12)));
@@ -78,6 +79,12 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   var disableOngoingProcessListener = $rootScope.$on('Addon/OngoingProcess', function(e, name) {
     self.setOngoingProcess(name);
   });
+  
+  self.openWalletInfo = function() {
+    if (self.allowAssetChange) {
+        go.path('walletInfo');
+    }
+  };
 
   self.setFocusedWallet = function() {
     var fc = profileService.focusedClient;

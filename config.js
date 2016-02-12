@@ -6,6 +6,7 @@ window.unicoisaConfig = {
   assetName: "Bitreal",
   symbol: "R$",
   pluralSymbol: "R$",
-  //logo: "",
-  coluApiKey: "ApiKey"
+  logo: "",
+  coluApiKey: "ApiKey",
+  allowAssetChange: false
 };
