@@ -162,6 +162,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
             self.needsBackup = false;
           else
             self.needsBackup = self.network == 'testnet' ? false : !val;
+          self.needsBackup = self.needsBackup && instanceConfig.needsBackup;
           self.openWallet();
         });
       }
