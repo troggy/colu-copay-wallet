@@ -14,8 +14,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.updatingTxHistory = {};
   self.prevState = 'walletHome';
   self.instanceName = instanceConfig.walletName;
-  self.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
+  self.secondaryColor = instanceConfig.secondaryColor || '#2C3E50';
   self.allowAssetChange = instanceConfig.allowAssetChange;
+  self.noUserColors = instanceConfig.noUserColors;
 
   function strip(number) {
     return (parseFloat(number.toPrecision(12)));
@@ -636,7 +637,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.updateColor = function() {
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
-    self.backgroundColor = instanceConfig.mainColor;
+    self.backgroundColor = instanceConfig.mainColor || '#4A90E2';
+    if (!instanceConfig.noUserColors) {
+      self.backgroundColor = config.colorFor[self.walletId] || self.backgroundColor;
+    }
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
     if (isCordova && StatusBar.isVisible) {
