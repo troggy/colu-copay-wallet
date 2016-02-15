@@ -18,8 +18,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   ret.isSearching = false;
   ret.prevState = 'walletHome';
   ret.instanceName = instanceConfig.walletName;
-  ret.secondaryColor = instanceConfig.secondaryColor || '#4B6178';
+  ret.secondaryColor = instanceConfig.secondaryColor || '#2C3E50';
   ret.allowAssetChange = instanceConfig.allowAssetChange;
+  ret.noUserColors = instanceConfig.noUserColors;
 
   ret.menu = [{
     'title': gettext('Receive'),
@@ -609,7 +610,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.updateColor = function() {
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
-    self.backgroundColor = instanceConfig.mainColor;
+    self.backgroundColor = instanceConfig.mainColor || '#4A90E2';
+    if (!instanceConfig.noUserColors) {
+      self.backgroundColor = config.colorFor[self.walletId] || self.backgroundColor;
+    };
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
     if (isCordova && StatusBar.isVisible) {
