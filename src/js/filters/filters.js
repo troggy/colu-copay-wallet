@@ -67,5 +67,11 @@ angular.module('copayApp.filters', [])
       }
       return 0;
     };
-  }
-]);
+  },
+  ])
+  .filter('rawHtml', [function(){
+    return function(val) {
+      return he.decode(val);
+    };
+  }]);
+
