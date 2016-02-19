@@ -60,6 +60,7 @@ module.exports = function(grunt) {
           'bower_components/angular-touch/angular-touch.js',
           'bower_components/angular-ui-switch/angular-ui-switch.js',
           'bower_components/angular-loggly-logger/angular-loggly-logger.js',
+          'bower_components/he/he.js',
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js',
           'bower_components/colu-copay-addon/dist/coluCopayAddon.js',
           'bower_components/colu-copay-addon/config.js'

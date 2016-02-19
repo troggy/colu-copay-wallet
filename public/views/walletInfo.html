@@ -10,10 +10,10 @@
     <ul class="no-bullet m0 ">
         <li ng-repeat="asset in walletInfo.assets" ng-click="walletInfo.setSelectedAsset(asset)">
             <div class="right">
-                <span class="text-gray">{{ asset.balanceStr }}</span>
+                <span class="text-gray">{{ asset.balanceStr | rawHtml }}</span>
                 <div class="check-icon-place" ng-class="{ 'fi-check' : walletInfo.assetId == asset.assetId }"></div>
             </div>
-            <div translate>{{ asset.assetName }}</div>
+            <div translate>{{ asset.assetName | rawHtml }}</div>
         </li>
     </ul>
 </div>
