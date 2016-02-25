@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('walletInfoController',
-    function ($scope, $rootScope, $timeout, profileService, configService, lodash, coloredCoins, walletService) {
+    function ($scope, $rootScope, $timeout, profileService, configService,
+              lodash, coloredCoins, walletService, instanceConfig) {
   
   var self = this;
 
   function initAssets(assets) {
     
-    var assets = configService.getDefaults().supportedAssets,
+    var assets = instanceConfig.assets,
         assetsMap = coloredCoins.assetsMap || {},
         name, balanceStr;
     

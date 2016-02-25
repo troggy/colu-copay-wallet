@@ -18,12 +18,14 @@ angular
   .module('copayApp')
   .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
                    $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider,
-                   coluProvider, instanceConfig) {
+                   coluProvider, instanceConfig, coloredCoinsProvider) {
     $urlRouterProvider.otherwise('/');
     
     if (instanceConfig.coluApiKey) {
       coluProvider.setApiKey(instanceConfig.coluApiKey);
     }
+    
+    coloredCoinsProvider.setSupportedAssets(instanceConfig.assets);
     
     if (loggly.enabled) {
       LogglyLoggerProvider

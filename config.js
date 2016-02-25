@@ -2,10 +2,15 @@ window.unicoisaConfig = {
   walletName: 'Bitreals',
   mainColor: '',
   secondaryColor: '',
-  assetId: 'LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz',
-  assetName: 'Bitreal',
-  symbol: 'R$',
-  pluralSymbol: 'R$',
+  assets: [
+    {
+      assetId: 'LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz',
+      name: 'Bitreal',
+      symbol: 'R$',
+      pluralSymbol: 'R$'
+    }
+  ],
+  defaultAsset: 'LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz',
   logo: '',
   coluApiKey: '',
   allowAssetChange: true,

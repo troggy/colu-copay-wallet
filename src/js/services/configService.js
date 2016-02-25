@@ -33,21 +33,6 @@ angular.module('copayApp.services').factory('configService', function(instanceCo
       }
     },
 
-    supportedAssets: [
-      { 
-        assetId: instanceConfig.assetId,
-        name: instanceConfig.assetName,
-        symbol: {
-          symbol: instanceConfig.symbol,
-          pluralSymbol: instanceConfig.pluralSymbol
-        }
-      }
-    ],
-    
-    assets: {
-      default: instanceConfig.assetId
-    },
-
     // External services
     glidera: {
       enabled: true,
@@ -108,9 +93,6 @@ angular.module('copayApp.services').factory('configService', function(instanceCo
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;
         }
-        
-        configCache.supportedAssets = defaultConfig.supportedAssets;
-        configCache.assets = defaultConfig.assets;
       } else {
         configCache = lodash.clone(defaultConfig);
       };
@@ -137,8 +119,6 @@ angular.module('copayApp.services').factory('configService', function(instanceCo
         newOpts = JSON.parse(newOpts);
       }
       lodash.merge(config, oldOpts, newOpts);
-      config.supportedAssets = lodash.clone(defaultConfig.supportedAssets);
-      config.assets = lodash.clone(defaultConfig.assets);
       configCache = config;
 
       storageService.storeConfig(JSON.stringify(config), cb);
