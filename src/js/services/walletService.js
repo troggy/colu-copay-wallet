@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('copayApp.services').factory('walletService',
-  function(profileService, coloredCoins, addonManager, lodash, configService, $q, $log, $rootScope, go) {
+  function(profileService, coloredCoins, addonManager, lodash, configService,
+          $q, $log, $rootScope, go, instanceConfig) {
   
   var root = {},
       self = this,
@@ -79,7 +80,7 @@ angular.module('copayApp.services').factory('walletService',
           config = configService.getSync();
           
       config.assetFor = config.assetFor || {};
-      self.selectedAssetId = config.assetFor[walletId] || configService.getDefaults().assets.default;
+      self.selectedAssetId = config.assetFor[walletId] || instanceConfig.defaultAsset;
     }
     
     return updateAssetBalance();
