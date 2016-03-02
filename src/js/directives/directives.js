@@ -301,13 +301,10 @@ angular.module('copayApp.directives')
     return {
       restrict: 'E',
       scope: {
-        width: "@",
-        negative: "="
+        width: "@"
       },
       controller: function($scope, instanceConfig) {
-        var logo = instanceConfig.logo || 'logo.svg';
-        var logoNegative = instanceConfig.logo || 'logo-negative.svg';
-        $scope.logo_url = $scope.negative ? 'img/' + logoNegative : 'img/' + logo;
+        $scope.logo_url = instanceConfig.logo || '/img/logo-negative.svg';
       },
       replace: true,
       template: '<img ng-src="{{ logo_url }}" alt="Copay">'
