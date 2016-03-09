@@ -1,10 +1,11 @@
 'use strict';
 angular.module('copayApp.services')
-  .factory('storageService', function(logHeader, fileStorageService, localStorageService, sjcl, $log, lodash, isCordova) {
+  .factory('storageService', function(logHeader, fileStorageService, localStorageService,
+      sjcl, $log, lodash, isCordova, instanceConfig) {
 
     var root = {};
 
-    // File storage is not supported for writing according to 
+    // File storage is not supported for writing according to
     // https://github.com/apache/cordova-plugin-file/#supported-platforms
     var shouldUseFileStorage = isCordova && !isMobile.Windows();
     $log.debug('Using file storage:', shouldUseFileStorage);
@@ -62,7 +63,7 @@ angular.module('copayApp.services')
           text = sjcl.decrypt(uuid, text);
 
           $log.info('Migrating to unencrypted profile');
-          return storage.set('profile', text, function(err) {
+          return storage.set(instanceConfig.walletName + '-profile', text, function(err) {
             return cb(err, text);
           });
         } catch (e) {
@@ -108,18 +109,18 @@ angular.module('copayApp.services')
 
     root.storeNewProfile = function(profile, cb) {
       encryptOnMobile(profile.toObj(), function(err, x) {
-        storage.create('profile', x, cb);
+        storage.create(instanceConfig.walletName + '-profile', x, cb);
       });
     };
 
     root.storeProfile = function(profile, cb) {
       encryptOnMobile(profile.toObj(), function(err, x) {
-        storage.set('profile', x, cb);
+        storage.set(instanceConfig.walletName + '-profile', x, cb);
       });
     };
 
     root.getProfile = function(cb) {
-      storage.get('profile', function(err, str) {
+      storage.get(instanceConfig.walletName + '-profile', function(err, str) {
         if (err || !str)
           return cb(err);
 
@@ -138,121 +139,121 @@ angular.module('copayApp.services')
     };
 
     root.deleteProfile = function(cb) {
-      storage.remove('profile', cb);
+      storage.remove(instanceConfig.walletName + '-profile', cb);
     };
 
     root.storeFocusedWalletId = function(id, cb) {
-      storage.set('focusedWalletId', id || '', cb);
+      storage.set(instanceConfig.walletName + '-focusedWalletId', id || '', cb);
     };
 
     root.getFocusedWalletId = function(cb) {
-      storage.get('focusedWalletId', cb);
+      storage.get(instanceConfig.walletName + '-focusedWalletId', cb);
     };
 
     root.getLastAddress = function(walletId, cb) {
-      storage.get('lastAddress-' + walletId, cb);
+      storage.get(instanceConfig.walletName + '-lastAddress-' + walletId, cb);
     };
 
     root.storeLastAddress = function(walletId, address, cb) {
-      storage.set('lastAddress-' + walletId, address, cb);
+      storage.set(instanceConfig.walletName + '-lastAddress-' + walletId, address, cb);
     };
 
     root.clearLastAddress = function(walletId, cb) {
-      storage.remove('lastAddress-' + walletId, cb);
+      storage.remove(instanceConfig.walletName + '-lastAddress-' + walletId, cb);
     };
 
     root.setBackupFlag = function(walletId, cb) {
-      storage.set('backup-' + walletId, Date.now(), cb);
+      storage.set(instanceConfig.walletName + '-backup-' + walletId, Date.now(), cb);
     };
 
     root.getBackupFlag = function(walletId, cb) {
-      storage.get('backup-' + walletId, cb);
+      storage.get(instanceConfig.walletName + '-backup-' + walletId, cb);
     };
 
     root.clearBackupFlag = function(walletId, cb) {
-      storage.remove('backup-' + walletId, cb);
+      storage.remove(instanceConfig.walletName + '-backup-' + walletId, cb);
     };
 
     root.setCleanAndScanAddresses = function(walletId, cb) {
-      storage.set('CleanAndScanAddresses', walletId, cb);
+      storage.set(instanceConfig.walletName + '-CleanAndScanAddresses', walletId, cb);
     };
 
     root.getCleanAndScanAddresses = function(cb) {
-      storage.get('CleanAndScanAddresses', cb);
+      storage.get(instanceConfig.walletName + '-CleanAndScanAddresses', cb);
     };
 
     root.removeCleanAndScanAddresses = function(cb) {
-      storage.remove('CleanAndScanAddresses', cb);
+      storage.remove(instanceConfig.walletName + '-CleanAndScanAddresses', cb);
     };
 
     root.getConfig = function(cb) {
-      storage.get('config', cb);
+      storage.get(instanceConfig.walletName + '-config', cb);
     };
 
     root.storeConfig = function(val, cb) {
       $log.debug('Storing Preferences', val);
-      storage.set('config', val, cb);
+      storage.set(instanceConfig.walletName + '-config', val, cb);
     };
 
     root.clearConfig = function(cb) {
-      storage.remove('config', cb);
+      storage.remove(instanceConfig.walletName + '-config', cb);
     };
 
     //for compatibility
     root.getCopayDisclaimerFlag = function(cb) {
-      storage.get('agreeDisclaimer', cb);
+      storage.get(instanceConfig.walletName + '-agreeDisclaimer', cb);
     };
 
     root.setRemotePrefsStoredFlag = function(cb) {
-      storage.set('remotePrefStored', true, cb);
+      storage.set(instanceConfig.walletName + '-remotePrefStored', true, cb);
     };
 
     root.getRemotePrefsStoredFlag = function(cb) {
-      storage.get('remotePrefStored', cb);
+      storage.get(instanceConfig.walletName + '-remotePrefStored', cb);
     };
 
     root.setGlideraToken = function(network, token, cb) {
-      storage.set('glideraToken-' + network, token, cb);
+      storage.set(instanceConfig.walletName + '-glideraToken-' + network, token, cb);
     };
 
     root.getGlideraToken = function(network, cb) {
-      storage.get('glideraToken-' + network, cb);
+      storage.get(instanceConfig.walletName + '-glideraToken-' + network, cb);
     };
 
     root.removeGlideraToken = function(network, cb) {
-      storage.remove('glideraToken-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-glideraToken-' + network, cb);
     };
 
     root.setAddressbook = function(network, addressbook, cb) {
-      storage.set('addressbook-' + network, addressbook, cb);
+      storage.set(instanceConfig.walletName + '-addressbook-' + network, addressbook, cb);
     };
 
     root.getAddressbook = function(network, cb) {
-      storage.get('addressbook-' + network, cb);
+      storage.get(instanceConfig.walletName + '-addressbook-' + network, cb);
     };
 
     root.setDeviceToken = function(token, cb) {
-      storage.set('token', token, cb);
+      storage.set(instanceConfig.walletName + '-token', token, cb);
     }
 
     root.getDeviceToken = function(cb) {
-      storage.get('token', cb);
+      storage.get(instanceConfig.walletName + '-token', cb);
     }
 
     root.removeAddressbook = function(network, cb) {
-      storage.remove('addressbook-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-addressbook-' + network, cb);
     };
 
     root.setTxHistory = function(txs, walletId, cb) {
-      storage.set('txsHistory-' + walletId, txs, cb);
+      storage.set(instanceConfig.walletName + '-txsHistory-' + walletId, txs, cb);
     }
 
     root.getTxHistory = function(walletId, cb) {
-      storage.get('txsHistory-' + walletId, cb);
+      storage.get(instanceConfig.walletName + '-txsHistory-' + walletId, cb);
     }
 
     root.removeTxHistory = function(walletId, cb) {
-      storage.remove('txsHistory-' + walletId, cb);
+      storage.remove(instanceConfig.walletName + '-txsHistory-' + walletId, cb);
     }
 
     return root;
