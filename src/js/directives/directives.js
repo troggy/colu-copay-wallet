@@ -304,7 +304,7 @@ angular.module('copayApp.directives')
         width: "@"
       },
       controller: function($scope, instanceConfig) {
-        $scope.logo_url = instanceConfig.logo || '/img/logo-negative.svg';
+        $scope.logo_url = instanceConfig.logo || 'img/logo-negative.svg';
       },
       replace: true,
       template: '<img ng-src="{{ logo_url }}" alt="Copay">'
