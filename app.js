@@ -8,7 +8,7 @@ var dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/wallets';
 var db = require('./server/db');
 var walletConfig = require('./server/walletConfig');
 
-app.use('/:walletName/',express.static(__dirname + '/public'));
+app.use('/:walletName/', express.static(__dirname + '/public'));
 
 var port = process.env.PORT || 3000;
 app.listen(port);

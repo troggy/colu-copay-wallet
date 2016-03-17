@@ -138,7 +138,7 @@ module.exports = function(grunt) {
     copy: {
       config: {
           src: 'config.js',
-          dest: 'public/js/'
+          dest: 'public/'
       },
       icons: {
         expand: true,
@@ -234,7 +234,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-include-replace');
 
-  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons', 'copy:config', 'includereplace']);
+  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons', 'includereplace']);
+  grunt.registerTask('static', ['default', 'copy:config']);
   grunt.registerTask('fast', ['concat', 'copy:config', 'includereplace']);
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
