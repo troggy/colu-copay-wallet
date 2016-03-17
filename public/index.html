@@ -14,8 +14,8 @@
 </head>
 <body ng-cloak class="ng-cloak">
 
-  <div class="page" 
-    ng-swipe-disable-mouse 
+  <div class="page"
+    ng-swipe-disable-mouse
     ng-swipe-left="index.closeMenu()"
     ng-swipe-right="index.openMenu()">
 
@@ -23,7 +23,7 @@
       <div class="inner-wrap">
         <div ng-include="'views/includes/sidebar.html'" ng-if="index.hasProfile"></div>
 
-        <div notifications="right top"></div> 
+        <div notifications="right top"></div>
         <div ng-include="'views/includes/password.html'" ng-if="index.askPassword"></div>
         <div ng-include="'views/includes/alert.html'" ng-if="index.showAlert"></div>
         <div id="sectionContainer">
@@ -39,13 +39,13 @@
       </div>
     </div>
   </div>
-  
+
   <script src="lib/angular.js"></script>
 
   <!-- DO NOT DELETE THIS COMMET  -->
   <!-- PLACEHOLDER: CORDOVA SRIPT -->
 
-  <script src="js/config.js"></script>
+  <script src="config.js"></script>
   <script src="js/copay.js"></script>
 
 </body>
