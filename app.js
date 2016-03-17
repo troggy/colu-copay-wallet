@@ -5,7 +5,7 @@ var path = require('path');
 var app = express();
 
 var dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/wallets';
-var db = require('./server/db')(dbUrl);
+var db = require('./server/db');
 var walletConfig = require('./server/walletConfig');
 
 app.use('/:walletName/',express.static(__dirname + '/public'));
@@ -15,7 +15,7 @@ app.listen(port);
 console.log("App listening on port " + port);
 
 app.get('/:walletName/config.js', function(req, res) {
-  db.getWallet(req.params.walletName)
+  db(dbUrl).getWallet(req.params.walletName)
     .then((wallet) => {
       if (!wallet) {
         res.status(404).end();

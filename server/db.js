@@ -13,6 +13,7 @@ let getWallet = function(dbUrl, walletName) {
               } else {
                 resolve(wallet);
               }
+              db.close();
             });
         });
     });
