@@ -95,6 +95,7 @@ public/icons/*
 public/css/*
 public/lib/*
 public/js/*
+public/config.js
 
 # IDEA project files
 .idea/
