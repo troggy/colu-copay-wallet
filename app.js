@@ -4,35 +4,22 @@ var express = require('express');
 var path = require('path');
 var app = express();
 
-var dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/wallets';
-var db = require('./server/db');
-var walletConfig = require('./server/walletConfig');
-
-app.use('/:walletName/', express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+app.set('views', './src/views')
 
 var port = process.env.PORT || 3000;
 app.listen(port);
 console.log("App listening on port " + port);
 
-app.get('/:walletName/config.js', function(req, res) {
-  db(dbUrl).getWallet(req.params.walletName)
-    .then((wallet) => {
-      if (!wallet) {
-        res.status(404).end();
-        return Promise.reject(`No such wallet found: ${req.params.walletName}`);
-      }
-      return walletConfig(wallet);
-    })
-    .then((walletConfigStr) => {
-      res.setHeader('Content-type', 'application/javascript');
-      res.send(walletConfigStr).end();
-    })
-    .catch((e) => {
-      console.error(e);
-      res.status(500).send(e);
-    });
+var configUrlBase = process.env.CONFIG_URL_BASE || 'https://dashboard.colu.co/config/wallets';
+
+app.get('/:walletName', function(req, res) {
+  res.render('index', {
+     walletUriPrefix: `/${req.params.walletName}`,
+     configUrl: path.join(configUrlBase, req.params.walletName)
+  });
 });
 
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public'));
-});
+app.use('/img/', express.static(__dirname + '/public/img'));
+app.use('/views/', express.static(__dirname + '/public/views'));
+app.use('/:walletName/', express.static(__dirname + '/public'));

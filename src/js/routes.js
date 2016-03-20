@@ -18,15 +18,15 @@ angular
   .module('copayApp')
   .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
                    $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider,
-                   coluProvider, instanceConfig, coloredCoinsProvider) {
+                   coluProvider, instanceConfigProvider, coloredCoinsProvider) {
     $urlRouterProvider.otherwise('/');
-    
-    if (instanceConfig.coluApiKey) {
-      coluProvider.setApiKey(instanceConfig.coluApiKey);
+
+    if (instanceConfigProvider.config.coluApiKey) {
+      coluProvider.setApiKey(instanceConfigProvider.config.coluApiKey);
     }
-    
-    coloredCoinsProvider.setSupportedAssets(instanceConfig.assets);
-    
+
+    coloredCoinsProvider.setSupportedAssets(instanceConfigProvider.config.assets);
+
     if (loggly.enabled) {
       LogglyLoggerProvider
         .level('ERROR')
@@ -117,7 +117,17 @@ angular
         needProfile: true,
         views: {
           'main': {
-            templateUrl: 'views/walletHome.html',
+            templateProvider: function(instanceConfig, $state, $http, $templateCache) {
+              var url = 'views/walletHome.html';
+              if (!instanceConfig.assets) {
+                $state.get('walletHome').needProfile = false;
+                url = 'views/notFound.html';
+              }
+
+              return $http.get(url, { cache: $templateCache }).then(function(html){
+                  return html.data;
+              });
+            },
           },
         }
       })
@@ -525,19 +535,19 @@ angular
         },
         needProfile: false
       })
-        .state('walletInfo', {
-          url: '/walletInfo',
-          templateUrl: 'views/walletInfo.html',
-          walletShouldBeComplete: true,
-          needProfile: true,
-          views: {
-            'main': {
-              templateUrl: 'views/walletInfo.html'
-            }
+      .state('walletInfo', {
+        url: '/walletInfo',
+        templateUrl: 'views/walletInfo.html',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/walletInfo.html'
           }
-        });
+        }
+      });
   })
-  .run(function($rootScope, $state, $log, uriHandler, isCordova, profileService, $timeout, nodeWebkit, uxLanguage, animationService) {
+  .run(function($rootScope, $state, $log, uriHandler, isCordova, profileService, $timeout, nodeWebkit, uxLanguage, animationService, instanceConfig) {
     FastClick.attach(document.body);
 
     uxLanguage.init();
@@ -562,6 +572,13 @@ angular
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+
+      if (!instanceConfig.assets && toState.name !== 'walletHome') {
+        $state.get('walletHome').needProfile = false;
+        $state.transitionTo('walletHome');
+        event.preventDefault();
+        return;
+      }
 
       if (!profileService.profile && toState.needProfile) {
 
