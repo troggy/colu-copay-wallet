@@ -3,6 +3,10 @@ Digital wallet for [Colu](https://colu.co) assets.
 
 Based on [Copay](https://github.com/bitpay/copay) 1.8 and [Colu SDK](http://documentation.colu.co/)
 
+## Multiple asset wallets
+
+Unicoisa allows to host multiple wallets for different assets using the same app instance. Which wallet to use is determined by URI: e.g. ``http://localhost:3000/foo`` will open wallet for `foo` configuration (see Installation section on how to set this up).
+
 ## Installation
 
 Clone the source:
@@ -19,6 +23,10 @@ npm install -g bower
 npm install -g grunt-cli
 ```
 
+Configure where to get config from:
+Set `CONFIG_URL_BASE` env variable to the base URL of the service that serves configs. If not set, `https://dashboard.colu.co/config/wallets` will be used. This value will be joined together with wallet name. E.g. for wallet `foo` it will request config from ``https://dashboard.colu.co/config/wallets/foo``.
+[Config file example](https://github.com/troggy/unicoisa/blob/master/config.js)
+
 Build Copay:
 
 ```sh
@@ -28,7 +36,7 @@ grunt
 npm start
 ```
 
-Then visit `localhost:3000` in your browser.
+Unicoisa is now ready to serve wallets for you configs (e.g. `foo` wallet will be served from `http://localhost:3000/foo`). Root page will redirect to `https://www.colu.co/` - could be configured with `HOME_PAGE` env variable
 
 > **Note:** Other browser extensions could have access to Copay internal data and compromise the user's private key when running Copay as a web page.  For optimal security, you should disable all third-party browser extensions when using Copay in this manner.
 
