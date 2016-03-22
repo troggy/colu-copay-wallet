@@ -15,6 +15,9 @@ var homePage = process.env.HOME_PAGE || 'https://www.colu.co/';
 var configUrlBase = process.env.CONFIG_URL_BASE || 'https://dashboard.colu.co/config/wallets';
 
 app.get('/:walletName', function(req, res) {
+	console.log("getting wallet", req.params.walletName)
+	console.log("config url base", configUrlBase)
+	console.log("config url is", path.join(configUrlBase, req.params.walletName))
   res.render('index', {
      walletUriPrefix: `/${req.params.walletName}`,
      configUrl: path.join(configUrlBase, req.params.walletName)
