@@ -26,5 +26,8 @@
     "colu-copay-addon": "~0.5.0",
     "angular-loggly-logger": "~0.2.0",
     "he": "~0.5.0"
+  },
+  "resolutions": {
+    "angular": "1.4.6"
   }
 }
