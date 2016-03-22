@@ -20,7 +20,7 @@ app.get('/:walletName', function(req, res) {
 	console.log("config url is", path.join(configUrlBase, req.params.walletName))
   res.render('index', {
      walletUriPrefix: `/${req.params.walletName}`,
-     configUrl: path.join(configUrlBase, req.params.walletName)
+     configUrl: configUrlBase+"/"+req.params.walletName
   });
 });
 
