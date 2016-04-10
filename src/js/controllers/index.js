@@ -906,8 +906,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
       // First update
       if (walletId == profileService.focusedClient.credentials.walletId) {
-        self.completeHistory = txsFromLocal;
-        self.setCompactTxHistory();
+        self.allAssetHistory = self.completeHistory = txsFromLocal;
+        updateHistoryColors(function() {
+          updateAndFilterHistory();
+        });
       }
 
       if (historyUpdateInProgress[walletId])
@@ -940,8 +942,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
               $log.debug('Showing partial history');
               var newHistory = self.processNewTxs(newTxs);
               newHistory = lodash.compact(newHistory.concat(confirmedTxs));
-              self.completeHistory = newHistory;
-              self.setCompactTxHistory();
+              self.allAssetHistory = self.completeHistory = newHistory;
+              updateHistoryColors(function() {
+                updateAndFilterHistory();
+              });
             }
             $timeout(function() {
               $rootScope.$apply();
@@ -966,10 +970,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
         // Final update
         if (walletId == profileService.focusedClient.credentials.walletId) {
-          self.completeHistory = newHistory;
-          self.setCompactTxHistory();
+          self.allAssetHistory = self.completeHistory = newHistory;
           updateHistoryColors(function() {
-              updateAndFilterHistory(false);
+            updateAndFilterHistory(false);
           });
         }
 
@@ -997,7 +1000,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
           self.historyShowMore = false;
       }
       self.nextTxHistory += self.historyShowMoreLimit;
-      updateAndFilterHistory(true);
     }, 100);
   };
 
@@ -1478,7 +1480,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   var updateHistoryColors = function(cb) {
     coloredCoins.whenAvailable(function(assets, coloredTxs) {
-      lodash.forEach(self.completeHistory, function(tx) {
+      lodash.forEach(self.allAssetHistory, function(tx) {
         var colorTx = coloredTxs[tx.txid];
         if (tx.isColored || !colorTx || !colorTx.colored) return;
 
@@ -1494,7 +1496,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         tx.amountStr = tx.assetAmountStr; // for history details
         tx.addressTo = tx.outputs[0].toAddress || tx.outputs[0].address;
       });
-      cb(self.completeHistory);
+      cb(self.allAssetHistory);
     });
   };
 
@@ -1504,13 +1506,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   var updateAndFilterHistory = function(showAll) {
     coloredCoins.whenAvailable(function(assets, coloredTxs) {
-      var newHistory = lodash.filter(self.completeHistory, self.filterHistory);
-      if (!showAll) {
-        self.txHistory = newHistory.slice(0, self.historyShowLimit);
-        self.historyShowShowAll = newHistory.length > self.historyShowLimit;
-      } else {
-        self.txHistory = newHistory;
-      }
+      self.completeHistory = lodash.filter(self.allAssetHistory, self.filterHistory);
+      self.setCompactTxHistory();
     });
   };
 
