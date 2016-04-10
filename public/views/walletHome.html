@@ -43,7 +43,7 @@
             <div ng-click='index.updateAll({triggerTxUpdate: true})'
               ng-show="index.asset.assetId && !index.updateError && index.walletScanStatus != 'error'">
               <strong class="size-36" ng-if="index.asset.isAsset">{{index.asset.balanceStr|rawHtml}}</strong>
-              
+
               <strong class="size-36" ng-show="!index.asset.isAsset">{{index.totalBalanceStr}}</strong>
               <div class="size-14"
                 ng-if="index.totalBalanceAlternative && !index.asset.isAsset">
@@ -313,14 +313,14 @@
           </div>
         </div>
         <div class="row m20t">
-          <div class="small-12 columns" ng-show="index.isCordova && home.addr && !index.asset.isAsset">
+          <div class="small-12 columns" ng-show="index.isCordova && home.addr">
             <button class="button outline light-gray small round expand"
               ng-click="home.shareAddress(home.addr)"
               ng-disabled="home.generatingAddress">
               <span translate>Share address</span>
             </button>
           </div>
-          <div class="small-12 columns" ng-show="home.addr">
+          <div class="small-12 columns" ng-show="home.addr && !index.asset.isAsset">
             <button class="button expand small round m10b" ng-click="home.openCustomizedAmountModal(home.addr)"
             ng-style="{'background-color':index.backgroundColor}"
             ng-disabled="home.generatingAddress">
