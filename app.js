@@ -1,7 +1,6 @@
 'use strict';
 
 var express = require('express');
-var path = require('path');
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -17,7 +16,7 @@ var configUrlBase = process.env.CONFIG_URL_BASE || 'https://dashboard.colu.co/co
 app.get('/:walletName', function(req, res) {
   res.render('index', {
      walletUriPrefix: `/${req.params.walletName}`,
-     configUrl: path.join(configUrlBase, req.params.walletName)
+     configUrl: `${configUrlBase}/${req.params.walletName}`
   });
 });
 
