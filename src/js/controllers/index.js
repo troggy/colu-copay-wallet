@@ -85,6 +85,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.setOngoingProcess(name);
   });
 
+  $scope.$on('$destroy', function() {
+    disableOngoingProcessListener();
+  });
+
   self.openWalletInfo = function() {
     if (self.allowAssetChange) {
         go.path('walletInfo');

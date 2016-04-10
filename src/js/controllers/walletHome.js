@@ -94,7 +94,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     disableTabListener();
     disableFocusListener();
     disableResumeListener();
-    disableOngoingProcessListener();
     $rootScope.shouldHideMenuBar = false;
   });
 
