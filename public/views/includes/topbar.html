@@ -1,5 +1,5 @@
 <nav ng-controller="topbarController as topbar"
-  class="tab-bar" 
+  class="tab-bar"
   ng-style="{'background-color': noColor ? index.secondaryColor : index.backgroundColor}">
   <section class="left-small">
     <a id="hamburger" class="p10" ng-show="!goBackToState && !closeToHome  && !index.noFocusedWallet"
@@ -17,6 +17,10 @@
   </section>
 
   <section class="right-small" ng-show="showPreferences && !index.noFocusedWallet">
+    <a class="p10" fast-click callback-fn="$root.go('walletInfo')">
+      <i class="fi-dollar-bill size-24"></i>
+    </a>
+
     <a class="p10" fast-click callback-fn="topbar.goPreferences(); index.setCompactTxHistory()">
       <i class="fi-widget size-24"></i>
     </a>
