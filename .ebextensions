@@ -1,0 +1,13 @@
+Resources:
+  AWSEBSecurityGroupSSHIngress:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      GroupDescription: "Default security group rules“
+      SecurityGroupIngress :
+        - IpProtocol : "tcp"
+          FromPort : “22”
+          ToPort : “22”
+          "CidrIp": “82.81.94.166/32”
+          "CidrIp": “52.88.81.49/32”
+          SourceSecurityGroupName:
+            Ref: "AWSEBSecurityGroup
