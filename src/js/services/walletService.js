@@ -3,7 +3,7 @@
 angular.module('copayApp.services').factory('walletService',
   function(profileService, coloredCoins, addonManager, lodash, configService,
           $q, $log, $rootScope, go, instanceConfig) {
-  
+
   var root = {},
       self = this,
       selectedAssetId,
@@ -13,19 +13,19 @@ angular.module('copayApp.services').factory('walletService',
       };
 
   root.btcBalance = null;
-  
+
   root.walletAsset = {
     isAsset: false
   };
-  
+
   $rootScope.$on('ColoredCoins/AssetsUpdated', function() {
     root.updateWalletAsset();
   });
-  
+
   var getZeroAsset = function(assetId) {
     var unitSymbol = coloredCoins.getAssetSymbol(assetId, null);
     var balanceStr = coloredCoins.formatAssetAmount(0, null, unitSymbol);
-    
+
     return {
       assetId: assetId,
       unitSymbol: unitSymbol,
@@ -35,11 +35,11 @@ angular.module('copayApp.services').factory('walletService',
       divisible: 0
     };
   };
-  
+
   var getBtcAsset = function(assetId) {
     var unitSymbol = coloredCoins.getAssetSymbol(assetId, asset);
     var balanceStr = coloredCoins.formatAssetAmount(0, null, unit);
-    
+
     return {
       assetId: assetId,
       isAsset: false
@@ -51,12 +51,12 @@ angular.module('copayApp.services').factory('walletService',
 
     var isAsset = self.selectedAssetId !== btcAsset.assetId,
         asset, unit, balanceStr;
-    
+
     if (isAsset) {
       var asset = lodash.find(coloredCoins.assets, function(asset) {
          return asset.assetId == self.selectedAssetId;
        });
-       
+
        if (!asset) {
           asset = getZeroAsset(self.selectedAssetId);
        }
@@ -64,7 +64,7 @@ angular.module('copayApp.services').factory('walletService',
      } else {
        asset = btcAsset;
      }
-     
+
      root.walletAsset = asset;
      $rootScope.$emit("Local/WalletAssetUpdated", root.walletAsset);
      return root.walletAsset;
@@ -78,11 +78,17 @@ angular.module('copayApp.services').factory('walletService',
     if (!self.selectedAssetId) {
       var walletId = profileService.focusedClient.credentials.walletId,
           config = configService.getSync();
-          
+
       config.assetFor = config.assetFor || {};
-      self.selectedAssetId = config.assetFor[walletId] || instanceConfig.defaultAsset;
+      var supportedAssets = lodash.map(instanceConfig.assets, 'assetId');
+      var selectedAsset = config.assetFor[walletId];
+      if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
+        self.selectedAssetId = instanceConfig.defaultAsset;
+      } else {
+        self.selectedAssetId = config.assetFor[walletId];
+      }
     }
-    
+
     return updateAssetBalance();
   };
 
@@ -102,7 +108,7 @@ angular.module('copayApp.services').factory('walletService',
       go.walletHome();
     });
   };
-  
+
   root.getNormalizedAmount = function(amount) {
     if (root.walletAsset.isAsset) {
       return (amount * Math.pow(10, root.walletAsset.divisible)).toFixed(0);
@@ -111,7 +117,7 @@ angular.module('copayApp.services').factory('walletService',
       return parseInt((amount * unitToSat).toFixed(0));
     }
   };
-  
+
   root.sendTxProposal = function(txOpts, cb) {
     var fc = profileService.focusedClient;
     if (root.walletAsset.isAsset) {
@@ -119,7 +125,7 @@ angular.module('copayApp.services').factory('walletService',
         txOpts.amount, txOpts.toAddress, txOpts.message, root.walletAsset, cb
       );
     } else {
-      fc.sendTxProposal(addonManager.processCreateTxOpts(txOpts), cb); 
+      fc.sendTxProposal(addonManager.processCreateTxOpts(txOpts), cb);
     }
   };
 
