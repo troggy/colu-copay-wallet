@@ -1,16 +1,22 @@
-window.unicoisaConfig = { 
-  walletName: 'Bitreals',
+window.unicoisaConfig = {
+  walletName: 'BitReais',
   mainColor: '',
   secondaryColor: '',
   assets: [
     {
-      assetId: 'LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz',
-      name: 'Bitreal',
+      assetId: 'Ua9E8E4kY4XrEezyamNAqZAQ4fZzAsUmeKEf4b',
+      name: 'BitReal',
+      symbol: 'R$',
+      pluralSymbol: 'R$'
+    },
+    {
+      assetId: 'La8UymFqWDfWZMRrytuvwHeREUSTTioXR2vjZa',
+      name: 'Old BitReal',
       symbol: 'R$',
       pluralSymbol: 'R$'
     }
   ],
-  defaultAsset: 'LFu6pNp5FLHQu1RERkYEjPjxFZLD3zNJAbhYz',
+  defaultAsset: 'Ua9E8E4kY4XrEezyamNAqZAQ4fZzAsUmeKEf4b',
   logo: '',
   coluApiKey: '',
   allowAssetChange: true,
