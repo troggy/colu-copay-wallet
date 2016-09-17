@@ -21,9 +21,20 @@ angular
                    coluProvider, instanceConfigProvider, coloredCoinsProvider) {
     $urlRouterProvider.otherwise('/');
 
-    if (instanceConfigProvider.config.coluApiKey) {
-      coluProvider.setApiKey(instanceConfigProvider.config.coluApiKey);
+    // default mode is SDK
+    var coluConfig = {
+        apiKey: instanceConfigProvider.config.coluApiKey,
+        mode: 'sdk'
+    };
+
+    if (instanceConfigProvider.config.colu && instanceConfigProvider.config.colu.mode === 'rpc') {
+      coluConfig = {
+        rpcServer: instanceConfigProvider.config.colu.rpcServer,
+        mode: 'rpc'
+      };
     }
+
+    coluProvider.config(coluConfig);
 
     coloredCoinsProvider.setSupportedAssets(instanceConfigProvider.config.assets);
 
