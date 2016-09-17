@@ -1,7 +1,15 @@
 window.unicoisaConfig = {
+
+  // wallet UI configuration
   walletName: 'BitReais',
-  mainColor: '',
-  secondaryColor: '',
+  mainColor: '',      // if blank default color will be used
+  secondaryColor: '', // if blank default color will be used
+  logo: '',           // if blank default logo will be used
+  allowAssetChange: true,
+  noUserColors: false,
+  needsBackup: true,
+
+  // Assets configuration
   assets: [
     {
       assetId: 'Ua9E8E4kY4XrEezyamNAqZAQ4fZzAsUmeKEf4b',
@@ -17,9 +25,19 @@ window.unicoisaConfig = {
     }
   ],
   defaultAsset: 'Ua9E8E4kY4XrEezyamNAqZAQ4fZzAsUmeKEf4b',
-  logo: '',
-  coluApiKey: '',
-  allowAssetChange: true,
-  noUserColors: false,
-  needsBackup: true
+
+  // Colu connectivity configuration
+  // see https://github.com/troggy/colu-copay-addon
+  colu: {
+    mode: 'sdk',
+    rpcServer: {
+      livenet: {
+        baseUrl: ''
+      },
+      testnet: {
+        baseUrl: ''
+      }
+    }
+  },
+  coluApiKey: ''
 };
