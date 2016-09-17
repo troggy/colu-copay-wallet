@@ -8,10 +8,9 @@ var modules = [
   'gettext',
   'ngLodash',
   'uiSwitch',
-  'ngSanitize', 
+  'ngSanitize',
   'ngCsv',
   'bwcModule',
-  'logglyLogger',
   'copayApp.filters',
   'copayApp.services',
   'copayApp.controllers',
@@ -21,15 +20,8 @@ var modules = [
 
 var copayApp = window.copayApp = angular.module('copayApp', modules);
 
-copayApp.constant('loggly', {
-  enabled: @@unicoisa_log_enabled,
-  token: '@@unicoisa_log_token',
-  env: '@@unicoisa_log_env',
-});
-
 angular.module('copayApp.filters', []);
 angular.module('copayApp.services', []);
 angular.module('copayApp.controllers', []);
 angular.module('copayApp.directives', []);
 angular.module('copayApp.addons', ['copayAddon.colu']);
-

@@ -17,7 +17,7 @@ if (window && window.navigator) {
 angular
   .module('copayApp')
   .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
-                   $urlRouterProvider, $compileProvider, loggly, LogglyLoggerProvider,
+                   $urlRouterProvider, $compileProvider,
                    coluProvider, instanceConfigProvider, coloredCoinsProvider) {
     $urlRouterProvider.otherwise('/');
 
@@ -37,14 +37,6 @@ angular
     coluProvider.config(coluConfig);
 
     coloredCoinsProvider.setSupportedAssets(instanceConfigProvider.config.assets);
-
-    if (loggly.enabled) {
-      LogglyLoggerProvider
-        .level('ERROR')
-        .inputToken(loggly.token)
-        .inputTag(loggly.env)
-        .sendConsoleErrors(true);
-    }
 
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'isDevel',

@@ -60,7 +60,6 @@ module.exports = function(grunt) {
           'bower_components/angular-ui-switch/angular-ui-switch.js',
           'bower_components/angular-sanitize/angular-sanitize.js',
           'bower_components/ng-csv/build/ng-csv.js',
-          'bower_components/angular-loggly-logger/angular-loggly-logger.js',
           'bower_components/he/he.js',
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js',
           'bower_components/colu-copay-addon/dist/coluCopayAddon.js',
@@ -203,21 +202,6 @@ module.exports = function(grunt) {
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js': ['angular-bitcore-wallet-client/index.js']
         },
       }
-    },
-    includereplace: {
-      loggly: {
-        options: {
-          globals: {
-              unicoisa_log_env: process.env.UNICOISA_LOG_ENV,
-              unicoisa_log_token: process.env.UNICOISA_LOG_TOKEN,
-              unicoisa_log_enabled: !!process.env.UNICOISA_LOG_TOKEN && !!process.env.UNICOISA_LOG_ENV
-          }
-        },
-        // Files to perform replacements and includes with
-        src: 'public/js/copay.js',
-        // Destination directory to copy files to
-        dest: './'
-      }
     }
   });
 
@@ -234,9 +218,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-include-replace');
 
-  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons', 'includereplace']);
+  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'browserify', 'concat', 'copy:icons']);
   grunt.registerTask('static', ['default', 'copy:config']);
-  grunt.registerTask('fast', ['concat', 'copy:config', 'includereplace']);
+  grunt.registerTask('fast', ['concat', 'copy:config']);
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
   grunt.registerTask('test', ['karma:unit']);
