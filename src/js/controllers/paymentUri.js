@@ -1,20 +1,14 @@
 'use strict';
 angular.module('copayApp.controllers').controller('paymentUriController',
-  function($rootScope, $stateParams, $location, $timeout, profileService, configService, lodash, bitcore, go) {
-
-    window.ignoreMobilePause = true;
+  function($rootScope, $scope, $stateParams, $location, $timeout, profileService, configService, lodash, bitcore, go) {
     function strip(number) {
       return (parseFloat(number.toPrecision(12)));
     };
 
     // Build bitcoinURI with querystring
-    this.checkBitcoinUri = function() {
+    this.init = function() {
       var query = [];
-      angular.forEach($location.search(), function(value, key) {
-        query.push(key + "=" + value);
-      });
-      var queryString = query ? query.join("&") : null;
-      this.bitcoinURI = $stateParams.data + (queryString ? '?' + queryString : '');
+      this.bitcoinURI = $stateParams.url;
 
       var URI = bitcore.URI;
       var isUriValid = URI.isValid(this.bitcoinURI);
@@ -39,7 +33,15 @@ angular.module('copayApp.controllers').controller('paymentUriController',
     };
 
     this.getWallets = function(network) {
-      return profileService.getWallets(network);
+
+      $scope.wallets = [];
+      lodash.forEach(profileService.getWallets(network), function(w) {
+        var client = profileService.getClient(w.id);
+        profileService.isReady(client, function(err) {
+          if (err) return;
+          $scope.wallets.push(w);
+        })
+      });
     };
 
     this.selectWallet = function(wid) {

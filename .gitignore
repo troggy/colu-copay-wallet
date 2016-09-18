@@ -3,6 +3,10 @@ i18n/po/*.mo
 i18n/crowdin_api_key.txt
 src/js/translations.js
 
+# Coinbase API ClientID/Secret
+coinbase.json
+src/js/coinbase.js
+
 # version
 src/js/version.js
 
@@ -20,7 +24,8 @@ webkitbuilds/*
 !webkitbuilds/build-osx.sh
 !webkitbuilds/Background.png
 
-
+#fonts
+public/fonts
 
 # chrome extensions
 browser-extensions/chrome/copay-chrome-extension
@@ -89,6 +94,10 @@ Temporary Items
 Session.vim
 .netrwhist
 *~
+
+# SASS
+src/sass/*.css
+.sass-cache
 
 # copay public
 public/icons/*

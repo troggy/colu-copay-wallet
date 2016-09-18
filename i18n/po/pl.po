@@ -12,8 +12,9 @@ msgstr ""
 "Last-Translator: cmgustavo83\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
-"PO-Revision-Date: 2016-03-04 16:54-0500\n"
+"PO-Revision-Date: 2016-07-15 09:26-0400\n"
 
+#: public/views/modals/search.html
 #: public/views/walletHome.html
 msgid "(possible double spend)"
 msgstr "(możliwa podwójna wypłata)"
@@ -22,26 +23,34 @@ msgstr "(możliwa podwójna wypłata)"
 msgid "(Trusted)"
 msgstr "(Zaufany)"
 
+#: public/views/walletHome.html
+msgid "[Balance Hidden]"
+msgstr "[Balans Ukryty]"
+
 #: src/js/controllers/walletHome.js
 msgid "{{fee}} will be deducted for bitcoin networking fees"
-msgstr "{{fee}} zostanie potrącona prowizja sieci bitcoin"
+msgstr "{{fee}} zostanie potrącone jako prowizja sieci bitcoin"
+
+#: public/views/includes/confirm-tx.html
+msgid "{{feeRateStr}} of the transaction"
+msgstr "{{feeRateStr}} transakcji"
 
 #: public/views/copayers.html
 #: public/views/includes/walletInfo.html
 msgid "{{index.m}}-of-{{index.n}}"
 msgstr "{{index.m}}-z-{{index.n}}"
 
+#: public/views/modals/search.html
+msgid "{{index.result.length - index.txHistorySearchResults.length}} more"
+msgstr "{{index.result.length - index.txHistorySearchResults.length}} więcej"
+
 #: public/views/walletHome.html
 msgid "{{index.txProgress}} transactions downloaded"
-msgstr "{{index.txProgress}} transakcja pobrana"
+msgstr "{{index.txProgress}} transakcji pobrane"
 
 #: public/views/includes/sidebar.html
 msgid "{{item.m}}-of-{{item.n}}"
 msgstr "{{item.m}}-z-{{item.n}}"
-
-#: src/js/controllers/importLegacy.js
-msgid "{{len}} wallets imported. Funds scanning in progress. Hold on to see updated balance"
-msgstr "Ilość zaimportowanych portfeli: {{len}}. Kwoty są skanowane. Proszę czekać na aktualizację salda"
 
 #: public/views/modals/txp-details.html
 msgid "* A payment proposal can be deleted if 1) you are the creator, and no other copayer has signed, or 2) 24 hours have passed since the proposal was created."
@@ -52,16 +61,16 @@ msgid "<b>IF YOU LOSE ACCESS TO YOUR COPAY WALLET OR YOUR ENCRYPTED PRIVATE KEYS
 msgstr "<b>JEŚLI UŻYTKOWNIK STRACI DOSTĘP DO PORTFELA COPAY LUB ZASZYFROWANYCH KLUCZY PRYWATNYCH, A NIE MA ZAPISANEJ KOPII ZAPASOWEJ PORTFELA I HASŁA, PRZYJMUJE DO WIADOMOŚCI, ŻE JAKIEKOLWIEK POSIADANE BITCOINY ZWIĄZANE Z TYM PORTFELEM COPAY BĘDĄ NIEDOSTĘPNE.</b>"
 
 #: public/views/backup.html
-msgid "<b>OR</b> 1 wallet export file and the remaining quorum of wallet seeds (e.g. in a 3-5 wallet: 1 wallet export file + 2 wallet seeds of any of the other copayers)."
-msgstr "<b>LUB</b> 1 plik eksportu portfela i reszta wymaganych fraz odzyskiwania danych portfela (np. w portfelu 3-5: 1 plik eksportu portfela + 2 frazy odzyskiwania danych któregokolwiek z pozostałych współwłaścicieli portfela)."
+msgid "<b>OR</b> 1 wallet export file and the remaining quorum of wallet recovery phrases (e.g. in a 3-5 wallet: 1 wallet export file + 2 wallet recovery phrases of any of the other copayers)."
+msgstr "<b>LUB</b> 1 plik eksportu portfela i reszta wymaganych fraz odzyskiwania portfela (np. w portfelu 3-5: 1 plik eksportu portfela + 2 frazy odzyskiwania któregokolwiek z pozostałych współwłaścicieli portfela)."
 
 #: public/views/backup.html
-msgid "<b>OR</b> the wallet seed of <b>all</b> copayers in the wallet"
-msgstr "<b>LUB</b> fraza odzyskiwania danych <b>wszystkich</b> współwłaścicieli portfela"
+msgid "<b>OR</b> the wallet recovery phrase of <b>all</b> copayers in the wallet"
+msgstr "<b>LUB</b> frazy odzyskiwania <b>wszystkich</b> współwłaścicieli portfela"
 
 #: public/views/backup.html
-msgid "<b>OR</b> the wallet seeds of <b>all</b> copayers in the wallet"
-msgstr "<b>LUB</b> frazy odzyskiwania danych <b> wszystkich </b> współwłaścicieli portfela"
+msgid "<b>OR</b> the wallet recovery phrases of <b>all</b> copayers in the wallet"
+msgstr "<b>LUB</b> fraz odzyskiwania <b>wszystkich</b> współwłaścicieli portfela"
 
 #: public/views/disclaimer.html
 msgid "A multisignature bitcoin wallet"
@@ -71,7 +80,6 @@ msgstr "Portfel bitcoin z multipodpisami"
 msgid "About Copay"
 msgstr "Informacje o Copay"
 
-#: public/views/includes/confirm-tx.html
 #: public/views/modals/txp-details.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
@@ -95,28 +103,33 @@ msgstr "Numer konta"
 msgid "Activity"
 msgstr "Transakcje"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Add a new entry"
 msgstr "Dodaj nowy wpis"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Add a Seed Passphrase"
-msgstr "Dodaj hasło frazy odzyskiwania danych"
+msgid "Add a Password"
+msgstr "Dodaj hasło"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Add an optional passphrase to secure the seed"
-msgstr "Dodaj opcjonalnie hasło w celu zabezpieczenia frazy odzyskiwania danych"
+msgid "Add an optional password to secure the recovery phrase"
+msgstr "Dodaj opcjonalne hasło do bezpiecznego odzyskiwania frazy"
+
+#: public/views/includes/note.html
+#: public/views/modals/tx-details.html
+msgid "Add comment"
+msgstr "Dodaj komentarz"
 
 #: public/views/includes/sidebar.html
 msgid "Add wallet"
 msgstr "Dodaj portfel"
 
-#: public/views/paymentUri.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
 #: public/views/modals/paypro.html
+#: public/views/paymentUri.html
 msgid "Address"
 msgstr "Adres"
 
@@ -136,6 +149,7 @@ msgstr "Nazwa"
 msgid "Alias for <i>{{index.walletName}}</i>"
 msgstr "Nazwa dla <i>{{index.walletName}}</i>"
 
+#: public/views/preferencesLanguage.html
 #: public/views/translators.html
 msgid "All contributions to Copay's translation are welcome. Sign up at crowdin.com and join the Copay project at"
 msgstr "Wkład do tłumaczenia Copay mile widziany. Zapisz się na crowdin.com i dołącz do projektu Copay na"
@@ -148,30 +162,34 @@ msgstr "Transakcji nie można wycofać."
 msgid "Alternative Currency"
 msgstr "Alternatywna waluta"
 
-#: public/views/paymentUri.html
-#: public/views/walletHome.html
 #: public/views/includes/output.html
 #: public/views/modals/customized-amount.html
+#: public/views/paymentUri.html
+#: public/views/walletHome.html
 msgid "Amount"
 msgstr "Kwota"
 
-#: src/js/services/bwsError.js
-msgid "Amount below dust threshold"
-msgstr "Kwota poniżej progu"
+#: src/js/services/bwcError.js
+msgid "Amount below minimum allowed"
+msgstr "Kwota poniżej minimum dozwolona"
 
-#: public/views/walletHome.html
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Amount in"
 msgstr "Kwota w"
 
 #: src/js/controllers/preferencesDeleteWords.js
-msgid "Are you sure you want to delete the backup words?"
-msgstr "Czy na pewno chcesz usunąć słowa frazy?"
+msgid "Are you sure you want to delete the recovery phrase?"
+msgstr "Czy na pewno chcesz usunąć frazę?"
 
 #: src/js/controllers/copayers.js
 #: src/js/controllers/preferencesDelete.js
 msgid "Are you sure you want to delete this wallet?"
 msgstr "Czy na pewno chcesz usunąć ten portfel?"
+
+#: public/views/includes/walletInfo.html
+msgid "Auditable"
+msgstr "Weryfikowalny"
 
 #: public/views/includes/available-balance.html
 msgid "Available Balance"
@@ -182,9 +200,6 @@ msgid "Average confirmation time: {{fee.nbBlocks * 10}} minutes"
 msgstr "Średni czas potwierdzenia: {{fee.nbBlocks * 10}} minut"
 
 #: public/views/includes/topbar.html
-#: public/views/includes/tx-details.html
-#: public/views/modals/tx-details.html
-#: public/views/modals/txp-details.html
 msgid "Back"
 msgstr "Powrót"
 
@@ -196,6 +211,7 @@ msgstr "Kopia zapasowa"
 msgid "Backup failed"
 msgstr "Tworzenie kopii zapasowej nie powiodło się"
 
+#: public/views/paperWallet.html
 #: public/views/walletHome.html
 msgid "Backup Needed"
 msgstr "Potrzebna kopia zapasowa"
@@ -203,10 +219,6 @@ msgstr "Potrzebna kopia zapasowa"
 #: public/views/walletHome.html
 msgid "Backup now"
 msgstr "Utwórz kopię zapasową teraz"
-
-#: src/js/controllers/preferencesDeleteWords.js
-msgid "Backup words deleted"
-msgstr "Słowa kopii zapasowej usunięte"
 
 #: src/js/services/profileService.js
 msgid "Bad wallet invitation"
@@ -216,9 +228,14 @@ msgstr "Nieprawidłowe zaproszenie"
 msgid "Balance By Address"
 msgstr "Saldo wg adresu"
 
+#: public/views/paperWallet.html
 #: public/views/walletHome.html
-msgid "Before receiving funds, it is necessary backup your wallet. If you lose this device, it is impossible to access your funds without a backup."
+msgid "Before receiving funds, you must backup your wallet. If this device is lost, it is impossible to access your funds without a backup."
 msgstr "Przed otrzymaniem środków, konieczne jest wykonanie kopii zapasowej portfela. Jeśli utracisz to urządzenie, dostęp do funduszy bez kopii zapasowej będzie niemożliwy."
+
+#: public/views/preferencesInformation.html
+msgid "BETA: Android Key Derivation Test:"
+msgstr "BETA: Test Android Key Derivation:"
 
 #: public/views/create.html
 #: public/views/import.html
@@ -235,7 +252,7 @@ msgid "Bitcoin Network Fee Policy"
 msgstr "Polityka prowizji sieci bitcoin"
 
 #: public/views/preferencesFee.html
-msgid "Bitcoin transactions may include a fee collected by miners on the network. The higher the fee, the greater the incentive a miner has to include that transaction in a block. Actual fees are determined based on network load and the selected policy."
+msgid "Bitcoin transactions may include a fee collected by miners on the network. The higher the fee, the greater the incentive a miner has to include that transaction in a block. Current fees are determined based on network load and the selected policy."
 msgstr "Transakcje bitcoinowe mogą zawierać prowizję pobieraną przez górników. Im wyższa prowizja, tym większa zachęta dla górnika, aby zawarł tę transakcję w bloku. Rzeczywiste opłaty ustala się w oparciu o obciążenie sieci i wybraną politykę."
 
 #: public/views/paymentUri.html
@@ -246,11 +263,7 @@ msgstr "Bitcoin URI jest nieprawidłowy!"
 msgid "Broadcast Payment"
 msgstr "Przekaż płatność"
 
-#: src/js/controllers/walletHome.js
-msgid "Broadcasting Payment"
-msgstr "Przekazywanie płatności"
-
-#: src/js/services/txService.js
+#: src/js/services/onGoingProcess.js
 msgid "Broadcasting transaction"
 msgstr "Przekazywanie transakcji"
 
@@ -259,17 +272,19 @@ msgid "Browser unsupported"
 msgstr "Przeglądarka nieobsługiwana"
 
 #: public/views/includes/sidebar.html
-msgid "Buy &amp; Sell Bitcoin"
-msgstr "Kup &amp; sprzedaj bitcoiny"
+msgid "Buy and Sell"
+msgstr ""
 
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Calculating fee"
 msgstr "Obliczanie prowizji"
 
-#: public/views/walletHome.html
 #: public/views/includes/confirm-tx.html
+#: public/views/includes/note.html
+#: public/views/includes/password.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/confirmation.html
-#: public/views/modals/destination-address.html
+#: public/views/walletHome.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
 #: src/js/controllers/preferencesDelete.js
@@ -277,13 +292,13 @@ msgstr "Obliczanie prowizji"
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: public/views/includes/password.html
-msgid "CANCEL"
-msgstr "ANULUJ"
-
 #: public/views/copayers.html
 msgid "Cancel and delete the wallet"
 msgstr "Anuluj i usuń portfel"
+
+#: src/js/controllers/walletHome.js
+msgid "Cannot create transaction. Insufficient funds"
+msgstr "Nie można utworzyć transakcji. Niewystarczające fundusze"
 
 #: src/js/services/profileService.js
 msgid "Cannot join the same wallet more that once"
@@ -301,6 +316,10 @@ msgstr "Certyfikowane przez"
 msgid "Changing wallet alias only affects the local wallet name."
 msgstr "Zmiana nazwy portfela wpływa tylko na jego nazwę lokalną."
 
+#: public/views/translators.html
+msgid "Chinese"
+msgstr "chiński"
+
 #: public/views/import.html
 msgid "Choose a backup file from your computer"
 msgstr "Wybierz plik kopii zapasowej z komputera"
@@ -310,10 +329,13 @@ msgid "Clear cache"
 msgstr "Wyczyść pamięć podręczną"
 
 #: public/views/includes/topbar.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
 #: public/views/modals/paypro.html
 #: public/views/modals/scanner.html
+#: public/views/modals/search.html
+#: public/views/modals/tx-details.html
+#: public/views/modals/txp-details.html
 msgid "Close"
 msgstr "Zamknij"
 
@@ -321,10 +343,15 @@ msgstr "Zamknij"
 msgid "Color"
 msgstr "Kolor"
 
+#: public/views/modals/tx-details.html
+msgid "Comment"
+msgstr "Skomentuj"
+
 #: public/views/preferencesAbout.html
 msgid "Commit hash"
 msgstr "Zatwierdzony hash"
 
+#: public/views/includes/confirm-tx.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
 #: src/js/controllers/preferencesDelete.js
@@ -332,15 +359,10 @@ msgstr "Zatwierdzony hash"
 msgid "Confirm"
 msgstr "Potwierdź"
 
-#: public/views/includes/confirm-tx.html
-msgid "Confirm transaction"
-msgstr "Potwierdź transakcję"
-
 #: public/views/backup.html
-msgid "Confirm your wallet seed"
-msgstr "Potwierdź swoją frazę odzyskiwania danych portfela"
+msgid "Confirm your wallet recovery phrase"
+msgstr "Potwierdź swoją frazę odzyskiwania portfela"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Confirmations"
 msgstr "Potwierdzenia"
@@ -349,19 +371,15 @@ msgstr "Potwierdzenia"
 msgid "Congratulations!"
 msgstr "Gratulacje!"
 
-#: public/views/create.html
-msgid "Connecting to {{create.hwWallet}} Wallet..."
-msgstr "Łączenie z portfelem {{create.hwWallet}}..."
+#: src/js/services/onGoingProcess.js
+msgid "Connecting to Coinbase..."
+msgstr "Łączenie z Coinbase..."
 
-#: public/views/import.html
-msgid "Connecting to {{import.hwWallet}} Wallet..."
-msgstr "Łączenie z portfelem {{import.hwWallet}}..."
+#: src/js/services/onGoingProcess.js
+msgid "Connecting to Glidera..."
+msgstr "Łączenie z Gildera..."
 
-#: public/views/join.html
-msgid "Connecting to {{join.hwWallet}} Wallet..."
-msgstr "Łączenie z portfelem {{join.hwWallet}}..."
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Connection reset by peer"
 msgstr "Połączenie zostało zresetowane"
 
@@ -369,15 +387,15 @@ msgstr "Połączenie zostało zresetowane"
 msgid "Continue"
 msgstr "Dalej"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer already in this wallet"
 msgstr "Użytkownik jest już w tym portfelu"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer already voted on this spend proposal"
 msgstr "Użytkownik głosował już za tym wnioskiem wypłaty"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer data mismatch"
 msgstr "Niezgodność danych współwłaściciela portfela"
 
@@ -387,7 +405,7 @@ msgstr "Współwłaściciele portfela"
 
 #: src/js/controllers/copayers.js
 #: src/js/controllers/export.js
-#: src/js/controllers/tx.js
+#: src/js/controllers/preferencesInformation.js
 #: src/js/controllers/walletHome.js
 msgid "Copied to clipboard"
 msgstr "Skopiowano do schowka"
@@ -400,20 +418,23 @@ msgstr "Skopiuj ten tekst w bezpiecznym miejscu (notatnik lub e-mail)"
 msgid "Copy to clipboard"
 msgstr "Skopiuj do schowka"
 
-#: src/js/services/txService.js
-msgid "Could not accept payment"
-msgstr "Nie można zaakceptować wypłaty"
+#: public/views/import.html
+msgid "Could not access the wallet at the server. Please check:"
+msgstr "Nie można uzyskać dostępu do portfela na serwerze. Proszę sprawdzić:"
+
+#: src/js/services/profileService.js
+msgid "Could not access wallet"
+msgstr "Nie można uzyskać dostępu do portfela"
 
 #: src/js/controllers/index.js
 msgid "Could not access Wallet Service: Not found"
 msgstr "Brak dostępu do Wallet Service: Nie znaleziono"
 
-#: src/js/services/txService.js
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not broadcast payment"
 msgstr "Wypłata nie może zostać wysłana"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Could not build transaction"
 msgstr "Nie udało się utworzyć transakcji"
 
@@ -434,18 +455,14 @@ msgid "Could not create using the specified extended public key"
 msgstr "Nie można utworzyć przy użyciu określonego rozszerzonego klucza publicznego"
 
 #: src/js/services/profileService.js
-msgid "Could not create: Invalid wallet seed"
-msgstr "Nie można utworzyć: niepoprawna fraza odzyskiwania danych portfela"
-
-#: src/js/controllers/backup.js
-msgid "Could not decrypt"
-msgstr "Nie można odszyfrować"
+msgid "Could not create: Invalid wallet recovery phrase"
+msgstr "Nie można utworzyć: niepoprawna fraza odzyskiwania portfela"
 
 #: src/js/controllers/import.js
 msgid "Could not decrypt file, check your password"
-msgstr "Nie można odszyfrować pliku, sprawdź swoje hasło"
+msgstr "Nie można odszyfrować pliku, sprawdź hasło"
 
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not delete payment proposal"
 msgstr "Nie można usunąć wniosku wypłaty"
 
@@ -462,7 +479,7 @@ msgid "Could not import"
 msgstr "Nie można zaimportować"
 
 #: src/js/services/profileService.js
-msgid "Could not import. Check input file and password"
+msgid "Could not import. Check input file and spending password"
 msgstr "Nie można zaimportować. Sprawdź plik wejściowy i hasło"
 
 #: src/js/services/profileService.js
@@ -473,7 +490,7 @@ msgstr "Nie można dołączyć portfela"
 msgid "Could not recognize a valid Bitcoin QR Code"
 msgstr "Nie udało się rozpoznać poprawnego kodu QR"
 
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not reject payment"
 msgstr "Wypłata nie może być odrzucona"
 
@@ -506,12 +523,11 @@ msgstr "Utwórz, dołącz lub importuj"
 msgid "Created by"
 msgstr "Utworzony przez"
 
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Creating transaction"
 msgstr "Tworzenie transakcji"
 
-#: public/views/create.html
-#: public/views/disclaimer.html
+#: src/js/services/onGoingProcess.js
 msgid "Creating Wallet..."
 msgstr "Tworzenie portfela..."
 
@@ -519,7 +535,10 @@ msgstr "Tworzenie portfela..."
 msgid "Current fee rate for this policy: {{fee.feePerKBUnit}}/kiB"
 msgstr "Obecna stawka prowizji dla tych ustawień: {{fee.feePerKBUnit}}/KiB"
 
-#: public/views/includes/tx-details.html
+#: public/views/translators.html
+msgid "Czech"
+msgstr "czeski"
+
 #: public/views/modals/tx-details.html
 msgid "Date"
 msgstr "Data"
@@ -537,8 +556,12 @@ msgid "Delete Payment Proposal"
 msgstr "Usuń wniosek wypłaty"
 
 #: public/views/preferences.html
-msgid "Delete seed words"
-msgstr "Usuń frazę odzyskiwania danych"
+msgid "Delete recovery phrase"
+msgstr "Usuń frazę odzyskiwania"
+
+#: public/views/preferencesDeleteWords.html
+msgid "Delete Recovery Phrase"
+msgstr "Usuń Frazę Odzyskiwania"
 
 #: public/views/preferencesDeleteWallet.html
 msgid "Delete wallet"
@@ -548,13 +571,9 @@ msgstr "Usuń portfel"
 msgid "Delete Wallet"
 msgstr "Usuń portfel"
 
-#: public/views/preferencesDeleteWords.html
-msgid "Delete words"
-msgstr "Usuń wyrazy"
-
-#: src/js/controllers/walletHome.js
-msgid "Deleting payment"
-msgstr "Usuń wypłatę"
+#: src/js/services/onGoingProcess.js
+msgid "Deleting Wallet..."
+msgstr "Usuwanie portfela..."
 
 #: public/views/create.html
 #: public/views/import.html
@@ -566,12 +585,15 @@ msgstr "Ścieżka derywacji"
 msgid "Derivation Strategy"
 msgstr "Strategia derywacji"
 
+#: public/views/modals/tx-details.html
+#: public/views/modals/txp-details.html
 #: public/views/walletHome.html
-msgid "Destination wallet needs backup"
-msgstr "Docelowy portfel wymaga kopii zapasowej"
+msgid "Description"
+msgstr "Opis"
 
-#: public/views/includes/tx-details.html
+#: public/views/modals/coinbase-tx-details.html
 #: public/views/modals/customized-amount.html
+#: public/views/modals/glidera-tx-details.html
 #: public/views/modals/paypro.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
@@ -586,11 +608,12 @@ msgstr "Wyłącz"
 msgid "Do not include private key"
 msgstr "Nie uwzględniaj klucza prywatnego"
 
+#: public/views/preferencesLanguage.html
 #: public/views/translators.html
 msgid "Don't see your language on Crowdin? Contact the Owner on Crowdin! We'd love to support your language."
 msgstr "Nie widzisz swojego języka na Crowdin? Skontaktuj się z właścicielem projektu, ponieważ bardzo chcielibyśmy, wspierać twój język."
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Done"
 msgstr "Gotowe"
 
@@ -602,25 +625,38 @@ msgstr "Pobierz"
 msgid "Economy"
 msgstr "Ekonomiczna"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Edit"
 msgstr "Edytuj"
 
-#: public/views/importLegacy.html
-msgid "Email"
-msgstr "Adres e-mail"
+#: public/views/includes/note.html
+#: public/views/modals/tx-details.html
+msgid "Edit comment"
+msgstr "Edytuj komentarz"
+
+#: public/views/modals/tx-details.html
+msgid "Edited by"
+msgstr "Edytowane przez"
 
 #: public/views/preferencesEmail.html
 msgid "Email for wallet notifications"
-msgstr "E-mail dla powiadomień portfela"
+msgstr "Adres e-mail dla powiadomień portfela"
 
 #: public/views/preferences.html
 msgid "Email Notifications"
 msgstr "Powiadomienia e-mail"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Empty addresses limit reached. New addresses cannot be generated."
 msgstr "Puste adresy osiągnęły limit. Nowe adresy nie mogą być generowane."
+
+#: public/views/preferencesGlobal.html
+msgid "Enable Coinbase Service"
+msgstr "Włącz usługę Coinbase"
+
+#: public/views/preferencesGlobal.html
+msgid "Enable Glidera Service"
+msgstr "Włącz usługę Glidera"
 
 #: public/views/preferencesGlobal.html
 msgid "Enable push notifications"
@@ -632,16 +668,16 @@ msgstr "Zaszyfrowany plik eksportu zapisany"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Enter the seed words (BIP39)"
-msgstr "Wprowadź słowa frazy (BIP39)"
+msgid "Enter the recovery phrase (BIP39)"
+msgstr "Wprowadź frazę odzyskiwania (BIP39)"
 
 #: public/views/backup.html
-msgid "Enter your passphrase"
-msgstr "Wprowadź hasło frazy"
-
-#: public/views/includes/password.html
 msgid "Enter your password"
 msgstr "Wprowadź hasło"
+
+#: public/views/includes/password.html
+msgid "Enter your spending password"
+msgstr "Wprowadź hasło w celu wypłaty"
 
 #: src/js/controllers/index.js
 msgid "Error at Wallet Service"
@@ -650,10 +686,6 @@ msgstr "Błąd na Wallet Service"
 #: src/js/services/profileService.js
 msgid "Error creating wallet"
 msgstr "Błąd podczas tworzenia portfela"
-
-#: src/js/services/profileService.js
-msgid "Error importing wallet:"
-msgstr "Błąd importowania portfela:"
 
 #: public/views/modals/txp-details.html
 msgid "Expired"
@@ -676,17 +708,21 @@ msgstr "Eksportuj do pliku"
 msgid "Export Wallet"
 msgstr "Eksport portfela"
 
+#: public/views/export.html
+msgid "Exporting via QR not supported for this wallet"
+msgstr "Dla tego portfela nie jest obsługiwany eksport przez QR"
+
 #: public/views/preferencesInformation.html
 msgid "Extended Public Keys"
 msgstr "Rozszerzone klucze publiczne"
 
+#: src/js/services/onGoingProcess.js
+msgid "Extracting Wallet Information..."
+msgstr "Wyodrębnianie danych z portfela..."
+
 #: public/views/export.html
 msgid "Failed to export"
 msgstr "Nie udało się wyeksportować"
-
-#: src/js/controllers/importLegacy.js
-msgid "Failed to import wallets"
-msgstr "Nie powiódł się import portfeli"
 
 #: public/views/backup.html
 msgid "Failed to verify backup. Please check your information"
@@ -697,30 +733,41 @@ msgid "Family vacation funds"
 msgstr "Fundusz wczasów rodzinnych"
 
 #: public/views/includes/confirm-tx.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Fee"
 msgstr "Prowizja"
 
-#. Get information of payment if using Payment Protocol
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Fetching Payment Information"
 msgstr "Pobieranie informacji o płatności"
 
+#: public/views/export.html
 #: public/views/import.html
-msgid "File/Text Backup"
-msgstr "Kopia zapasowa pliku/tekstu"
+msgid "File/Text"
+msgstr "Plik/Tekst"
+
+#: src/js/services/fingerprintService.js
+msgid "Finger Scan Failed"
+msgstr "Skanowanie odcisku nie powiodło się"
 
 #: public/views/backup.html
 msgid "Finish"
 msgstr "Zakończ"
 
+#: public/views/create.html
+msgid "For audit purposes"
+msgstr "Do celów audytu"
+
 #: public/views/translators.html
 msgid "French"
 msgstr "francuski"
 
-#: src/js/services/bwsError.js
+#: public/views/export.html
+msgid "From the destination device, go to Add wallet &gt; Import wallet and scan this QR code"
+msgstr "Z urządzenia docelowego, przejdź do Dodaj portfel &gt; Import portfela i Zeskanuj ten kod QR"
+
+#: src/js/services/bwcError.js
 msgid "Funds are locked by pending spend proposals"
 msgstr "Fundusze są zablokowane przez rozpatrywane wniosku wypłaty"
 
@@ -744,7 +791,7 @@ msgstr "Generuj nowy adres"
 msgid "Generate QR Code"
 msgstr "Generowanie kodu QR"
 
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Generating .csv file..."
 msgstr "Generowanie pliku csv..."
 
@@ -752,7 +799,7 @@ msgstr "Generowanie pliku csv..."
 msgid "German"
 msgstr "niemiecki"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Getting address for wallet {{selectedWalletName}} ..."
 msgstr "Otrzymywanie adresu dla portfela {{selectedWalletName}} ..."
 
@@ -765,10 +812,11 @@ msgid "Hardware wallet"
 msgstr "Portfel sprzętowy"
 
 #: public/views/import.html
-msgid "Have a Backup from Copay v0.9?"
-msgstr "Czy masz kopię zapasową z Copay v0.9?"
+msgid "Hardware Wallet"
+msgstr "Portfel sprzętowy"
 
 #: public/views/create.html
+#: public/views/export.html
 #: public/views/import.html
 #: public/views/join.html
 msgid "Hide advanced options"
@@ -783,7 +831,6 @@ msgid "I AGREE. GET STARTED"
 msgstr "ZGADZAM SIĘ. ZACZYNAMY"
 
 #: public/views/import.html
-#: public/views/importLegacy.html
 msgid "Import"
 msgstr "Importuj"
 
@@ -791,50 +838,40 @@ msgstr "Importuj"
 msgid "Import backup"
 msgstr "Importuj kopię zapasową"
 
-#: public/views/importLegacy.html
-msgid "Import from the Cloud?"
-msgstr "Importować z chmury?"
-
-#: public/views/import.html
-msgid "Import here"
-msgstr "Importuj tutaj"
-
 #: public/views/add.html
 msgid "Import wallet"
 msgstr "Importuj portfel"
 
-#: public/views/import.html
-msgid "Importing wallet..."
+#: src/js/services/onGoingProcess.js
+msgid "Importing Wallet..."
 msgstr "Importowanie portfela..."
-
-#: public/views/importLegacy.html
-msgid "Importing..."
-msgstr "Importowanie..."
 
 #: public/views/includes/terms.html
 msgid "In no event shall the authors of the software, employees and affiliates of Bitpay, copyright holders, or BitPay, Inc. be held liable for any claim, damages or other liability, whether in an action of contract, tort, or otherwise, arising from, out of or in connection with the software."
 msgstr "W żadnym wypadku autorzy oprogramowania, pracownicy i oddziały Bitpay, posiadacze praw autorskich, czy BitPay, Inc. nie ponoszą odpowiedzialności za wszelkie roszczenia, odszkodowania lub inne zobowiązania, zarówno wynikające z umowy, czynu niedozwolonego lub z innego tytułu, związanego z oprogramowaniem."
 
 #: public/views/backup.html
-msgid "In order to verify your wallet backup, please type your passphrase:"
+msgid "In order to verify your wallet backup, please type your password:"
 msgstr "W celu weryfikacji kopii zapasowej portfela wpisz swoje hasło:"
 
-#: public/views/export.html
-msgid "Include address book and history cache"
-msgstr "Dołącz książkę adresową i historię pamięci podręcznej"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Incorrect address network"
 msgstr "Nieprawidłowy adres sieciowy"
 
-#: src/js/services/bwsError.js
+#. Trying to import a malformed wallet export QR code
+#: src/js/controllers/import.js
+msgid "Incorrect code format"
+msgstr "Niepoprawny format kodu"
+
+#: src/js/services/bwcError.js
 msgid "Insufficient funds"
 msgstr "Nie ma wystarczającej ilości środków"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Insufficient funds for fee"
 msgstr "Niewystarczające środki na prowizję"
 
+#: public/views/modals/search.html
 #: public/views/walletHome.html
 msgid "Invalid"
 msgstr "Nieprawidłowy"
@@ -845,7 +882,7 @@ msgstr "Nieprawidłowy"
 msgid "Invalid account number"
 msgstr "Nieprawidłowy numer konta"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Invalid address"
 msgstr "Nieprawidłowy adres"
 
@@ -858,6 +895,10 @@ msgstr "Nieprawidłowa ścieżka derywacji"
 #: src/js/controllers/copayers.js
 msgid "Invitation to share a Copay Wallet"
 msgstr "Zaproszenie do współdzielenia portfela Copay"
+
+#: public/views/translators.html
+msgid "Italian"
+msgstr "włoski"
 
 #: public/views/translators.html
 msgid "Japanese"
@@ -880,15 +921,15 @@ msgstr "Dołącz do mojego portfela Copay. Kod zaproszenia: {{secret}} Wersję d
 msgid "Join shared wallet"
 msgstr "Dołącz do portfela"
 
-#: public/views/join.html
+#: src/js/services/onGoingProcess.js
 msgid "Joining Wallet..."
 msgstr "Dołączanie do portfela..."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Key already associated with an existing wallet"
 msgstr "Klucz jest już powiązany z istniejącym portfelem"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Label"
 msgstr "Etykieta"
 
@@ -904,10 +945,6 @@ msgstr "Ostatnie adresy portfela"
 msgid "Learn more about Copay backups"
 msgstr "Dowiedz się więcej o kopiach zapasowych Copay"
 
-#: public/views/importLegacy.html
-msgid "Learn more about Wallet Migration"
-msgstr "Więcej informacji na temat migracji portfela"
-
 #: public/views/preferencesFee.html
 msgid "Loading..."
 msgstr "Ładowanie..."
@@ -916,11 +953,11 @@ msgstr "Ładowanie..."
 msgid "locked by pending payments"
 msgstr "zablokowane przez oczekujące wypłaty"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Locktime in effect. Please wait to create a new spend proposal"
 msgstr "Skuteczna blokada. Proszę czekać, aby utworzyć nowy wniosek wypłaty"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Locktime in effect. Please wait to remove this spend proposal"
 msgstr "Skuteczna blokada. Proszę czekać, aby usunąć wniosek wypłaty"
 
@@ -936,11 +973,10 @@ msgstr "Dopasowania:"
 msgid "me"
 msgstr "ja"
 
-#: public/views/preferencesInformation.html
 #: public/views/includes/copayers.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
+#: public/views/preferencesInformation.html
 msgid "Me"
 msgstr "Ja"
 
@@ -948,7 +984,6 @@ msgstr "Ja"
 msgid "Memo"
 msgstr "Notatka"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Merchant message"
 msgstr "Wiadomość handlowa"
@@ -957,13 +992,17 @@ msgstr "Wiadomość handlowa"
 msgid "Message"
 msgstr "Wiadomość"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
+msgid "Missing parameter"
+msgstr "Brak parametru"
+
+#: src/js/services/bwcError.js
 msgid "Missing private keys to sign"
 msgstr "Brak kluczy prywatnych do podpisania"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Moved"
 msgstr "Przeniesiony"
 
@@ -976,11 +1015,11 @@ msgstr "Wielu odbiorców"
 msgid "My Bitcoin address"
 msgstr "Mój adres Bitcoin"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "My contacts"
 msgstr "Moje kontakty"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "My wallets"
 msgstr "Moje portfele"
 
@@ -992,7 +1031,7 @@ msgstr "Musisz zrobić kopię zapasową"
 msgid "Network"
 msgstr "Sieć"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Network connection error"
 msgstr "Błąd połączenia z siecią"
 
@@ -1002,8 +1041,8 @@ msgstr "Nowy wniosek wypłaty"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "New Random Seed"
-msgstr "Nowa losowa fraza"
+msgid "New Random Recovery Phrase"
+msgstr "Nowa losowa fraza odzyskiwania"
 
 #: public/views/import.html
 msgid "No hardware wallets supported on this device"
@@ -1017,7 +1056,7 @@ msgstr "Brak transakcji"
 msgid "Normal"
 msgstr "Zwykła"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Not authorized"
 msgstr "Brak autoryzacji"
 
@@ -1026,35 +1065,51 @@ msgid "Not completed"
 msgstr "Nie ukończono"
 
 #: src/js/controllers/walletHome.js
-msgid "Not enought funds for fee"
+msgid "Not enough funds for fee"
 msgstr "Brak środków na opłacenie prowizji"
 
-#: public/views/walletHome.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
+#: public/views/walletHome.html
 msgid "Not valid"
 msgstr "Nieprawidłowy"
 
-#: public/views/walletHome.html
 #: public/views/includes/output.html
-#: public/views/includes/tx-details.html
-#: public/views/modals/tx-details.html
-#: public/views/modals/txp-details.html
 msgid "Note"
 msgstr "Notatka"
+
+#: src/js/controllers/walletHome.js
+msgid "Note: a total of {{amountAboveMaxSizeStr}} were excluded. The maximum size allowed for a transaction was exceeded"
+msgstr "Uwaga: łącznie kwota {{amountAboveMaxSizeStr}} została wyłączona. Został przekroczony maksymalny rozmiar dozwolony dla transakcji"
+
+#: src/js/controllers/walletHome.js
+msgid "Note: a total of {{amountBelowFeeStr}} were excluded. These funds come from UTXOs smaller than the network fee provided."
+msgstr "Uwaga: łącznie kwota {{amountBelowFeeStr}} została wyłączona. Fundusze te pochodzą z UTXOs mniejszych niż gwarantowana prowizja sieci."
+
+#: public/views/import.html
+msgid "NOTE: To import a wallet from a 3rd party software, please go to Add Wallet &gt; Create Wallet, and specify the Recovery Phrase there."
+msgstr "Uwaga: Aby zaimportować portfel z oprogramowania innego niż Copay, przejdź do Dodaj Portfel &gt; Utwórz Portfel, i podaj tam frazę odzyskiwania."
 
 #: public/views/disclaimer.html
 #: public/views/termOfUse.html
 msgid "Official English Disclaimer"
 msgstr "Oficjalna rezygnacja w języku angielskim"
 
+#: public/views/modals/tx-status.html
+msgid "OKAY"
+msgstr "W PORZĄDKU"
+
 #: public/views/preferencesDeleteWords.html
-msgid "Once you have copied your wallet seed down, it is recommended to delete it from this device."
-msgstr "Po skopiowaniu frazy zabezpieczającej portfel, zaleca się usunięcie jej z urządzenia."
+msgid "Once you have copied your wallet recovery phrase down, it is recommended to delete it from this device."
+msgstr "Po skopiowaniu frazy odzyskiwania portfela, zaleca się usunięcie jej z urządzenia."
 
 #: public/views/preferencesInformation.html
 msgid "Only Main (not change) addresses are shown. The addresses on this list were not verified locally at this time."
 msgstr "Wyświetlane są tylko główne (niezmienne) adresy. Adresy na tej liście nie zostały w tej chwili zweryfikowane lokalnie."
+
+#: public/views/preferencesGlobal.html
+msgid "Open Settings app"
+msgstr "Otwórz ustawienia aplikacji"
 
 #: public/views/walletHome.html
 msgid "optional"
@@ -1064,29 +1119,25 @@ msgstr "opcjonalnie"
 msgid "Paper Wallet Private Key"
 msgstr "Klucz prywatny portfela papierowego"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Participants"
 msgstr "Uczestnicy"
 
-#: public/views/import.html
 #: public/views/paperWallet.html
 msgid "Passphrase"
 msgstr "Hasło"
 
+#: public/views/create.html
 #: public/views/import.html
-#: public/views/importLegacy.html
+#: public/views/join.html
+#: public/views/paperWallet.html
 msgid "Password"
 msgstr "Hasło"
 
-#: src/js/services/profileService.js
-msgid "Password needed"
-msgstr "Potrzebne hasło"
-
-#: src/js/controllers/password.js
-msgid "Passwords do not match"
-msgstr "Hasła nie są takie same"
+#: src/js/controllers/import.js
+msgid "Password required. Make sure to enter your password in advanced options"
+msgstr "Wymagane hasło. Upewnij się, aby wprowadzić hasło w opcjach zaawansowanych"
 
 #: public/views/join.html
 msgid "Paste invitation here"
@@ -1191,40 +1242,51 @@ msgstr "Trwale usuń ten portfel. TEN KROK JEST NIEODWRACALNY"
 msgid "Personal Wallet"
 msgstr "Portfel osobisty"
 
-#: public/views/create.html
-#: public/views/join.html
-msgid "Please accept to export two public keys from the Trezor app"
-msgstr "Proszę zaakceptować eksport dwóch kluczy publicznych z aplikacji Trezor"
+#: src/js/controllers/import.js
+msgid "Please enter the recovery phrase"
+msgstr "Wpisz frazę odzyskiwania"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
 msgid "Please enter the required fields"
 msgstr "Proszę wypełnić wymagane pola"
 
-#: src/js/controllers/import.js
-msgid "Please enter the seed words"
-msgstr "Proszę wpisać słowa frazy"
-
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "Please enter the wallet seed"
-msgstr "Proszę wpisać frazę odzyskiwania danych portfela"
+msgid "Please enter the wallet recovery phrase"
+msgstr "Wpisz frazę odzyskiwania portfela"
 
 #: public/views/backup.html
 msgid "Please tap the words in order to confirm your backup phrase is correctly written."
-msgstr "Proszę wybrać słowa w celu potwierdzenia poprawności frazy odzyskiwania danych."
+msgstr "Proszę wybrać słowa w celu potwierdzenia poprawności frazy odzyskiwania."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Please upgrade Copay to perform this action"
 msgstr "Proszę uaktualnić Copay, by móc wykonać tę operację"
+
+#: public/views/uri.html
+msgid "Please wait to be redirected..."
+msgstr "Proszę czekać na przekierowanie..."
 
 #: src/js/controllers/import.js
 msgid "Please, select your backup file"
 msgstr "Proszę wybrać plik kopii zapasowej"
 
+#: public/views/translators.html
+msgid "Polish"
+msgstr "polski"
+
+#: public/views/paperWallet.html
+msgid "Preferences"
+msgstr "Ustawienia"
+
 #: src/js/controllers/export.js
 msgid "Preparing backup..."
 msgstr "Przygotowywanie kopii zapasowej..."
+
+#: public/views/preferencesHistory.html
+msgid "preparing..."
+msgstr "Przygotowywanie..."
 
 #: src/js/routes.js
 msgid "Press again to exit"
@@ -1234,10 +1296,15 @@ msgstr "Naciśnij ponownie, aby wyjść"
 msgid "Priority"
 msgstr "Priorytetowa"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Private key is encrypted, cannot sign"
 msgstr "Klucz prywatny jest zaszyfrowany, nie można podpisać"
 
+#: public/views/preferencesGlobal.html
+msgid "Push notifications for Copay are currently disabled. Enable them in the Settings app."
+msgstr "Powiadomienia Copay są obecnie wyłączone. Włącz je w ustawieniach aplikacji."
+
+#: public/views/export.html
 #: public/views/modals/customized-amount.html
 msgid "QR Code"
 msgstr "Kod QR"
@@ -1250,27 +1317,30 @@ msgstr "Skaner kodów QR"
 msgid "Receive"
 msgstr "Otrzymaj"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Received"
 msgstr "Otrzymane"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Recipients"
 msgstr "Odbiorcy"
 
-#: public/views/walletHome.html
-msgid "Reconnecting to Wallet Service..."
-msgstr "Ponowne łączenie z Wallet Service..."
+#: public/views/import.html
+msgid "Recovery Phrase"
+msgstr "Fraza odzyskiwania"
+
+#: src/js/controllers/preferencesDeleteWords.js
+msgid "Recovery phrase deleted"
+msgstr "Fraza odzyskiwania usunięta"
 
 #: public/views/walletHome.html
 msgid "Recreate"
 msgstr "Przywróć"
 
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Recreating Wallet..."
 msgstr "Przywracanie portfela..."
 
@@ -1278,39 +1348,34 @@ msgstr "Przywracanie portfela..."
 msgid "Reject"
 msgstr "Odrzuć"
 
-#: src/js/controllers/walletHome.js
-msgid "Rejecting payment"
-msgstr "Odrzucanie płatności"
-
 #: public/views/preferencesAbout.html
 msgid "Release Information"
 msgstr "Informacje o wersji"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Remove"
 msgstr "Usuń"
 
 #: public/views/export.html
-#: public/views/includes/password.html
 msgid "Repeat password"
 msgstr "Powtórz hasło"
 
-#: public/views/walletHome.html
+#: public/views/export.html
+msgid "Repeat the password"
+msgstr "Powtórz hasło"
+
+#: public/views/includes/password.html
+msgid "Repeat the spending password"
+msgstr "Powtórz hasło wypłat"
+
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Request a specific amount"
 msgstr "Prośba o konkretną kwotę"
 
 #: public/views/preferences.html
-msgid "Request Password"
-msgstr "Wymagane hasło"
-
-#: src/js/services/txService.js
-msgid "Requesting Ledger Wallet to sign"
-msgstr "Prośba Ledger Wallet o podpis"
-
-#: src/js/services/txService.js
-msgid "Requesting Trezor Wallet to sign"
-msgstr "Wniosek Trezor Wallet o podpis"
+msgid "Request Spending Password"
+msgstr "Wymaganie Hasła Wypłat"
 
 #: public/views/join.html
 msgid "Required"
@@ -1320,20 +1385,21 @@ msgstr "Wymagania"
 msgid "Required number of signatures"
 msgstr "Wymagana liczba podpisów"
 
+#: src/js/services/onGoingProcess.js
+msgid "Retrieving inputs information"
+msgstr "Pobieranie informacji o danych wejściowych"
+
 #: public/views/translators.html
 msgid "Russian"
 msgstr "rosyjski"
 
+#: public/views/includes/note.html
+#: public/views/modals/addressbook.html
 #: public/views/preferencesAlias.html
 #: public/views/preferencesBwsUrl.html
 #: public/views/preferencesEmail.html
-#: public/views/modals/destination-address.html
 msgid "Save"
 msgstr "Zapisz"
-
-#: public/views/preferencesEmail.html
-msgid "Saving preferences..."
-msgstr "Zapisywanie ustawień..."
 
 #: public/views/preferencesInformation.html
 msgid "Scan addresses for funds"
@@ -1355,39 +1421,29 @@ msgstr "Stan skanowania zakończony błędem"
 msgid "Scan Wallet Funds"
 msgstr "Skanuj środki portfela"
 
-#: src/js/services/txService.js
+#: src/js/services/fingerprintService.js
 msgid "Scan your fingerprint please"
 msgstr "Proszę zeskanować linie papilarne"
 
-#: public/views/paperWallet.html
-msgid "Scanning wallet funds..."
-msgstr "Skanowanie środków portfela..."
-
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Scanning Wallet funds..."
 msgstr "Skanowanie środków portfela..."
 
-#: public/views/walletHome.html
+#: public/views/modals/search.html
 msgid "Search transactions"
+msgstr "Szukaj transakcji"
+
+#: public/views/modals/search.html
+msgid "Search Transactions"
 msgstr "Szukaj transakcji"
 
 #: public/views/preferences.html
 msgid "Security preferences"
 msgstr "Ustawienia zabezpieczeń"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "See it on the blockchain"
-msgstr "Zobacz to w blockchainie"
-
-#: public/views/import.html
-msgid "Seed passphrase"
-msgstr "Hasło frazy odzyskiwania danych"
-
-#: public/views/create.html
-#: public/views/join.html
-msgid "Seed Passphrase"
-msgstr "Hasło frazy odzyskiwania danych"
+msgstr "Zobacz w blockchainie"
 
 #: public/views/import.html
 msgid "Select a backup file"
@@ -1410,39 +1466,35 @@ msgstr "Wyślij"
 msgid "Send addresses by email"
 msgstr "Wyślij adresy przez e-mail"
 
-#: public/views/walletHome.html
-msgid "Send All"
-msgstr "Wyślij wszystko"
+#: public/views/includes/confirm-tx.html
+msgid "Send bitcoin"
+msgstr "Wyślij bitcoiny"
 
 #: public/views/export.html
 #: public/views/preferencesLogs.html
 msgid "Send by email"
 msgstr "Wyślij przez e-mail"
 
+#: public/views/walletHome.html
+msgid "Send Max"
+msgstr "Wyślij wszystko"
+
 #: public/views/includes/transaction.html
 msgid "Sending"
 msgstr "Wysyłanie"
 
-#: public/views/paperWallet.html
-msgid "Sending funds..."
-msgstr "Wysyłanie środków..."
-
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Sending transaction"
 msgstr "Wysyłanie transakcji"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/tx-status.html
+#: public/views/walletHome.html
 msgid "Sent"
 msgstr "Wysłane"
 
-#: public/views/importLegacy.html
-msgid "Server"
-msgstr "Serwer"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Server response could not be verified"
 msgstr "Odpowiedź serwera nie mogła zostać zweryfikowana"
 
@@ -1458,25 +1510,24 @@ msgstr "ZATWIERDŹ"
 msgid "Set default url"
 msgstr "Ustaw domyślny adres url"
 
-#: public/views/includes/password.html
+#: public/views/export.html
 msgid "Set up a password"
 msgstr "Ustawianie hasła"
 
-#: public/views/export.html
-msgid "Set up an Export Password"
-msgstr "Ustawianie hasła eksportu"
+#: public/views/includes/password.html
+msgid "Set up a spending password"
+msgstr "Wprowadź hasło w celu wypłaty"
 
 #: public/views/preferencesEmail.html
 msgid "Setting up email notifications could weaken your privacy, if the wallet service provider is compromised. Information available to an attacker would include your wallet addresses and its balance, but no more."
 msgstr "Włączenie powiadomień e-mail może mieć wpływ na twoją prywatność, jeżeli usługodawca portfela będzie narażony na ataki cyberprzestępców. Informacje dostępne dla atakującego będą zawierać jedynie adres twojego portfela i saldo."
 
-#: public/views/walletHome.html
 #: public/views/includes/sidebar.html
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: public/views/walletHome.html
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Share address"
 msgstr "Udostępnij adres"
 
@@ -1489,6 +1540,10 @@ msgid "Share this invitation with your copayers"
 msgstr "Wyślij zaproszenie współwłaścicielom portfela"
 
 #: public/views/walletHome.html
+msgid "Share this wallet address to receive payments"
+msgstr "Udostępnij ten adres portfela w celu otrzymania płatności"
+
+#: public/views/walletHome.html
 msgid "Share this wallet address to receive payments. To protect your privacy, new addresses are generated automatically once you use them."
 msgstr "Udostępnij ten adres w celu otrzymania płatności. Aby chronić twoją prywatność nowe adresy są generowane automatycznie po ich użyciu."
 
@@ -1498,26 +1553,23 @@ msgid "Shared Wallet"
 msgstr "Współdzielony portfel"
 
 #: public/views/create.html
+#: public/views/export.html
 #: public/views/import.html
 #: public/views/join.html
 msgid "Show advanced options"
 msgstr "Pokaż opcje zaawansowane"
 
-#: public/views/walletHome.html
-msgid "Show more"
-msgstr "Pokaż więcej"
-
-#: public/views/backup.html
-msgid "Show Wallet Seed"
-msgstr "Pokaż frazę odzyskiwania danych portfela"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Signatures rejected by server"
 msgstr "Podpisy odrzucone przez serwer"
 
-#: src/js/services/txService.js
-msgid "Signing payment"
-msgstr "Sygnuj wypłatę"
+#: src/js/services/onGoingProcess.js
+msgid "Signing transaction"
+msgstr "Podpisywanie transakcji"
+
+#: public/views/create.html
+msgid "Single Address Wallet"
+msgstr "Pojedynczy adres portfela"
 
 #: public/views/translators.html
 msgid "Spanish"
@@ -1525,16 +1577,24 @@ msgstr "hiszpański"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "Specify Seed..."
-msgstr "Określanie frazy..."
+msgid "Specify Recovery Phrase..."
+msgstr "Określ Frazę Odzyskiwania..."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Spend proposal is not accepted"
 msgstr "Wniosek wypłaty nie został przyjęty"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Spend proposal not found"
 msgstr "Wniosek wypłaty nie został znaleziony"
+
+#: src/js/services/bwcError.js
+msgid "Spending Password needed"
+msgstr "Wymagane Hasło Wypłat"
+
+#: src/js/controllers/index.js
+msgid "Spending Passwords do not match"
+msgstr "Podane hasła różnią się"
 
 #: src/js/controllers/copayers.js
 #: src/js/controllers/export.js
@@ -1543,6 +1603,10 @@ msgstr "Wniosek wypłaty nie został znaleziony"
 msgid "Success"
 msgstr "Udało się"
 
+#: src/js/services/feeService.js
+msgid "Super Economy"
+msgstr "Super Ekonomiczna"
+
 #: public/views/preferencesAdvanced.html
 msgid "Sweep paper wallet"
 msgstr "Wyczyść papierowy portfel"
@@ -1550,6 +1614,14 @@ msgstr "Wyczyść papierowy portfel"
 #: public/views/paperWallet.html
 msgid "Sweep Wallet"
 msgstr "Wyczyść portfel"
+
+#: src/js/services/onGoingProcess.js
+msgid "Sweeping Wallet..."
+msgstr "Sczytywanie portfela..."
+
+#: public/views/walletHome.html
+msgid "Tap and hold to show"
+msgstr "Dotknij i przytrzymaj, aby pokazać"
 
 #: public/views/walletHome.html
 msgid "Tap to retry"
@@ -1564,9 +1636,17 @@ msgstr "Warunki użytkowania"
 msgid "The authors of the software, employees and affiliates of Bitpay, copyright holders, and BitPay, Inc. cannot retrieve your private keys or passwords if you lose or forget them and cannot guarantee transaction confirmation as they do not have control over the Bitcoin network."
 msgstr "Autorzy oprogramowania, pracownicy i asystenci Bitpay, posiadacze praw autorskich i BitPay Inc. nie mogą odzyskać kluczy prywatnych lub haseł w wypadku ich utraty i nie mogą zagwarantować potwierdzenia transakcji, ponieważ nie mają kontroli nad siecią Bitcoin."
 
+#: public/views/import.html
+msgid "The derivation path"
+msgstr "Ścieżka derywacji"
+
 #: src/js/services/ledger.js
 msgid "The Ledger Chrome application is not installed"
 msgstr "Aplikacja Ledger Chrome nie jest zainstalowana"
+
+#: public/views/import.html
+msgid "The password of the recovery phrase (if set)"
+msgstr "Hasło odzyskiwania frazy (jeśli ustawione)"
 
 #: src/js/controllers/walletHome.js
 msgid "The payment was created but could not be completed. Please try again from home screen"
@@ -1576,18 +1656,14 @@ msgstr "Wypłata została utworzona, ale nie może być zakończona. Spróbuj po
 msgid "The payment was removed by creator"
 msgstr "Wypłata została usunięta przez jej twórcę"
 
-#: public/views/export.html
-msgid "The private key for this wallet is encrypted. Exporting keep the private key encrypted in the export archive."
-msgstr "Klucz prywatny tego portfela jest zaszyfrowany i będzie zaszyfrowany w eksportowanym pliku."
-
-#: src/js/services/bwsError.js
-msgid "The request could not be understood by the server"
-msgstr "Wniosek nie został zrozumiany przez serwer"
-
 #: public/views/create.html
 #: public/views/join.html
-msgid "The seed could require a passphrase to be imported"
-msgstr "Fraza odzyskiwania danych może wymagać hasła do zaimportowania"
+msgid "The recovery phrase could require a password to be imported"
+msgstr "Fraza odzyskiwania może wymagać hasła do zaimportowania"
+
+#: src/js/services/bwcError.js
+msgid "The request could not be understood by the server"
+msgstr "Wniosek nie został zrozumiany przez serwer"
 
 #: public/views/includes/terms.html
 msgid "The software does not constitute an account where BitPay or other third parties serve as financial intermediaries or custodians of your bitcoin."
@@ -1597,7 +1673,7 @@ msgstr "Oprogramowanie nie jest kontem, gdzie BitPay lub inne osoby trzecie mog�
 msgid "The software you are about to use functions as a free, open source, and multi-signature digital wallet."
 msgstr "Oprogramowanie to jest darmowym, open source, obsługującym multipodpisy cyfrowym portfelem."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "The spend proposal is not pending"
 msgstr "Wniosek płatności nie jest oczekujący"
 
@@ -1606,19 +1682,30 @@ msgstr "Wniosek płatności nie jest oczekujący"
 msgid "The wallet \"{{walletName}}\" was deleted"
 msgstr "Portfel \"{{walletName}}\" został usunięty"
 
+#: public/views/import.html
+msgid "The Wallet Recovery Phrase could require a password to be imported"
+msgstr "Fraza odzyskiwania portfela może wymagać hasła do zaimportowania"
+
+#: public/views/import.html
+msgid "The wallet service URL"
+msgstr "Adres URL usługi Portfel"
+
 #: public/views/paymentUri.html
 msgid "There are no wallets to make this payment"
 msgstr "Brak portfela, aby dokonać tej wypłaty"
+
+#: src/js/controllers/index.js
+msgid "There is a new version of Copay. Please update"
+msgstr "Jest dostępna nowa wersja Copay. Proszę zaktualizować"
 
 #: src/js/controllers/import.js
 msgid "There is an error in the form"
 msgstr "Wystąpił błąd w postaci"
 
 #: public/views/backup.html
-msgid "This seed was created with a passphrase. To recover this wallet both the mnemonic and passphrase are needed."
-msgstr "Ta fraza odzyskiwania danych został utworzona z hasłem. Aby odzyskać ten portfel potrzebujesz zarówno frazy jak i hasła."
+msgid "This recovery phrase was created with a password. To recover this wallet both the recovery phrase and password are needed."
+msgstr "Ta fraza odzyskiwania został utworzona przy użyciu hasła. Aby odzyskać ten portfel potrzebna jest fraza odzyskiwania i hasło."
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "This transaction has become invalid; possibly due to a double spend attempt."
 msgstr "Ta transakcja jest nieprawidłowa. Może to być spowodowane próbą podwójnej płatności."
@@ -1631,11 +1718,10 @@ msgstr "Ten portfel nie jest zarejestrowany na Bitcore Wallet Service (BWS). Mo�
 msgid "Time"
 msgstr "Czas"
 
-#: public/views/walletHome.html
 #: public/views/includes/output.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
+#: public/views/walletHome.html
 msgid "To"
 msgstr "Do"
 
@@ -1659,22 +1745,21 @@ msgstr "Łącznie zablokowane środki"
 msgid "Total number of copayers"
 msgstr "Liczba współwłaścicieli portfela"
 
-#: src/js/services/txService.js
+#: src/js/services/fingerprintService.js
 msgid "Touch ID Failed"
 msgstr "Odczyt Touch ID nie powiódł się"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Transaction"
 msgstr "Transakcja"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Transaction already broadcasted"
 msgstr "Transakcja została już wysłana"
 
 #: public/views/preferencesAdvanced.html
 msgid "Transaction History"
-msgstr "Historia Transakcji"
+msgstr "Historia transakcji"
 
 #: public/views/translators.html
 msgid "Translation Credits"
@@ -1689,16 +1774,12 @@ msgid "Try again"
 msgstr "Spróbuj ponownie"
 
 #: public/views/import.html
-msgid "Type the Seed Phrase (usually 12 words)"
-msgstr "Wpisz frazę odzyskiwania danych (zwykle 12 słów)"
+msgid "Type the Recovery Phrase (usually 12 words)"
+msgstr "Wpisz frazę odzyskiwania (zazwyczaj 12 słów)"
 
-#: src/js/controllers/walletHome.js
-msgid "Unable to send transaction proposal"
-msgstr "Nie można wysłać wniosku transakcji"
-
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Unconfirmed"
 msgstr "Niepotwierdzone"
 
@@ -1722,9 +1803,13 @@ msgstr "Aktualizowanie portfela..."
 msgid "Use Unconfirmed Funds"
 msgstr "Użyj niepotwierdzonych środków"
 
-#: public/views/importLegacy.html
-msgid "Username"
-msgstr "Nazwa użytkownika"
+#: src/js/services/onGoingProcess.js
+msgid "Validating recovery phrase..."
+msgstr "Sprawdzanie poprawności frazy odzyskiwania..."
+
+#: src/js/services/onGoingProcess.js
+msgid "Validating wallet integrity..."
+msgstr "Sprawdzanie integralności portfela..."
 
 #: public/views/preferencesAbout.html
 msgid "Version"
@@ -1738,21 +1823,25 @@ msgstr "Widok"
 msgid "Waiting for copayers"
 msgstr "Oczekiwanie na współwłaścicieli portfela"
 
+#: src/js/services/onGoingProcess.js
+msgid "Waiting for Ledger..."
+msgstr "Oczekiwanie na Ledger..."
+
+#: src/js/services/onGoingProcess.js
+msgid "Waiting for Trezor..."
+msgstr "Oczekiwanie na Trezor..."
+
 #: public/views/copayers.html
 msgid "Waiting..."
 msgstr "Oczekiwanie..."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet already exists"
 msgstr "Portfel już istnieje"
 
 #: src/js/services/profileService.js
-msgid "Wallet Already Imported:"
-msgstr "Portfel już zaimportowany:"
-
-#: src/js/services/profileService.js
-msgid "Wallet already in Copay:"
-msgstr "Portfel już w Copay:"
+msgid "Wallet already in Copay"
+msgstr "Portfel jest już w Copay"
 
 #: public/views/preferencesInformation.html
 msgid "Wallet Configuration (m-n)"
@@ -1783,15 +1872,15 @@ msgstr "Zaproszenie do portfela"
 msgid "Wallet Invitation is not valid!"
 msgstr "Zaproszenie do portfela jest nieważne!"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is full"
 msgstr "Portfel jest pełny"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is locked"
 msgstr "Portfel jest zablokowany"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is not complete"
 msgstr "Portfel jest niekompletny"
 
@@ -1803,40 +1892,48 @@ msgstr "Nazwa portfela"
 msgid "Wallet Name (at creation)"
 msgstr "Nazwa portfela (oryginalna)"
 
+#: src/js/services/bwcError.js
+msgid "Wallet needs backup"
+msgstr "Portfel wymaga kopii zapasowej"
+
 #: public/views/preferencesInformation.html
 msgid "Wallet Network"
 msgstr "Sieć portfela"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet not found"
 msgstr "Nie znaleziono portfela"
 
-#: src/js/services/bwsError.js
-msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your seed"
-msgstr "Portfel nie jest zarejestrowany w Wallet Service. Odtwórz go używając polecenia \"Utwórz portfel\" z wykorzystaniem frazy odzyskiwania danych w ustawieniach zaawansowanych"
+#: src/js/services/bwcError.js
+msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your recovery phrase"
+msgstr "Portfel nie jest zarejestrowany w Wallet Service. Odtwórz go używając polecenia \"Utwórz portfel\" z wykorzystaniem frazy odzyskiwania w ustawieniach zaawansowanych"
+
+#: src/js/controllers/index.js
+msgid "Wallet Preferences"
+msgstr "Preferencje Portfela"
 
 #: public/views/create.html
 #: public/views/import.html
 #: public/views/join.html
-msgid "Wallet Seed"
-msgstr "Fraza odzyskiwania danych portfela"
+msgid "Wallet Recovery Phrase"
+msgstr "Fraza Odzyskiwania Portfela"
 
-#: public/views/import.html
-msgid "Wallet Seed could require a passphrase to be imported"
-msgstr "Import frazy odzyskiwania danych portfela może wymagać hasła"
-
-#: src/js/services/bwsError.js
-msgid "Wallet seed is invalid"
-msgstr "Fraza odzyskiwania danych portfela nieprawidłowa"
+#: src/js/services/bwcError.js
+msgid "Wallet Recovery Phrase is invalid"
+msgstr "Fraza odzyskiwania portfela nieprawidłowa"
 
 #: public/views/backup.html
 #: public/views/preferencesDeleteWords.html
-msgid "Wallet seed not available. You can still export it from Advanced &gt; Export."
-msgstr "Fraza odzyskiwania danych portfela niedostępna. Nadal można go wyeksportować w: Zaawansowane &gt; Eksport portfela."
+msgid "Wallet recovery phrase not available. You can still export it from Advanced &gt; Export."
+msgstr "Fraza odzyskiwania portfela niedostępna. Nadal można go wyeksportować w: Zaawansowane &gt; Eksport portfela."
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet service not found"
 msgstr "Nie znaleziono serwera"
+
+#: public/views/walletHome.html
+msgid "WARNING: Key derivation is not working on this device/wallet. Actions cannot be performed on this wallet."
+msgstr "Ostrzeżenie: klucz derywacji nie działa na tym urządzeniu/portfel. Działania dla tego portfela nie można wykonać."
 
 #: public/views/export.html
 msgid "WARNING: Not including the private key allows to check the wallet balance, transaction history, and create spend proposals from the export. However, does not allow to approve (sign) proposals, so <b>funds will not be accessible from the export</b>."
@@ -1844,8 +1941,8 @@ msgstr "UWAGA: Jeśli plik eksportu nie zawiera klucza prywatnego, możliwe będ
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "WARNING: Passphrase cannot be recovered. <b>Be sure to write it down</b>. The wallet can not be restored without the passphrase."
-msgstr "OSTRZEŻENIE: Hasła nie można odzyskać. <b> Pamiętaj, aby je zapisać </b>. Portfela nie można przywrócić bez hasła."
+msgid "WARNING: The password cannot be recovered. <b>Be sure to write it down</b>. The wallet can not be restored without the password."
+msgstr "OSTRZEŻENIE: Hasła nie można odzyskać. <b>Pamiętaj, aby je zapisać</b>. Portfela nie można przywrócić bez hasła."
 
 #: public/views/export.html
 msgid "WARNING: The private key of this wallet is not available. The export allows to check the wallet balance, transaction history, and create spend proposals from the export. However, does not allow to approve (sign) proposals, so <b>funds will not be accessible from the export</b>."
@@ -1881,16 +1978,16 @@ msgid "While the software has undergone beta testing and continues to be improve
 msgstr "Dopóki oprogramowanie jest w fazie testów i nadal, dzięki informacjom od użytkowników i społeczności programistów, dokonywane są poprawki, nie możemy zagwarantować, że będzie ono wolne od błędów."
 
 #: public/views/backup.html
-msgid "Write your wallet seed"
-msgstr "Zapisz frazę odzyskiwania danych portfela"
+msgid "Write your wallet recovery phrase"
+msgstr "Wpisz swoją frazę odzyskiwania portfela"
 
 #: src/js/controllers/import.js
-msgid "Wrong number of seed words:"
+msgid "Wrong number of recovery words:"
 msgstr "Nieprawidłowa ilość słów frazy:"
 
-#: src/js/services/profileService.js
-msgid "Wrong password"
-msgstr "Nieprawidłowe hasło"
+#: src/js/services/bwcError.js
+msgid "Wrong spending password"
+msgstr "Nieprawidłowe hasło wypłat"
 
 #: public/views/modals/confirmation.html
 msgid "Yes"
@@ -1917,43 +2014,36 @@ msgid "You can safely install your wallet on another device and use it from mult
 msgstr "Możesz bezpiecznie zainstalować swój portfel na innym urządzeniu i używać go z wieloma urządzeniami jednocześnie."
 
 #: public/views/walletHome.html
-msgid "You do not have a wallet"
-msgstr "Nie masz portfela"
+msgid "You do not have any wallet"
+msgstr "Nie masz żadnego portfela"
 
 #: public/views/backup.html
-msgid "You need the wallet seed to restore this personal wallet. Write it down and keep them somewhere safe."
-msgstr "Potrzebujesz tę frazę odzyskiwania danych, aby móc odtworzyć portfel. Zapisz ją i przechowuj w bezpiecznym miejscu."
-
-#: public/views/import.html
-msgid "Your backup password"
-msgstr "Hasło kopii zapasowej"
-
-#: public/views/export.html
-msgid "Your export password"
-msgstr "Hasło eksportu"
+msgid "You need the wallet recovery phrase to restore this personal wallet. Write it down and keep them somewhere safe."
+msgstr "Potrzebujesz frazę odzyskiwania, aby móc odtworzyć ten portfel. Zapisz ją i przechowuj w bezpiecznym miejscu."
 
 #: public/views/create.html
 #: public/views/join.html
 msgid "Your nickname"
 msgstr "Twój nick"
 
-#: public/views/includes/password.html
+#: public/views/export.html
+#: public/views/import.html
 msgid "Your password"
 msgstr "Twoje hasło"
 
-#: public/views/importLegacy.html
-msgid "Your profile password"
-msgstr "Twoje hasło profilowe"
+#: public/views/includes/password.html
+msgid "Your spending password"
+msgstr "Twoje hasło wypłat"
 
 #: src/js/controllers/import.js
 msgid "Your wallet has been imported correctly"
 msgstr "Twój portfel został zaimportowany poprawnie"
 
 #: public/views/includes/password.html
-msgid "Your wallet key will be encrypted. Password cannot be recovered. Be sure to write it down"
-msgstr "Klucz portfela będzie zaszyfrowany. Hasło nie może być odzyskane. Pamiętaj, aby je zapisać"
+msgid "Your wallet key will be encrypted. The Spending Password cannot be recovered. Be sure to write it down"
+msgstr "Klucz portfela będzie zaszyfrowany. Hasło wypłat nie może być odzyskane. Pamiętaj, aby je zapisać"
 
 #: public/views/backup.html
-msgid "Your wallet seed and access to the server that coordinated the initial wallet creation. You still need {{index.m}} keys to spend."
-msgstr "Twoja fraza odzyskiwania danych i dostęp do serwera koordynowały tworzenie początkowego portfela. Musisz jeszcze {{index.m}} w celu dokonania płatności."
+msgid "Your wallet recovery phrase and access to the server that coordinated the initial wallet creation. You still need {{index.m}} keys to spend."
+msgstr "Twoja fraza odzyskiwania i dostęp do serwera koordynowały tworzenie początkowego portfela. Musisz jeszcze {{index.m}} w celu dokonania płatności."
 

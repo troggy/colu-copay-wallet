@@ -4,7 +4,7 @@
   ng-init="">
 </div>
 
-<div class="copayers p20v" ng-controller="copayersController as copayers" ng-init="copayers.init()">
+<div class="copayers content p20v" ng-controller="copayersController as copayers" ng-init="copayers.init()">
   <div ng-show="!index.notAuthorized">
     <h1 class="text-center" translate>Share this invitation with your copayers</h1>
 
@@ -13,16 +13,10 @@
         <qrcode size="220" error-correction-level="L" data="{{index.walletSecret}}"></qrcode>
         <div ng-show="!index.walletSecret" style="position:relative; top:-226px; height:0px">
           <div style="height:220px; width:220px; margin:auto; background: white">
-            <div class="spinner" style="margin-top:85px">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
+            <ion-spinner class="spinner-stable" icon="lines"></ion-spinner>
           </div>
         </div>
-        <div class="secret">
+        <div class="secret" ng-show="!index.isCordova">
           {{index.walletSecret || ('Loading...'|translate)}}
         </div>
       </div>
@@ -36,7 +30,7 @@
           <span translate>Share invitation</span>
         </span>
       </div>
-      
+
       <div class="m30v line-t">
         <h4 class="size-14 p10h m10t">
           <span translate>Waiting for copayers</span>
@@ -46,7 +40,7 @@
         </h4>
         <div class="white line-b p10" ng-include="'views/includes/copayers.html'"></div>
         <div ng-if="!index.isComplete" class="line-b p10 white size-12">
-          <i class="fi-loop m5r p10l"></i> 
+          <i class="fi-loop m5r p10l"></i>
           <span translate>Waiting...</span>
         </div>
       </div>
@@ -66,4 +60,3 @@
 
   <div class="extra-margin-bottom"></div>
 </div>
-

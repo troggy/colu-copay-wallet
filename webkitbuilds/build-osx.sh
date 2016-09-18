@@ -1,5 +1,11 @@
 #!/bin/bash
 
+SHOULD_SIGN=$1
+if [ "$SHOULD_SIGN" ] 
+then
+  echo "Will sign the APP"
+fi
+
 # by Andy Maloney
 # http://asmaloney.com/2013/07/howto/packaging-a-mac-os-x-application-using-a-dmg/
 
@@ -49,12 +55,31 @@ pushd "${STAGING_DIR}"
 
 popd
 
-# Fix size to 150MB
-SIZE=150
+# Fix size to 250MB
+SIZE=250
 
 if [ $? -ne 0 ]; then
    echo "Error: Cannot compute size of staging dir"
    exit
+ fi
+
+# Sign Code (MATIAS)
+if [ $SHOULD_SIGN ]
+then
+  echo "Signing Copay DMG"
+
+  export IDENTITY="3rd Party Mac Developer Application: BitPay, Inc. (884JRH5R93)"
+
+  # not need for 'out of app store' distribution (?)  
+#  export PARENT_PLIST=parent.plist
+#  export CHILD_PLIST=child.plist
+  export APP_PATH=${STAGING_DIR}/${APP_NAME}.app
+
+  codesign --deep -s "${IDENTITY}"  $APP_PATH"/Contents/Versions/52.0.2743.82/nwjs Helper.app" && echo "Sign 1"
+  codesign --deep -s "${IDENTITY}"  $APP_PATH"/Contents/Versions/52.0.2743.82/nwjs Framework.framework/Resources/app_mode_loader.app" && echo "Sign 2"
+  codesign --deep -s "${IDENTITY}"  $APP_PATH && echo "Sign 3"
+  echo "Signing Done"
+
 fi
 
 # create the temp DMG file

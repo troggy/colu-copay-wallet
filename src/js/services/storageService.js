@@ -1,13 +1,12 @@
 'use strict';
 angular.module('copayApp.services')
-  .factory('storageService', function(logHeader, fileStorageService, localStorageService,
-      sjcl, $log, lodash, isCordova, instanceConfig) {
+  .factory('storageService', function(logHeader, fileStorageService, localStorageService, sjcl, $log, lodash, platformInfo, instanceConfig) {
 
     var root = {};
 
     // File storage is not supported for writing according to
     // https://github.com/apache/cordova-plugin-file/#supported-platforms
-    var shouldUseFileStorage = isCordova && !isMobile.Windows();
+    var shouldUseFileStorage = platformInfo.isCordova && !platformInfo.isWP;
     $log.debug('Using file storage:', shouldUseFileStorage);
 
 
@@ -25,26 +24,27 @@ angular.module('copayApp.services')
         }, cb);
     };
 
-    var encryptOnMobile = function(text, cb) {
-
-      // UUID encryption is disabled.
-      return cb(null, text);
-      //
-      // getUUID(function(uuid) {
-      //   if (uuid) {
-      //     $log.debug('Encrypting profile');
-      //     text = sjcl.encrypt(uuid, text);
-      //   }
-      //   return cb(null, text);
-      // });
-    };
-
-
     var decryptOnMobile = function(text, cb) {
       var json;
       try {
         json = JSON.parse(text);
-      } catch (e) {};
+      } catch (e) {
+        $log.warn('Could not open profile:' + text);
+
+        var i = text.lastIndexOf('}{');
+        if (i > 0) {
+          text = text.substr(i + 1);
+          $log.warn('trying last part only:' + text);
+          try {
+            json = JSON.parse(text);
+            $log.warn('Worked... saving.');
+            storage.set('profile', text, function() {});
+          } catch (e) {
+            $log.warn('Could not open profile (2nd try):' + e);
+          };
+        };
+
+      };
 
       if (!json) return cb('Could not access storage')
 
@@ -108,15 +108,11 @@ angular.module('copayApp.services')
     };
 
     root.storeNewProfile = function(profile, cb) {
-      encryptOnMobile(profile.toObj(), function(err, x) {
-        storage.create(instanceConfig.walletName + '-profile', x, cb);
-      });
+      storage.create(instanceConfig.walletName + '-profile', profile.toObj(), cb);
     };
 
     root.storeProfile = function(profile, cb) {
-      encryptOnMobile(profile.toObj(), function(err, x) {
-        storage.set(instanceConfig.walletName + '-profile', x, cb);
-      });
+      storage.set(instanceConfig.walletName + '-profile', profile.toObj(), cb);
     };
 
     root.getProfile = function(cb) {
@@ -199,6 +195,14 @@ angular.module('copayApp.services')
       storage.remove(instanceConfig.walletName + '-config', cb);
     };
 
+    root.setHideBalanceFlag = function(walletId, val, cb) {
+      storage.set('hideBalance-' + walletId, val, cb);
+    };
+
+    root.getHideBalanceFlag = function(walletId, cb) {
+      storage.get('hideBalance-' + walletId, cb);
+    };
+
     //for compatibility
     root.getCopayDisclaimerFlag = function(cb) {
       storage.get(instanceConfig.walletName + '-agreeDisclaimer', cb);
@@ -224,6 +228,30 @@ angular.module('copayApp.services')
       storage.remove(instanceConfig.walletName + '-glideraToken-' + network, cb);
     };
 
+    root.setCoinbaseRefreshToken = function(network, token, cb) {
+      storage.set('coinbaseRefreshToken-' + network, token, cb);
+    };
+
+    root.getCoinbaseRefreshToken = function(network, cb) {
+      storage.get('coinbaseRefreshToken-' + network, cb);
+    };
+
+    root.removeCoinbaseRefreshToken = function(network, cb) {
+      storage.remove('coinbaseRefreshToken-' + network, cb);
+    };
+
+    root.setCoinbaseToken = function(network, token, cb) {
+      storage.set('coinbaseToken-' + network, token, cb);
+    };
+
+    root.getCoinbaseToken = function(network, cb) {
+      storage.get('coinbaseToken-' + network, cb);
+    };
+
+    root.removeCoinbaseToken = function(network, cb) {
+      storage.remove('coinbaseToken-' + network, cb);
+    };
+
     root.setAddressbook = function(network, addressbook, cb) {
       storage.set(instanceConfig.walletName + '-addressbook-' + network, addressbook, cb);
     };
@@ -232,20 +260,30 @@ angular.module('copayApp.services')
       storage.get(instanceConfig.walletName + '-addressbook-' + network, cb);
     };
 
-    root.setDeviceToken = function(token, cb) {
-      storage.set(instanceConfig.walletName + '-token', token, cb);
-    }
-
-    root.getDeviceToken = function(cb) {
-      storage.get(instanceConfig.walletName + '-token', cb);
-    }
-
     root.removeAddressbook = function(network, cb) {
       storage.remove(instanceConfig.walletName + '-addressbook-' + network, cb);
     };
 
+
+    root.checkQuota = function() {
+      var block = '';
+      // 50MB
+      for (var i = 0; i < 1024 * 1024; ++i) {
+        block += '12345678901234567890123456789012345678901234567890';
+      }
+      storage.set('test', block, function(err) {
+        $log.error('CheckQuota Return:' + err);
+      });
+    };
+
     root.setTxHistory = function(txs, walletId, cb) {
-      storage.set(instanceConfig.walletName + '-txsHistory-' + walletId, txs, cb);
+      try {
+        storage.set(instanceConfig.walletName + '-txsHistory-' + walletId, txs, cb);
+      } catch (e) {
+        $log.error('Error saving tx History. Size:' + txs.length);
+        $log.error(e);
+        return cb(e);
+      }
     }
 
     root.getTxHistory = function(walletId, cb) {
@@ -255,6 +293,42 @@ angular.module('copayApp.services')
     root.removeTxHistory = function(walletId, cb) {
       storage.remove(instanceConfig.walletName + '-txsHistory-' + walletId, cb);
     }
+
+    root.setCoinbaseTxs = function(network, ctx, cb) {
+      storage.set('coinbaseTxs-' + network, ctx, cb);
+    };
+
+    root.getCoinbaseTxs = function(network, cb) {
+      storage.get('coinbaseTxs-' + network, cb);
+    };
+
+    root.removeCoinbaseTxs = function(network, cb) {
+      storage.remove('coinbaseTxs-' + network, cb);
+    };
+
+    root.removeAllWalletData = function(walletId, cb) {
+      root.clearLastAddress(walletId, function(err) {
+        if (err) return cb(err);
+        root.removeTxHistory(walletId, function(err) {
+          if (err) return cb(err);
+          root.clearBackupFlag(walletId, function(err) {
+            return cb(err);
+          });
+        });
+      });
+    };
+
+    root.setAmazonGiftCards = function(network, gcs, cb) {
+      storage.set('amazonGiftCards-' + network, gcs, cb);
+    };
+
+    root.getAmazonGiftCards = function(network, cb) {
+      storage.get('amazonGiftCards-' + network, cb);
+    };
+
+    root.removeAmazonGiftCards = function(network, cb) {
+      storage.remove('amazonGiftCards-' + network, cb);
+    };
 
     return root;
   });

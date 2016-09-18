@@ -1,77 +1,104 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('importController',
-  function($scope, $rootScope, $location, $timeout, $log, profileService, configService, notification, go, sjcl, gettext, lodash, ledger, trezor, isChromeApp, isDevel, derivationPathHelper) {
+  function($scope, $rootScope, $timeout, $log, profileService, configService, notification, go, sjcl, gettext, ledger, trezor, derivationPathHelper, platformInfo, bwcService, ongoingProcess) {
 
-    var self = this;
+    var isChromeApp = platformInfo.isChromeApp;
+    var isDevel = platformInfo.isDevel;
     var reader = new FileReader();
     var defaults = configService.getDefaults();
+    var errors = bwcService.getErrors();
     $scope.bwsurl = defaults.bws.url;
     $scope.derivationPath = derivationPathHelper.default;
     $scope.account = 1;
-
-    window.ignoreMobilePause = true;
-    $scope.$on('$destroy', function() {
-      $timeout(function() {
-        window.ignoreMobilePause = false;
-      }, 100);
-    });
+    $scope.importErr = false;
 
     var updateSeedSourceSelect = function() {
-      self.seedOptions = [];
+      $scope.seedOptions = [];
 
       if (isChromeApp) {
-        self.seedOptions.push({
+        $scope.seedOptions.push({
           id: 'ledger',
           label: 'Ledger Hardware Wallet',
         });
       }
 
       if (isChromeApp || isDevel) {
-        self.seedOptions.push({
+        $scope.seedOptions.push({
           id: 'trezor',
           label: 'Trezor Hardware Wallet',
         });
-        $scope.seedSource = self.seedOptions[0];
+        $scope.seedSource = $scope.seedOptions[0];
       }
     };
 
+    $scope.processWalletInfo = function(code) {
+      if (!code) return;
 
+      $scope.importErr = false;
+      $scope.error = null;
+      var parsedCode = code.split('|');
 
-    this.setType = function(type) {
+      if (parsedCode.length != 5) {
+        /// Trying to import a malformed wallet export QR code
+        $scope.error = gettext('Incorrect code format');
+        return;
+      }
+
+      var info = {
+        type: parsedCode[0],
+        data: parsedCode[1],
+        network: parsedCode[2],
+        derivationPath: parsedCode[3],
+        hasPassphrase: parsedCode[4] == 'true' ? true : false
+      };
+
+      if (info.type == 1 && info.hasPassphrase)
+        $scope.error = gettext('Password required. Make sure to enter your password in advanced options');
+
+      $scope.derivationPath = info.derivationPath;
+      $scope.testnetEnabled = info.network == 'testnet' ? true : false;
+
+      $timeout(function() {
+        $scope.words = info.data;
+        $rootScope.$apply();
+      }, 1);
+    };
+
+    $scope.setType = function(type) {
       $scope.type = type;
-      this.error = null;
+      $scope.error = null;
       $timeout(function() {
         $rootScope.$apply();
-      });
+      }, 1);
     };
 
     var _importBlob = function(str, opts) {
       var str2, err;
       try {
-        str2 = sjcl.decrypt(self.password, str);
+        str2 = sjcl.decrypt($scope.password, str);
       } catch (e) {
         err = gettext('Could not decrypt file, check your password');
         $log.warn(e);
       };
 
       if (err) {
-        self.error = err;
+        $scope.error = err;
         $timeout(function() {
           $rootScope.$apply();
         });
         return;
       }
 
-      self.loading = true;
+      ongoingProcess.set('importingWallet', true);
       opts.compressed = null;
       opts.password = null;
 
       $timeout(function() {
         profileService.importWallet(str2, opts, function(err, walletId) {
-          self.loading = false;
+          ongoingProcess.set('importingWallet', false);
           if (err) {
-            self.error = err;
+            $scope.error = err;
           } else {
             $rootScope.$emit('Local/WalletImported', walletId);
             notification.success(gettext('Success'), gettext('Your wallet has been imported correctly'));
@@ -82,13 +109,38 @@ angular.module('copayApp.controllers').controller('importController',
     };
 
     var _importExtendedPrivateKey = function(xPrivKey, opts) {
-      self.loading = true;
-
+      ongoingProcess.set('importingWallet', true);
       $timeout(function() {
         profileService.importExtendedPrivateKey(xPrivKey, opts, function(err, walletId) {
-          self.loading = false;
+          ongoingProcess.set('importingWallet', false);
           if (err) {
-            self.error = err;
+            if (err instanceof errors.NOT_AUTHORIZED) {
+              $scope.importErr = true;
+            } else {
+              $scope.error = err;
+            }
+            return $timeout(function() {
+              $scope.$apply();
+            });
+          }
+
+          $rootScope.$emit('Local/WalletImported', walletId);
+          notification.success(gettext('Success'), gettext('Your wallet has been imported correctly'));
+          go.walletHome();
+        });
+      }, 100);
+    };
+
+    /*
+      IMPORT FROM PUBLIC KEY - PENDING
+
+    var _importExtendedPublicKey = function(xPubKey, opts) {
+      ongoingProcess.set('importingWallet', true);
+      $timeout(function() {
+        profileService.importExtendedPublicKey(opts, function(err, walletId) {
+          ongoingProcess.set('importingWallet', false);
+          if (err) {
+            $scope.error = err;
             return $timeout(function() {
               $scope.$apply();
             });
@@ -99,24 +151,38 @@ angular.module('copayApp.controllers').controller('importController',
         });
       }, 100);
     };
+    */
 
     var _importMnemonic = function(words, opts) {
-      self.loading = true;
+      ongoingProcess.set('importingWallet', true);
 
       $timeout(function() {
         profileService.importMnemonic(words, opts, function(err, walletId) {
-          self.loading = false;
+          ongoingProcess.set('importingWallet', false);
+
           if (err) {
-            self.error = err;
+            if (err instanceof errors.NOT_AUTHORIZED) {
+              $scope.importErr = true;
+            } else {
+              $scope.error = err;
+            }
             return $timeout(function() {
               $scope.$apply();
             });
           }
+
           $rootScope.$emit('Local/WalletImported', walletId);
           notification.success(gettext('Success'), gettext('Your wallet has been imported correctly'));
           go.walletHome();
         });
       }, 100);
+    };
+
+    $scope.setDerivationPath = function() {
+      if ($scope.testnetEnabled)
+        $scope.derivationPath = derivationPathHelper.defaultTestnet;
+      else
+        $scope.derivationPath = derivationPathHelper.default;
     };
 
     $scope.getFile = function() {
@@ -130,10 +196,9 @@ angular.module('copayApp.controllers').controller('importController',
       }
     };
 
-    this.importBlob = function(form) {
+    $scope.importBlob = function(form) {
       if (form.$invalid) {
-        this.error = gettext('There is an error in the form');
-
+        $scope.error = gettext('There is an error in the form');
         $timeout(function() {
           $scope.$apply();
         });
@@ -145,7 +210,7 @@ angular.module('copayApp.controllers').controller('importController',
       var password = form.password.$modelValue;
 
       if (!backupFile && !backupText) {
-        this.error = gettext('Please, select your backup file');
+        $scope.error = gettext('Please, select your backup file');
         $timeout(function() {
           $scope.$apply();
         });
@@ -162,10 +227,9 @@ angular.module('copayApp.controllers').controller('importController',
       }
     };
 
-    this.importMnemonic = function(form) {
+    $scope.importMnemonic = function(form) {
       if (form.$invalid) {
-        this.error = gettext('There is an error in the form');
-
+        $scope.error = gettext('There is an error in the form');
         $timeout(function() {
           $scope.$apply();
         });
@@ -176,62 +240,63 @@ angular.module('copayApp.controllers').controller('importController',
       if ($scope.bwsurl)
         opts.bwsurl = $scope.bwsurl;
 
-      var passphrase = form.passphrase.$modelValue;
-      var words = form.words.$modelValue;
-      this.error = null;
-
-      if (!words) {
-        this.error = gettext('Please enter the seed words');
-      } else if (words.indexOf('xprv') == 0 || words.indexOf('tprv') == 0) {
-        return _importExtendedPrivateKey(words, opts);
-      } else {
-        var wordList = words.split(/[\u3000\s]+/);
-
-        if ((wordList.length % 3) != 0)
-          this.error = gettext('Wrong number of seed words:') + wordList.length;
-      }
-
-      if (this.error) {
-        $timeout(function() {
-          $scope.$apply();
-        });
-        return;
-      }
-
-      opts.passphrase = form.passphrase.$modelValue || null;
-
       var pathData = derivationPathHelper.parse($scope.derivationPath);
       if (!pathData) {
-        this.error = gettext('Invalid derivation path');
+        $scope.error = gettext('Invalid derivation path');
         return;
       }
       opts.account = pathData.account;
       opts.networkName = pathData.networkName;
       opts.derivationStrategy = pathData.derivationStrategy;
 
+      var words = form.words.$modelValue || null;
+      $scope.error = null;
+
+      if (!words) {
+        $scope.error = gettext('Please enter the recovery phrase');
+      } else if (words.indexOf('xprv') == 0 || words.indexOf('tprv') == 0) {
+        return _importExtendedPrivateKey(words, opts);
+      } else if (words.indexOf('xpub') == 0 || words.indexOf('tpuv') == 0) {
+        return _importExtendedPublicKey(words, opts);
+      } else {
+        var wordList = words.split(/[\u3000\s]+/);
+
+        if ((wordList.length % 3) != 0) {
+          $scope.error = gettext('Wrong number of recovery words:') + wordList.length;
+        }
+      }
+
+      if ($scope.error) {
+        $timeout(function() {
+          $scope.$apply();
+        });
+        return;
+      }
+
+      var passphrase = form.passphrase.$modelValue;
+      opts.passphrase = form.passphrase.$modelValue || null;
 
       _importMnemonic(words, opts);
     };
 
-    this.importTrezor = function(account, isMultisig) {
-      var self = this;
+    $scope.importTrezor = function(account, isMultisig) {
       trezor.getInfoForNewWallet(isMultisig, account, function(err, lopts) {
-        self.hwWallet = false;
+        ongoingProcess.clear();
         if (err) {
-          self.error = err;
+          $scope.error = err;
           $scope.$apply();
           return;
         }
 
         lopts.externalSource = 'trezor';
         lopts.bwsurl = $scope.bwsurl;
-        self.loading = true;
+        ongoingProcess.set('importingWallet', true);
         $log.debug('Import opts', lopts);
 
         profileService.importExtendedPublicKey(lopts, function(err, walletId) {
-          self.loading = false;
+          ongoingProcess.set('importingWallet', false);
           if (err) {
-            self.error = err;
+            $scope.error = err;
             return $timeout(function() {
               $scope.$apply();
             });
@@ -243,69 +308,68 @@ angular.module('copayApp.controllers').controller('importController',
       }, 100);
     };
 
-    this.importHW = function(form) {
-      if (form.$invalid || $scope.account < 0 ) {
-        this.error = gettext('There is an error in the form');
+    $scope.importHW = function(form) {
+      if (form.$invalid || $scope.account < 0) {
+        $scope.error = gettext('There is an error in the form');
         $timeout(function() {
           $scope.$apply();
         });
         return;
       }
-      this.error = '';
+      $scope.error = '';
+      $scope.importErr = false;
 
-      var account = + $scope.account;
-      
-      if (self.seedSourceId == 'trezor') {
-        if ( account < 1) {
-          this.error = gettext('Invalid account number');
+      var account = +$scope.account;
+
+      if ($scope.seedSourceId == 'trezor') {
+        if (account < 1) {
+          $scope.error = gettext('Invalid account number');
           return;
         }
         account = account - 1;
       }
-      var isMultisig = form.isMultisig.$modelValue;
 
-      switch (self.seedSourceId) {
+      switch ($scope.seedSourceId) {
         case ('ledger'):
-          self.hwWallet = 'Ledger';
-          self.importLedger(account);
+          ongoingProcess.set('connectingledger', true);
+          $scope.importLedger(account);
           break;
         case ('trezor'):
-          self.hwWallet = 'Trezor';
-          self.importTrezor(account, isMultisig);
+          ongoingProcess.set('connectingtrezor', true);
+          $scope.importTrezor(account, $scope.isMultisig);
           break;
         default:
           throw ('Error: bad source id');
       };
     };
 
-    this.setSeedSource = function() {
-      if (!$scope.seedSource) return;
-      self.seedSourceId = $scope.seedSource.id;
+    $scope.setSeedSource = function() {
 
+      if (!$scope.seedSource) return;
+      $scope.seedSourceId = $scope.seedSource.id;
       $timeout(function() {
         $rootScope.$apply();
       });
     };
 
-    this.importLedger = function(account) {
-      var self = this;
+    $scope.importLedger = function(account) {
       ledger.getInfoForNewWallet(true, account, function(err, lopts) {
-        self.hwWallet = false;
+        ongoingProcess.clear();
         if (err) {
-          self.error = err;
+          $scope.error = err;
           $scope.$apply();
           return;
         }
 
         lopts.externalSource = 'ledger';
         lopts.bwsurl = $scope.bwsurl;
-        self.loading = true;
+        ongoingProcess.set('importingWallet', true);
         $log.debug('Import opts', lopts);
 
         profileService.importExtendedPublicKey(lopts, function(err, walletId) {
-          self.loading = false;
+          ongoingProcess.set('importingWallet', false);
           if (err) {
-            self.error = err;
+            $scope.error = err;
             return $timeout(function() {
               $scope.$apply();
             });
@@ -318,5 +382,5 @@ angular.module('copayApp.controllers').controller('importController',
     };
 
     updateSeedSourceSelect();
-    self.setSeedSource('new');
+    $scope.setSeedSource('new');
   });

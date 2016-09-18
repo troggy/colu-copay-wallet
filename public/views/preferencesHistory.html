@@ -1,19 +1,23 @@
 <div
   class="topbar-container"
   ng-include="'views/includes/topbar.html'"
-  ng-init="titleSection='Transaction history'; goBackToState = 'preferencesAdvanced'">
+  ng-init="titleSection='Transaction History'; goBackToState = 'preferencesAdvanced'">
 </div>
-<div class="content preferences" ng-controller="preferencesHistory as history">
+<div class="content preferences" ng-controller="preferencesHistory">
   <h4></h4>
-  <ul class="no-bullet m0">
-    <li ng-if="!index.isCordova" ng-init="index.csvHistory()">
-      <a ng-style="{'color':index.backgroundColor}" ng-csv="index.csvContent" 
-        csv-header="index.csvHeader" 
-        filename="{{index.csvFilename }}" translate>
+
+  <ul class="no-bullet m0" ng-init="index.updatingTxHistory ? null : csvHistory()">
+    <li ng-show="csvReady && !index.isCordova"
+      ng-csv="csvContent" csv-header="csvHeader" filename="Copay-{{index.alias || index.walletName}}.csv">
+      <span ng-style="{'color':index.backgroundColor}" translate>
         Export to file
-      </a>
+      </span>
     </li>
-    <li ng-style="{'color':index.backgroundColor}" ng-click="history.clearTransactionHistory();" translate>
+    <li ng-show="!csvReady && !index.isCordova">
+      <span class="right text-gray text-italic" translate>preparing...</span>
+      <span translate>Export to file</span>
+    </li>
+    <li ng-click="clearTransactionHistory()" ng-style="{'color':index.backgroundColor}" translate>
       Clear cache
     </li>
   </ul>

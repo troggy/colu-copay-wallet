@@ -2,23 +2,23 @@
 
 angular.module('copayApp.controllers').controller('walletInfoController',
     function ($scope, $rootScope, $timeout, profileService, configService,
-              lodash, coloredCoins, walletService, instanceConfig) {
-  
+              lodash, coloredCoins, assetService, instanceConfig) {
+
   var self = this;
 
   function initAssets(assets) {
-    
+
     var assets = instanceConfig.assets,
         assetsMap = coloredCoins.assetsMap || {},
         name, balanceStr;
-    
+
     this.assets = assets
         .map(function(asset) {
           var existingAsset = assetsMap[asset.assetId];
           name = asset.name || asset.symbol || asset.assetId;
-          
+
           if (existingAsset) {
-            balanceStr = existingAsset.balanceStr; 
+            balanceStr = existingAsset.balanceStr;
           } else {
             var unit = coloredCoins.getAssetSymbol(asset.assetId, null);
             balanceStr = coloredCoins.formatAssetAmount(0, null, unit);
@@ -32,7 +32,7 @@ angular.module('copayApp.controllers').controller('walletInfoController',
         .concat([{
           assetName: 'Bitcoin',
           assetId: 'bitcoin',
-          balanceStr: walletService.btcBalance
+          balanceStr: assetService.btcBalance
         }])
         .sort(function(a1, a2) {
           return a1.assetName > a2.assetName;
@@ -42,13 +42,13 @@ angular.module('copayApp.controllers').controller('walletInfoController',
   var setAssets = initAssets.bind(this);
 
   coloredCoins.getAssets().then(function(assets) {
-    self.assetId = walletService.walletAsset.assetId;
+    self.assetId = assetService.walletAsset.assetId;
     setAssets(assets);
   });
 
   var disableAssetListener = $rootScope.$on('Local/WalletAssetUpdated', function (event, walletAsset) {
     setAssets(coloredCoins.assets);
-    self.assetId = walletService.walletAsset.assetId;
+    self.assetId = assetService.walletAsset.assetId;
     $timeout(function() {
       $rootScope.$digest();
     });
@@ -59,6 +59,6 @@ angular.module('copayApp.controllers').controller('walletInfoController',
   });
 
   this.setSelectedAsset = function(asset) {
-    walletService.setSelectedAsset(asset);
+    assetService.setSelectedAsset(asset);
   };
 });

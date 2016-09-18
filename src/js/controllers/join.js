@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('joinController',
-  function($scope, $rootScope, $timeout, go, notification, profileService, configService, isCordova, storageService, applicationService, $modal, gettext, lodash, ledger, trezor, isChromeApp, isDevel,derivationPathHelper) {
+  function($scope, $rootScope, $timeout, go, notification, profileService, configService, storageService, applicationService, gettext, lodash, ledger, trezor, platformInfo, derivationPathHelper, ongoingProcess) {
+
+    var isChromeApp = platformInfo.isChromeApp;
+    var isDevel = platformInfo.isDevel;
 
     var self = this;
     var defaults = configService.getDefaults();
@@ -15,14 +18,13 @@ angular.module('copayApp.controllers').controller('joinController',
       $scope.joinForm.secret.$render();
     };
 
-
     var updateSeedSourceSelect = function() {
       self.seedOptions = [{
         id: 'new',
-        label: gettext('New Random Seed'),
+        label: gettext('Random'),
       }, {
         id: 'set',
-        label: gettext('Specify Seed...'),
+        label: gettext('Specify Recovery Phrase...'),
       }];
       $scope.seedSource = self.seedOptions[0];
 
@@ -42,7 +44,7 @@ angular.module('copayApp.controllers').controller('joinController',
       }
     };
 
-    this.setSeedSource = function(src) {
+    this.setSeedSource = function() {
       self.seedSourceId = $scope.seedSource.id;
 
       $timeout(function() {
@@ -62,7 +64,7 @@ angular.module('copayApp.controllers').controller('joinController',
         bwsurl: $scope.bwsurl,
       }
 
-      var setSeed = self.seedSourceId =='set';
+      var setSeed = self.seedSourceId == 'set';
       if (setSeed) {
         var words = form.privateKey.$modelValue;
         if (words.indexOf(' ') == -1 && words.indexOf('prv') == 1 && words.length > 108) {
@@ -84,8 +86,12 @@ angular.module('copayApp.controllers').controller('joinController',
         opts.passphrase = form.createPassphrase.$modelValue;
       }
 
+      opts.walletPrivKey = $scope._walletPrivKey; // Only for testing
+
+
       if (setSeed && !opts.mnemonic && !opts.extendedPrivateKey) {
-        this.error = gettext('Please enter the wallet seed');
+
+        this.error = gettext('Please enter the wallet recovery phrase');
         return;
       }
 
@@ -96,15 +102,15 @@ angular.module('copayApp.controllers').controller('joinController',
           return;
         }
 
-        if ( self.seedSourceId == 'trezor')
+        if (self.seedSourceId == 'trezor')
           account = account - 1;
 
-        opts.account =  account;
-        self.hwWallet = self.seedSourceId == 'ledger' ? 'Ledger' : 'Trezor';
+        opts.account = account;
+        ongoingProcess.set('connecting' + self.seedSourceId, true);
         var src = self.seedSourceId == 'ledger' ? ledger : trezor;
 
         src.getInfoForNewWallet(true, account, function(err, lopts) {
-          self.hwWallet = false;
+          ongoingProcess.set('connecting' + self.seedSourceId, false);
           if (err) {
             self.error = err;
             $scope.$apply();
@@ -114,16 +120,17 @@ angular.module('copayApp.controllers').controller('joinController',
           self._join(opts);
         });
       } else {
+
         self._join(opts);
       }
     };
 
     this._join = function(opts) {
-      self.loading = true;
+      ongoingProcess.set('joiningWallet', true);
       $timeout(function() {
         profileService.joinWallet(opts, function(err) {
+          ongoingProcess.set('joiningWallet', false);
           if (err) {
-            self.loading = false;
             self.error = err;
             $rootScope.$apply();
             return;
@@ -134,5 +141,5 @@ angular.module('copayApp.controllers').controller('joinController',
     };
 
     updateSeedSourceSelect();
-    self.setSeedSource('new');
+    self.setSeedSource();
   });

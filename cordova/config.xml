@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.coloredcoins.unicoisa" 
-  version="1.0.0"
+<widget id="org.coloredcoins.unicoisa"
+  version="2.7.0-unicoisa.1"
   android-versionCode="1"
   ios-CFBundleVersion="1.0.0">
     <name>Unicoisa</name>
@@ -27,7 +27,11 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="BackupWebStorage" value="none"/>
     <preference name="windows-target-version" value="8.1"/>
-    <preference name="Orientation" value="portrait" />
+    <preference name="Orientation" value="default" />
+
+    <platform name="android">
+      <hook type="after_run" src="scripts/afterRun.js" />
+    </platform>
 
     <platform name="ios">
       <!-- iOS 8.0+ -->

@@ -1,84 +1,86 @@
 
-<div
-  class="topbar-container"
-  ng-include="'views/includes/topbar.html'"
+<div class="topbar-container" ng-include="'views/includes/topbar.html'"
   ng-init="titleSection='Global preferences'; closeToHome = true; noColor = true">
 </div>
 
-
-<div class="content preferences" ng-controller="preferencesGlobalController as prefGlobal" ng-init="prefGlobal.init()">
+<div class="content preferences" ng-controller="preferencesGlobalController" ng-init="init()">
   <h4></h4>
-  <ul class="no-bullet m0 ">
-    <li ng-click="$root.go('preferencesLanguage')">
+  <ul class="no-bullet m0">
+    <li href ui-sref="preferencesLanguage">
       <div class="right text-gray">
-        {{prefGlobal.currentLanguageName|translate}}
-        <i class="icon-arrow-right3 size-24"></i>
+        {{currentLanguageName|translate}}
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Language</div>
     </li>
   </ul>
   <h4></h4>
-  <ul class="no-bullet m0 " ng-show="index.asset.isAsset === false">
-    <li ng-click="$root.go('preferencesUnit')">
+
+  <ul class="no-bullet m0" ng-show="index.asset.isAsset === false">
+    <li href ui-sref="preferencesUnit">
       <div class="right text-gray">
-        {{prefGlobal.unitName}}
-        <i class="icon-arrow-right3 size-24"></i>
+        {{unitName}}
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Unit</div>
     </li>
-    <li ng-click="$root.go('preferencesAltCurrency')">
+
+    <li href ui-sref="preferencesAltCurrency">
       <div class="right text-gray">
-        {{prefGlobal.selectedAlternative.name}}
-        <i class="icon-arrow-right3 size-24"></i>
+        {{selectedAlternative.name}}
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Alternative Currency</div>
     </li>
   </ul>
   <h4></h4>
-  <ul class="no-bullet m0 " ng-show="index.asset.isAsset === false">
-    <li ng-click="$root.go('preferencesFee')">
+
+  <ul class="no-bullet m0" ng-show="index.asset.isAsset === false">
+    <li href ui-sref="preferencesFee">
       <div class="right text-gray">
-        {{prefGlobal.feeOpts[prefGlobal.currentFeeLevel]|translate}}
-        <i class="icon-arrow-right3 size-24"></i>
+        {{feeOpts[currentFeeLevel]|translate}}
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Bitcoin Network Fee Policy</div>
     </li>
-    <li>
-      <switch id="spend-unconfirmed" name="spendUnconfirmed" ng-model="spendUnconfirmed" class="green right"></switch>
-      <div translate>Use Unconfirmed Funds</div>
-    </li>
   </ul>
-  <div ng-show="index.usePushNotifications">
+
+  <ion-toggle ng-model="spendUnconfirmed" toggle-class="toggle-balanced" ng-change="spendUnconfirmedChange()">
+    <span class="toggle-label" translate>Use Unconfirmed Funds</span>
+  </ion-toggle>
+
+  <div ng-show="usePushNotifications && PNEnabledByUser">
     <h4></h4>
-    <ul class="no-bullet m0">
-      <li>
-        <switch id="push-notifications" name="pushNotifications" ng-model="pushNotifications" class="green right"></switch>
-        <div translate>Enable push notifications</div>
-      </li>
+    <ion-toggle ng-model="pushNotifications" toggle-class="toggle-balanced" ng-change="pushNotificationsChange()">
+      <span class="toggle-label" translate>Enable push notifications</span>
+    </ion-toggle>
+  </div>
+
+  <div class="m20t" ng-show="usePushNotifications && !PNEnabledByUser && isIOSApp">
+    <div class="text-left text-gray size-12 m10" translate>Push notifications for Copay are currently disabled. Enable them in the Settings app.</div>
+    <ul class="no-bullet m0" ng-click="openSettings()">
+      <li ng-style="{'color':index.backgroundColor}" translate>Open Settings app</li>
     </ul>
   </div>
-  <h4></h4>
-  <ul class="no-bullet m0 ">
-    <li ng-show="index.asset.isAsset === false">
-      <switch id="glidera-enabled" name="glideraEnabled" ng-model="glideraEnabled" class="green right"></switch>
-      <div>Enable Glidera Service</div>
-    </li>
 
-    <!-- Disabled for testnet
-    <li ng-show="glideraEnabled">
-      <span>Glidera Sandbox</span>
-      <switch id="glidera-testnet" name="glideraTestnet" ng-model="glideraTestnet" class="green right"></switch>
-    </li>
-    -->
-  </ul>
   <h4></h4>
+
+  <ion-toggle ng-show="!index.isWindowsPhoneApp" ng-model="glideraEnabled" toggle-class="toggle-balanced" ng-change="glideraChange()">
+    <span class="toggle-label" translate>Enable Glidera Service</span>
+  </ion-toggle>
+  <h4></h4>
+
+  <ion-toggle ng-show="!index.isWindowsPhoneApp" ng-model="coinbaseEnabled" toggle-class="toggle-balanced" ng-change="coinbaseChange()">
+    <span class="toggle-label" translate>Enable Coinbase Service</span>
+  </ion-toggle>
+  <h4></h4>
+
   <ul class="no-bullet m0">
-    <li ng-click="$root.go('about')">
+    <li href ui-sref="about">
       <i class="icon-arrow-right3 size-24 right text-gray"></i>
       <div translate>About Copay</div>
     </li>
   </ul>
   <h4></h4>
-
 </div>
 <div class="extra-margin-bottom"></div>

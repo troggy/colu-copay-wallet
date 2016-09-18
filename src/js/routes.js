@@ -12,13 +12,8 @@ if (window && window.navigator) {
   }
 }
 
-
 //Setting up route
-angular
-  .module('copayApp')
-  .config(function(historicLogProvider, $provide, $logProvider, $stateProvider,
-                   $urlRouterProvider, $compileProvider,
-                   coluProvider, instanceConfigProvider, coloredCoinsProvider) {
+angular.module('copayApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, coluConfigProvider, instanceConfigProvider, coloredCoinsProvider) {
     $urlRouterProvider.otherwise('/');
 
     // default mode is SDK
@@ -34,25 +29,25 @@ angular
       };
     }
 
-    coluProvider.config(coluConfig);
+    coluConfigProvider.config(coluConfig);
 
     coloredCoinsProvider.setSupportedAssets(instanceConfigProvider.config.assets);
 
     $logProvider.debugEnabled(true);
-    $provide.decorator('$log', ['$delegate', 'isDevel',
-      function($delegate, isDevel) {
+    $provide.decorator('$log', ['$delegate', 'platformInfo',
+      function($delegate, platformInfo) {
         var historicLog = historicLogProvider.$get();
 
         ['debug', 'info', 'warn', 'error', 'log'].forEach(function(level) {
-          if (isDevel && level == 'error') return;
+          if (platformInfo.isDevel && level == 'error') return;
 
           var orig = $delegate[level];
           $delegate[level] = function() {
             if (level == 'error')
               console.log(arguments);
 
-            var args = [].slice.call(arguments);
-            if (!Array.isArray(args)) args = [args];
+            var args = Array.prototype.slice.call(arguments);
+
             args = args.map(function(v) {
               try {
                 if (typeof v == 'undefined') v = 'undefined';
@@ -64,10 +59,10 @@ angular
                     v = JSON.stringify(v);
                 }
                 // Trim output in mobile
-                if (window.cordova) {
+                if (platformInfo.isCordova) {
                   v = v.toString();
-                  if (v.length > 300) {
-                    v = v.substr(0, 297) + '...';
+                  if (v.length > 3000) {
+                    v = v.substr(0, 2997) + '...';
                   }
                 }
               } catch (e) {
@@ -76,9 +71,11 @@ angular
               }
               return v;
             });
+
             try {
-              if (window.cordova)
+              if (platformInfo.isCordova)
                 console.log(args.join(' '));
+
               historicLog.add(level, args.join(' '));
               orig.apply(null, args);
             } catch (e) {
@@ -97,7 +94,6 @@ angular
     $stateProvider
       .state('translators', {
         url: '/translators',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -143,19 +139,23 @@ angular
           }
         }
       })
-      .state('payment', {
-        url: '/uri-payment/:data',
+      .state('uri', {
+        url: '/uri/:url',
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/uri.html'
+          }
+        }
+      })
+      .state('uripayment', {
+        url: '/uri-payment/:url',
         templateUrl: 'views/paymentUri.html',
         views: {
           'main': {
             templateUrl: 'views/paymentUri.html',
           },
         },
-        needProfile: true
-      })
-      .state('selectWalletForPayment', {
-        url: '/selectWalletForPayment',
-        controller: 'walletForPaymentController',
         needProfile: true
       })
       .state('join', {
@@ -175,21 +175,6 @@ angular
             templateUrl: 'views/import.html'
           },
         }
-      })
-      .state('importProfile', {
-        url: '/importProfile',
-        templateUrl: 'views/importProfile.html',
-        needProfile: false
-      })
-      .state('importLegacy', {
-        url: '/importLegacy',
-        needProfile: true,
-        views: {
-          'main': {
-            templateUrl: 'views/importLegacy.html',
-          },
-        }
-
       })
       .state('create', {
         url: '/create',
@@ -223,7 +208,6 @@ angular
       })
       .state('preferencesLanguage', {
         url: '/preferencesLanguage',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -234,7 +218,6 @@ angular
       .state('preferencesUnit', {
         url: '/preferencesUnit',
         templateUrl: 'views/preferencesUnit.html',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -245,7 +228,6 @@ angular
       .state('preferencesFee', {
         url: '/preferencesFee',
         templateUrl: 'views/preferencesFee.html',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -254,7 +236,7 @@ angular
         }
       })
       .state('uriglidera', {
-        url: '/uri-glidera?code',
+        url: '/uri-glidera/:url',
         needProfile: true,
         views: {
           'main': {
@@ -302,6 +284,89 @@ angular
           },
         }
       })
+      .state('coinbase', {
+        url: '/coinbase',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/coinbase.html'
+          },
+        }
+      })
+      .state('preferencesCoinbase', {
+        url: '/preferencesCoinbase',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/preferencesCoinbase.html'
+          },
+        }
+      })
+      .state('uricoinbase', {
+        url: '/uri-coinbase/:url',
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/coinbaseUri.html'
+          },
+        }
+      })
+      .state('buyCoinbase', {
+        url: '/buycoinbase',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/buyCoinbase.html'
+          },
+        }
+      })
+      .state('sellCoinbase', {
+        url: '/sellcoinbase',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/sellCoinbase.html'
+          },
+        }
+      })
+      .state('buyandsell', {
+        url: '/buyandsell',
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/buyAndSell.html',
+            controller: function(platformInfo) {
+              if (platformInfo.isCordova && StatusBar.isVisible) {
+                StatusBar.backgroundColorByHexString("#4B6178");
+              }
+            }
+          }
+        }
+      })
+      .state('amazon', {
+        url: '/amazon',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/amazon.html'
+          },
+        }
+      })
+      .state('buyAmazon', {
+        url: '/buyamazon',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/buyAmazon.html'
+          },
+        }
+      })
       .state('preferencesAdvanced', {
         url: '/preferencesAdvanced',
         templateUrl: 'views/preferencesAdvanced.html',
@@ -327,7 +392,6 @@ angular
       .state('preferencesAltCurrency', {
         url: '/preferencesAltCurrency',
         templateUrl: 'views/preferencesAltCurrency.html',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -418,7 +482,6 @@ angular
       .state('about', {
         url: '/about',
         templateUrl: 'views/preferencesAbout.html',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -429,7 +492,6 @@ angular
       .state('logs', {
         url: '/logs',
         templateUrl: 'views/preferencesLogs.html',
-        walletShouldBeComplete: true,
         needProfile: true,
         views: {
           'main': {
@@ -488,55 +550,19 @@ angular
           },
         }
       })
-      .state('warning', {
-        url: '/warning',
-        controller: 'warningController',
-        templateUrl: 'views/warning.html',
-        needProfile: false
-      })
       .state('add', {
         url: '/add',
         needProfile: true,
         views: {
           'main': {
-            templateUrl: 'views/add.html'
-          },
-        }
-      })
-      .state('cordova', {
-        url: '/cordova/:status/:fromHome/:fromDisclaimer/:secondBackButtonPress',
-        views: {
-          'main': {
-            controller: function($rootScope, $state, $stateParams, $timeout, go, isCordova, gettextCatalog) {
-
-              switch ($stateParams.status) {
-                case 'resume':
-                  $rootScope.$emit('Local/Resume');
-                  break;
-                case 'backbutton':
-
-                  if ($stateParams.fromDisclaimer == 'true')
-                    navigator.app.exitApp();
-
-                  if (isCordova && $stateParams.fromHome == 'true' && !$rootScope.modalOpened) {
-                    if ($stateParams.secondBackButtonPress == 'true') {
-                      navigator.app.exitApp();
-                    } else {
-                      window.plugins.toast.showShortBottom(gettextCatalog.getString('Press again to exit'));
-                    }
-                  } else {
-                    $rootScope.$emit('closeModal');
-                  }
-                  break;
-              };
-              $timeout(function() {
-                $rootScope.$emit('Local/SetTab', 'walletHome', true);
-              }, 100);
-              go.walletHome();
+            templateUrl: 'views/add.html',
+            controller: function(platformInfo) {
+              if (platformInfo.isCordova && StatusBar.isVisible) {
+                StatusBar.backgroundColorByHexString("#4B6178");
+              }
             }
           }
-        },
-        needProfile: false
+        }
       })
       .state('walletInfo', {
         url: '/walletInfo',
@@ -550,16 +576,109 @@ angular
         }
       });
   })
-  .run(function($rootScope, $state, $log, uriHandler, isCordova, profileService, $timeout, nodeWebkit, uxLanguage, animationService, instanceConfig) {
+  .run(function($rootScope, $state, $location, $log, $timeout, $ionicPlatform, lodash, platformInfo, profileService, uxLanguage, go, gettextCatalog, instanceConfig) {
+
+    if (platformInfo.isCordova) {
+      if (screen.width < 768) {
+        screen.lockOrientation('portrait');
+      } else {
+        window.addEventListener("orientationchange", function() {
+          var leftMenuWidth = document.querySelector("ion-side-menu[side='left']").clientWidth;
+          if (screen.orientation.includes('portrait')) {
+            // Portrait
+            document.querySelector("ion-side-menu-content").style.width = (screen.width - leftMenuWidth) + "px";
+          } else {
+            // Landscape
+            document.querySelector("ion-side-menu-content").style.width = (screen.height - leftMenuWidth) + "px";
+          }
+        });
+      }
+    } else {
+      if (screen.width >= 768) {
+        window.addEventListener('resize', lodash.throttle(function() {
+          $rootScope.$emit('Local/WindowResize');
+        }, 100));
+      }
+    }
+
+    $ionicPlatform.ready(function() {
+      if (platformInfo.isCordova) {
+
+        window.addEventListener('native.keyboardhide', function() {
+          $timeout(function() {
+            $rootScope.shouldHideMenuBar = false; //show menu bar when keyboard is hidden with back button action on send screen
+          }, 100);
+        });
+
+        window.addEventListener('native.keyboardshow', function() {
+          $timeout(function() {
+            $rootScope.shouldHideMenuBar = true; //hide menu bar when keyboard opens with back button action on send screen
+          }, 300);
+        });
+
+        if (window.cordova.plugins.Keyboard) {
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+          cordova.plugins.Keyboard.disableScroll(false);
+        }
+
+        $ionicPlatform.registerBackButtonAction(function(event) {
+          event.preventDefault();
+        }, 100);
+
+        var secondBackButtonPress = false;
+        var intval = setInterval(function() {
+          secondBackButtonPress = false;
+        }, 5000);
+
+        $ionicPlatform.on('pause', function() {
+          // Nothing to do
+        });
+
+        $ionicPlatform.on('resume', function() {
+          $rootScope.$emit('Local/Resume');
+        });
+
+        $ionicPlatform.on('backbutton', function(event) {
+
+          var loc = window.location;
+          var fromDisclaimer = loc.toString().match(/disclaimer/) ? 'true' : '';
+          var fromHome = loc.toString().match(/index\.html#\/$/) ? 'true' : '';
+
+          if (fromDisclaimer == 'true')
+            navigator.app.exitApp();
+
+          if (platformInfo.isMobile && fromHome == 'true') {
+            if (secondBackButtonPress)
+              navigator.app.exitApp();
+            else
+              window.plugins.toast.showShortBottom(gettextCatalog.getString('Press again to exit'));
+          }
+
+          if (secondBackButtonPress)
+            clearInterval(intval);
+          else
+            secondBackButtonPress = true;
+
+          $timeout(function() {
+            $rootScope.$emit('Local/SetTab', 'walletHome', true);
+          }, 100);
+
+          go.walletHome();
+        });
+
+        $ionicPlatform.on('menubutton', function() {
+          window.location = '#/preferences';
+        });
+
+        setTimeout(function() {
+          navigator.splashscreen.hide();
+        }, 1000);
+      }
+    });
 
     uxLanguage.init();
 
-    // Register URI handler, not for mobileApp
-    if (!isCordova) {
-      uriHandler.register();
-    }
-
-    if (nodeWebkit.isDefined()) {
+    if (platformInfo.isNW) {
       var gui = require('nw.gui');
       var win = gui.Window.get();
       var nativeMenuBar = new gui.Menu({
@@ -574,7 +693,9 @@ angular
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      $log.debug('Route change from:', fromState.name || '-', ' to:',  toState.name);
+      $log.debug('Route change from:', fromState.name || '-', ' to:', toState.name);
+      $log.debug('            toParams:' + JSON.stringify(toParams || {}));
+      $log.debug('            fromParams:' + JSON.stringify(fromParams || {}));
 
       if (!instanceConfig.assets && toState.name !== 'walletHome') {
         $state.get('walletHome').needProfile = false;
@@ -600,6 +721,7 @@ angular
               throw new Error(err); // TODO
             }
           } else {
+            profileService.storeProfileIfDirty();
             $log.debug('Profile loaded ... Starting UX.');
             $state.transitionTo(toState.name || toState, toParams);
           }
@@ -608,16 +730,7 @@ angular
         if (profileService.focusedClient && !profileService.focusedClient.isComplete() && toState.walletShouldBeComplete) {
 
           $state.transitionTo('copayers');
-          event.preventDefault();
         }
-      }
-
-      if (!animationService.transitionAnimated(fromState, toState)) {
-        event.preventDefault();
-        // Time for the backpane to render
-        setTimeout(function() {
-          $state.transitionTo(toState);
-        }, 50);
       }
     });
   });

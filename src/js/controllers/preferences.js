@@ -1,101 +1,133 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('preferencesController',
-  function($scope, $rootScope, $timeout, $log, configService, profileService, txService) {
+  function($scope, $rootScope, $timeout, $log, configService, profileService, fingerprintService, walletService) {
 
-    var fc = profileService.focusedClient;
-    $scope.deleted = false;
-    if (fc.credentials && !fc.credentials.mnemonicEncrypted && !fc.credentials.mnemonic) {
-      $scope.deleted = true;
-    }
+    var fc;
+    var config = configService.getSync();
 
-    this.init = function() {
-      var config = configService.getSync();
-      var fc = profileService.focusedClient;
+    var disableFocusListener = $rootScope.$on('Local/NewFocusedWalletReady', function() {
+      $scope.init();
+    });
+
+    $scope.$on('$destroy', function() {
+      disableFocusListener();
+    });
+
+    $scope.init = function() {
+      $scope.externalSource = null;
+
+      fc = profileService.focusedClient;
       if (fc) {
-        $scope.encrypt = fc.hasPrivKeyEncrypted();
-        this.externalSource = fc.getPrivKeyExternalSourceName() == 'ledger' ? "Ledger" : null;
+        $scope.encryptEnabled = walletService.isEncrypted(fc);
+        if (fc.isPrivKeyExternal)
+          $scope.externalSource = fc.getPrivKeyExternalSourceName() == 'ledger' ? 'Ledger' : 'Trezor';
+
         // TODO externalAccount
         //this.externalIndex = fc.getExternalIndex();
       }
 
-      if (window.touchidAvailable) {
-        var walletId = fc.credentials.walletId;
-        this.touchidAvailable = true;
-        config.touchIdFor = config.touchIdFor || {};
-        $scope.touchid = config.touchIdFor[walletId];
+      $scope.touchidAvailable = fingerprintService.isAvailable();
+      $scope.touchidEnabled = config.touchIdFor ? config.touchIdFor[fc.credentials.walletId] : null;
+
+      $scope.deleted = false;
+      if (fc.credentials && !fc.credentials.mnemonicEncrypted && !fc.credentials.mnemonic) {
+        $scope.deleted = true;
       }
     };
 
-    var unwatchEncrypt = $scope.$watch('encrypt', function(val) {
-      var fc = profileService.focusedClient;
-      if (!fc) return;
+    var handleEncryptedWallet = function(cb) {
+      $rootScope.$emit('Local/NeedsPassword', false, function(err, password) {
+        if (err) return cb(err);
+        return cb(walletService.unlock(fc, password));
+      });
+    };
 
-      if (val && !fc.hasPrivKeyEncrypted()) {
+    $scope.encryptChange = function() {
+      if (!fc) return;
+      var val = $scope.encryptEnabled;
+
+      var setPrivateKeyEncryption = function(password, cb) {
+        $log.debug('Encrypting private key for', fc.credentials.walletName);
+
+        fc.setPrivateKeyEncryption(password);
+        fc.lock();
+        profileService.updateCredentials(JSON.parse(fc.export()), function() {
+          $log.debug('Wallet encrypted');
+          return cb();
+        });
+      };
+
+      var disablePrivateKeyEncryption = function(cb) {
+        $log.debug('Disabling private key encryption for', fc.credentials.walletName);
+
+        try {
+          fc.disablePrivateKeyEncryption();
+        } catch (e) {
+          return cb(e);
+        }
+        profileService.updateCredentials(JSON.parse(fc.export()), function() {
+          $log.debug('Wallet encryption disabled');
+          return cb();
+        });
+      };
+
+      if (val && !walletService.isEncrypted(fc)) {
         $rootScope.$emit('Local/NeedsPassword', true, function(err, password) {
           if (err || !password) {
-            $scope.encrypt = false;
+            $scope.encryptEnabled = false;
             return;
           }
-          profileService.setPrivateKeyEncryptionFC(password, function() {
+          setPrivateKeyEncryption(password, function() {
             $rootScope.$emit('Local/NewEncryptionSetting');
-            $scope.encrypt = true;
+            $scope.encryptEnabled = true;
           });
         });
       } else {
-        if (!val && fc.hasPrivKeyEncrypted()) {
-          profileService.unlockFC(function(err) {
+        if (!val && walletService.isEncrypted(fc)) {
+          handleEncryptedWallet(function(err) {
             if (err) {
-              $scope.encrypt = true;
+              $scope.encryptEnabled = true;
               return;
             }
-            profileService.disablePrivateKeyEncryptionFC(function(err) {
+            disablePrivateKeyEncryption(function(err) {
               $rootScope.$emit('Local/NewEncryptionSetting');
               if (err) {
-                $scope.encrypt = true;
+                $scope.encryptEnabled = true;
                 $log.error(err);
                 return;
               }
-              $scope.encrypt = false;
+              $scope.encryptEnabled = false;
             });
           });
         }
       }
-    });
+    };
 
-    var unwatchRequestTouchid = $scope.$watch('touchid', function(newVal, oldVal) {
-      if (newVal == oldVal || $scope.touchidError) {
-        $scope.touchidError = false;
-        return;
-      }
-      var walletId = profileService.focusedClient.credentials.walletId;
+    $scope.touchidChange = function() {
+      var walletId = fc.credentials.walletId;
 
       var opts = {
         touchIdFor: {}
       };
-      opts.touchIdFor[walletId] = newVal;
+      opts.touchIdFor[walletId] = $scope.touchidEnabled;
 
-      txService.setTouchId(function(err) {
+      fingerprintService.check(fc, function(err) {
         if (err) {
           $log.debug(err);
           $timeout(function() {
             $scope.touchidError = true;
-            $scope.touchid = oldVal;
+            $scope.touchidEnabled = true;
           }, 100);
-        } else {
-          configService.set(opts, function(err) {
-            if (err) {
-              $log.debug(err);
-              $scope.touchidError = true;
-              $scope.touchid = oldVal;
-            }
-          });
+          return;
         }
+        configService.set(opts, function(err) {
+          if (err) {
+            $log.debug(err);
+            $scope.touchidError = true;
+            $scope.touchidEnabled = false;
+          }
+        });
       });
-    });
-
-    $scope.$on('$destroy', function() {
-      unwatchEncrypt();
-      unwatchRequestTouchid();
-    });
+    };
   });

@@ -1,41 +1,19 @@
 'use strict';
 
-angular.module('copayApp.services').factory('go', function($window, $rootScope, $location, $state, $timeout, $log, profileService, nodeWebkit) {
+angular.module('copayApp.services').factory('go', function($window, $ionicSideMenuDelegate, $rootScope, $location, $state, $timeout, $log, profileService, platformInfo, nodeWebkit) {
   var root = {};
 
-  var hideSidebars = function() {
-    if (typeof document === 'undefined')
-      return;
-
-    var elem = document.getElementById('off-canvas-wrap');
-    elem.className = 'off-canvas-wrap';
-  };
-
-  var toggleSidebar = function(invert) {
-    if (typeof document === 'undefined')
-      return;
-
-    var elem = document.getElementById('off-canvas-wrap');
-    var leftbarActive = elem.className.indexOf('move-right') >= 0;
-
-    if (invert) {
-      if (profileService.profile && !$rootScope.hideNavigation) {
-        elem.className = 'off-canvas-wrap move-right';
-      }
-    } else {
-      if (leftbarActive) {
-        hideSidebars();
-      }
-    }
-  };
-
   root.openExternalLink = function(url, target) {
-    if (nodeWebkit.isDefined()) {
+    if (platformInfo.isNW) {
       nodeWebkit.openExternalLink(url);
     } else {
       target = target || '_blank';
       var ref = window.open(url, target, 'location=no');
     }
+  };
+
+  root.is = function(name) {
+    return $state.is(name);
   };
 
   root.path = function(path, cb) {
@@ -45,11 +23,10 @@ angular.module('copayApp.services').factory('go', function($window, $rootScope, 
       }, function() {
         if (cb) return cb('animation in progress');
       });
-    hideSidebars();
   };
 
-  root.swipe = function(invert) {
-    toggleSidebar(invert);
+  root.toggleLeftMenu = function() {
+    $ionicSideMenuDelegate.toggleLeft();
   };
 
   root.walletHome = function() {
@@ -71,15 +48,15 @@ angular.module('copayApp.services').factory('go', function($window, $rootScope, 
   };
 
   root.addWallet = function() {
-    $state.go('add');
+    $state.transitionTo('add');
   };
 
   root.preferences = function() {
-    $state.go('preferences');
+    $state.transitionTo('preferences');
   };
 
   root.preferencesGlobal = function() {
-    $state.go('preferencesGlobal');
+    $state.transitionTo('preferencesGlobal');
   };
 
   root.reload = function() {

@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('preferencesInformation',
-  function($scope, $log, $timeout, isMobile, gettextCatalog, lodash, profileService, storageService, go) {
+  function($scope, $log, $timeout, platformInfo, gettextCatalog, lodash, profileService, configService, go) {
     var base = 'xpub';
     var fc = profileService.focusedClient;
     var c = fc.credentials;
+    var walletId = c.walletId;
+    var config = configService.getSync();
+    var b = 1;
+    var isCordova = platformInfo.isCordova;
+    config.colorFor = config.colorFor || {};
 
-    this.init = function() {
+    $scope.init = function() {
       var basePath = c.getBaseAddressDerivationPath();
 
       $scope.walletName = c.walletName;
@@ -43,15 +48,7 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
       });
     };
 
-    this.sendAddrs = function() {
-      var self = this;
-
-      if (isMobile.Android() || isMobile.Windows()) {
-        window.ignoreMobilePause = true;
-      }
-
-      self.loading = true;
-
+    $scope.sendAddrs = function() {
       function formatDate(ts) {
         var dateObj = new Date(ts * 1000);
         if (!dateObj) {
@@ -68,7 +65,6 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
         fc.getMainAddresses({
           doNotVerify: true
         }, function(err, addrs) {
-          self.loading = false;
           if (err) {
             $log.warn(err);
             return;
@@ -80,18 +76,47 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
             return ('* ' + v.address + ' ' + base + v.path.substring(1) + ' ' + formatDate(v.createdOn));
           }).join("\n");
 
-          var properties = {
-            subject: 'Unicoisa Addresses',
-            body: body,
-            isHtml: false
-          };
-          window.plugin.email.open(properties);
+          window.plugins.socialsharing.shareViaEmail(
+            body,
+            'Unicoisa Addresses',
+            null, // TO: must be null or an array
+            null, // CC: must be null or an array
+            null, // BCC: must be null or an array
+            null, // FILES: can be null, a string, or an array
+            function() {},
+            function() {}
+          );
 
           $timeout(function() {
             $scope.$apply();
           }, 1000);
         });
       }, 100);
+    };
+
+    $scope.saveBlack = function() {
+      function save(color) {
+        var opts = {
+          colorFor: {}
+        };
+        opts.colorFor[walletId] = color;
+
+        configService.set(opts, function(err) {
+          go.walletHome();
+          if (err) $log.warn(err);
+          $scope.$emit('Local/ColorUpdated');
+        });
+      };
+
+      if (b != 5) return b++;
+      save('#202020');
+    };
+
+    $scope.copyToClipboard = function(data) {
+      if (isCordova) {
+        window.cordova.plugins.clipboard.copy(data);
+        window.plugins.toast.showShortCenter(gettextCatalog.getString('Copied to clipboard'));
+      }
     };
 
   });

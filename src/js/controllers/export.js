@@ -1,71 +1,134 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('exportController',
-  function($rootScope, $scope, $timeout, $log, backupService, storageService, profileService, isMobile, notification, go, gettext, gettextCatalog) {
-    var self = this;
-
-    self.error = null;
-    self.success = null;
-    $scope.metaData = true;
+  function($rootScope, $scope, $timeout, $log, lodash, backupService, walletService, fingerprintService, configService, storageService, profileService, platformInfo, notification, go, gettext, gettextCatalog) {
+    var prevState;
+    var isWP = platformInfo.isWP;
+    var isAndroid = platformInfo.isAndroid;
     var fc = profileService.focusedClient;
-    self.isEncrypted = fc.isPrivKeyEncrypted();
+    $scope.isEncrypted = fc.isPrivKeyEncrypted();
+    $scope.isCordova = platformInfo.isCordova;
+    $scope.isSafari = platformInfo.isSafari;
+    $scope.error = null;
 
-    self.downloadWalletBackup = function() {
-      self.getMetaData($scope.metaData, function(err, txsFromLocal, localAddressBook) {
+    $scope.init = function(state) {
+      $scope.supported = true;
+      $scope.exportQR = false;
+      $scope.noSignEnabled = false;
+      $scope.showAdvanced = false;
+      prevState = state || 'walletHome';
+
+      fingerprintService.check(fc, function(err) {
         if (err) {
-          self.error = true;
+          go.path(prevState);
           return;
         }
-        var opts = {
-          noSign: $scope.noSign,
-          historyCache: txsFromLocal,
-          addressBook: localAddressBook
-        };
 
-        backupService.walletDownload(self.password, opts, function(err) {
+        handleEncryptedWallet(fc, function(err) {
           if (err) {
-            self.error = true;
+            go.path(prevState);
             return;
           }
 
-          $rootScope.$emit('Local/BackupDone');
+          $scope.exportWalletInfo = encodeWalletInfo();
+          $timeout(function() {
+            $scope.$apply();
+          }, 1);
+        });
+      });
+    };
+
+    /*
+      EXPORT WITHOUT PRIVATE KEY - PENDING
+
+    $scope.noSignEnabledChange = function() {
+      $scope.exportWalletInfo = encodeWalletInfo();
+      $timeout(function() {
+        $scope.$apply();
+      }, 1);
+    };
+    */
+
+    $scope.$on('$destroy', function() {
+      walletService.lock(fc);
+    });
+
+    function handleEncryptedWallet(client, cb) {
+      if (!walletService.isEncrypted(client)) {
+        $scope.credentialsEncrypted = false;
+        return cb();
+      }
+
+      $rootScope.$emit('Local/NeedsPassword', false, function(err, password) {
+        if (err) return cb(err);
+        return cb(walletService.unlock(client, password));
+      });
+    };
+
+    function encodeWalletInfo() {
+      var c = fc.credentials;
+      var derivationPath = fc.credentials.getBaseAddressDerivationPath();
+      var encodingType = {
+        mnemonic: 1,
+        xpriv: 2,
+        xpub: 3
+      };
+      var info;
+
+      $scope.supported = (c.derivationStrategy == 'BIP44' && c.canSign());
+
+      if ($scope.supported) {
+        if (c.mnemonic) {
+          info = {
+            type: encodingType.mnemonic,
+            data: c.mnemonic,
+          }
+        } else {
+          info = {
+            type: encodingType.xpriv,
+            data: c.xPrivKey
+          }
+        }
+      } else {
+        /*
+          EXPORT WITHOUT PRIVATE KEY - PENDING
+
+        info = {
+          type: encodingType.xpub,
+          data: c.xPubKey
+        }
+        */
+
+        return null;
+      }
+
+      var code = info.type + '|' + info.data + '|' + c.network.toLowerCase() + '|' + derivationPath + '|' + (c.mnemonicHasPassphrase);
+      return code;
+    };
+
+    $scope.downloadWalletBackup = function() {
+      $scope.getAddressbook(function(err, localAddressBook) {
+        if (err) {
+          $scope.error = true;
+          return;
+        }
+        var opts = {
+          noSign: $scope.noSignEnabled,
+          addressBook: localAddressBook
+        };
+
+        backupService.walletDownload($scope.password, opts, function(err) {
+          if (err) {
+            $scope.error = true;
+            return;
+          }
           notification.success(gettext('Success'), gettext('Encrypted export file saved'));
           go.walletHome();
         });
       });
     };
 
-    self.getMetaData = function(metaData, cb) {
-      if (metaData == false) return cb();
-      self.getHistoryCache(function(err, txsFromLocal) {
-        if (err) return cb(err);
-
-        self.getAddressbook(function(err, localAddressBook) {
-          if (err) return cb(err);
-
-          return cb(null, txsFromLocal, localAddressBook)
-        });
-      });
-    }
-
-    self.getHistoryCache = function(cb) {
-      storageService.getTxHistory(fc.credentials.walletId, function(err, txs) {
-        if (err) return cb(err);
-
-        var localTxs = [];
-
-        try {
-          localTxs = JSON.parse(txs);
-        } catch (ex) {
-          $log.warn(ex);
-        }
-        if (!localTxs[0]) return cb(null, null);
-
-        return cb(null, localTxs);
-      });
-    }
-
-    self.getAddressbook = function(cb) {
+    $scope.getAddressbook = function(cb) {
       storageService.getAddressbook(fc.credentials.network, function(err, addressBook) {
         if (err) return cb(err);
 
@@ -78,44 +141,41 @@ angular.module('copayApp.controllers').controller('exportController',
 
         return cb(null, localAddressBook);
       });
-    }
+    };
 
-    self.getBackup = function(cb) {
-      self.getMetaData($scope.metaData, function(err, txsFromLocal, localAddressBook) {
+    $scope.getBackup = function(cb) {
+      $scope.getAddressbook(function(err, localAddressBook) {
         if (err) {
-          self.error = true;
+          $scope.error = true;
           return cb(null);
         }
         var opts = {
-          noSign: $scope.noSign,
-          historyCache: txsFromLocal,
+          noSign: $scope.noSignEnabled,
           addressBook: localAddressBook
         };
 
-        var ew = backupService.walletExport(self.password, opts);
+        var ew = backupService.walletExport($scope.password, opts);
         if (!ew) {
-          self.error = true;
+          $scope.error = true;
         } else {
-          self.error = false;
-          $rootScope.$emit('Local/BackupDone');
+          $scope.error = false;
         }
         return cb(ew);
       });
-    }
+    };
 
-    self.viewWalletBackup = function() {
-      var self = this;
+    $scope.viewWalletBackup = function() {
       $timeout(function() {
-        self.getBackup(function(backup) {
+        $scope.getBackup(function(backup) {
           var ew = backup;
           if (!ew) return;
-          self.backupWalletPlainText = ew;
+          $scope.backupWalletPlainText = ew;
         });
       }, 100);
     };
 
-    self.copyWalletBackup = function() {
-      self.getBackup(function(backup) {
+    $scope.copyWalletBackup = function() {
+      $scope.getBackup(function(backup) {
         var ew = backup;
         if (!ew) return;
         window.cordova.plugins.clipboard.copy(ew);
@@ -123,29 +183,32 @@ angular.module('copayApp.controllers').controller('exportController',
       });
     };
 
-    self.sendWalletBackup = function() {
+    $scope.sendWalletBackup = function() {
       var fc = profileService.focusedClient;
-      if (isMobile.Android() || isMobile.Windows()) {
-        window.ignoreMobilePause = true;
-      }
       window.plugins.toast.showShortCenter(gettextCatalog.getString('Preparing backup...'));
       var name = (fc.credentials.walletName || fc.credentials.walletId);
       if (fc.alias) {
         name = fc.alias + ' [' + name + ']';
       }
-      self.getBackup(function(backup) {
+      $scope.getBackup(function(backup) {
         var ew = backup;
         if (!ew) return;
 
-        if ($scope.noSign)
+        if ($scope.noSignEnabled)
           name = name + '(No Private Key)';
 
-        var properties = {
-          subject: 'Unicoisa Wallet Backup: ' + name,
-          body: 'Here is the encrypted backup of the wallet ' + name + ': \n\n' + ew + '\n\n To import this backup, copy all text between {...}, including the symbols {}',
-          isHtml: false
-        };
-        window.plugin.email.open(properties);
+        var subject = 'Unicoisa Wallet Backup: ' + name;
+        var body = 'Here is the encrypted backup of the wallet ' + name + ': \n\n' + ew + '\n\n To import this backup, copy all text between {...}, including the symbols {}';
+        window.plugins.socialsharing.shareViaEmail(
+          body,
+          subject,
+          null, // TO: must be null or an array
+          null, // CC: must be null or an array
+          null, // BCC: must be null or an array
+          null, // FILES: can be null, a string, or an array
+          function() {},
+          function() {}
+        );
       });
     };
 

@@ -1,175 +1,186 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('backupController',
-  function($rootScope, $scope, $timeout, $log, $state, $compile, go, lodash, profileService, gettext, bwcService, bwsError) {
+  function($rootScope, $scope, $timeout, $log, go, lodash, fingerprintService, platformInfo, configService, profileService, gettext, bwcService, walletService, ongoingProcess) {
 
-    var self = this;
     var fc = profileService.focusedClient;
-    var customWords = [];
-    self.walletName = fc.credentials.walletName;
+    var prevState;
+    $scope.customWords = [];
+    $scope.walletName = fc.credentials.walletName;
+    $scope.credentialsEncrypted = fc.isPrivKeyEncrypted;
 
-    function init() {
-      $scope.passphrase = '';
-      resetAllButtons();
-      customWords = [];
-      self.step = 1;
-      self.deleted = false;
-      self.credentialsEncrypted = false;
-      self.selectComplete = false;
-      self.backupError = false;
-    }
+    $scope.init = function(state) {
+      prevState = state || 'walletHome';
+      $scope.step = 1;
+      $scope.deleted = isDeletedSeed();
+      if ($scope.deleted) return;
 
-    init();
+      fingerprintService.check(fc, function(err) {
+        if (err) {
+          go.path(prevState);
+          return;
+        }
 
-    if (fc.credentials && !fc.credentials.mnemonicEncrypted && !fc.credentials.mnemonic)
-      self.deleted = true;
-
-    if (fc.isPrivKeyEncrypted() && !self.deleted) {
-      self.credentialsEncrypted = true;
-      passwordRequest();
-    } else {
-      if (!self.deleted)
-        initWords();
-    }
-
-    self.goToStep = function(n) {
-      self.step = n;
-      if (self.step == 1)
-        init();
-      if (self.step == 3 && !self.mnemonicHasPassphrase)
-        self.step++;
-      if (self.step == 4) {
-        confirm();
-      }
-    }
-
-    function initWords() {
-      var words = fc.getMnemonic();
-      self.xPrivKey = fc.credentials.xPrivKey;
-      profileService.lockFC();
-      self.mnemonicWords = words.split(/[\u3000\s]+/);
-      self.shuffledMnemonicWords = lodash.sortBy(self.mnemonicWords);;
-      self.mnemonicHasPassphrase = fc.mnemonicHasPassphrase();
-      self.useIdeograms = words.indexOf("\u3000") >= 0;
+        handleEncryptedWallet(fc, function(err) {
+          if (err) {
+            $log.warn('Error decrypting credentials:', $scope.error);
+            go.path(prevState);
+            return;
+          }
+          $scope.credentialsEncrypted = false;
+          $scope.initFlow();
+        });
+      });
     };
 
-    self.toggle = function() {
-      self.error = "";
+    function shuffledWords(words) {
+      var sort = lodash.sortBy(words);
 
-      if (self.credentialsEncrypted)
-        passwordRequest();
+      return lodash.map(sort, function(w) {
+        return {
+          word: w,
+          selected: false
+        };
+      });
+    };
+
+    $scope.initFlow = function() {
+      var words = fc.getMnemonic();
+      $scope.xPrivKey = fc.credentials.xPrivKey;
+      $scope.mnemonicWords = words.split(/[\u3000\s]+/);
+      $scope.shuffledMnemonicWords = shuffledWords($scope.mnemonicWords);
+      $scope.mnemonicHasPassphrase = fc.mnemonicHasPassphrase();
+      $scope.useIdeograms = words.indexOf("\u3000") >= 0;
+      $scope.passphrase = '';
+      $scope.customWords = [];
+      $scope.step = 1;
+      $scope.selectComplete = false;
+      $scope.backupError = false;
 
       $timeout(function() {
         $scope.$apply();
+      }, 10);
+    };
+
+    function isDeletedSeed() {
+      if (lodash.isEmpty(fc.credentials.mnemonic) && lodash.isEmpty(fc.credentials.mnemonicEncrypted))
+        return true;
+      return false;
+    };
+
+    $scope.goBack = function() {
+      go.path(prevState || 'walletHome');
+    };
+
+    $scope.$on('$destroy', function() {
+      walletService.lock(fc);
+    });
+
+    $scope.goToStep = function(n) {
+      if (n == 1)
+        $scope.initFlow();
+      if (n == 2)
+        $scope.step = 2;
+      if (n == 3) {
+        if (!$scope.mnemonicHasPassphrase)
+          finalStep();
+        else
+          $scope.step = 3;
+      }
+      if (n == 4)
+        finalStep();
+
+      function finalStep() {
+        ongoingProcess.set('validatingWords', true);
+        confirm(function(err) {
+          ongoingProcess.set('validatingWords', false);
+          if (err) {
+            backupError(err);
+          }
+          $timeout(function() {
+            $scope.step = 4;
+            return;
+          }, 1);
+        });
+      };
+    };
+
+    $scope.addButton = function(index, item) {
+      var newWord = {
+        word: item.word,
+        prevIndex: index
+      };
+      $scope.customWords.push(newWord);
+      $scope.shuffledMnemonicWords[index].selected = true;
+      $scope.shouldContinue();
+    };
+
+    $scope.removeButton = function(index, item) {
+      if ($scope.loading) return;
+      $scope.customWords.splice(index, 1);
+      $scope.shuffledMnemonicWords[item.prevIndex].selected = false;
+      $scope.shouldContinue();
+    };
+
+    $scope.shouldContinue = function() {
+      if ($scope.customWords.length == $scope.shuffledMnemonicWords.length)
+        $scope.selectComplete = true;
+      else
+        $scope.selectComplete = false;
+    };
+
+    function confirm(cb) {
+      $scope.backupError = false;
+
+      var customWordList = lodash.pluck($scope.customWords, 'word');
+
+      if (!lodash.isEqual($scope.mnemonicWords, customWordList)) {
+        return cb('Mnemonic string mismatch');
+      }
+
+      $timeout(function() {
+        if ($scope.mnemonicHasPassphrase) {
+          var walletClient = bwcService.getClient();
+          var separator = $scope.useIdeograms ? '\u3000' : ' ';
+          var customSentence = customWordList.join(separator);
+          var passphrase = $scope.passphrase || '';
+
+          try {
+            walletClient.seedFromMnemonic(customSentence, {
+              network: fc.credentials.network,
+              passphrase: passphrase,
+              account: fc.credentials.account
+            });
+          } catch (err) {
+            return cb(err);
+          }
+
+          if (walletClient.credentials.xPrivKey != $scope.xPrivKey) {
+            return cb('Private key mismatch');
+          }
+        }
+
+        $rootScope.$emit('Local/BackupDone');
+        return cb();
       }, 1);
     };
 
-    function passwordRequest() {
-      try {
-        initWords();
-      } catch (e) {
-        if (e.message && e.message.match(/encrypted/) && fc.isPrivKeyEncrypted()) {
-
-          $timeout(function() {
-            $scope.$apply();
-          }, 1);
-
-          profileService.unlockFC(function(err) {
-            if (err) {
-              self.error = bwsError.msg(err, gettext('Could not decrypt'));
-              $log.warn('Error decrypting credentials:', self.error); //TODO
-              return;
-            }
-
-            self.credentialsEncrypted = false;
-            initWords();
-
-            $timeout(function() {
-              $scope.$apply();
-            }, 1);
-          });
-        }
-      }
-    }
-
-    function resetAllButtons() {
-      document.getElementById('addWord').innerHTML = '';
-      var nodes = document.getElementById("buttons").getElementsByTagName('button');
-      lodash.each(nodes, function(n) {
-        document.getElementById(n.id).disabled = false;
-      });
-    }
-
-    self.enableButton = function(word) {
-      document.getElementById(word).disabled = false;
-      lodash.remove(customWords, function(v) {
-        return v == word;
-      });
-    }
-
-    self.disableButton = function(index, word) {
-      var element = {
-        index: index,
-        word: word
-      };
-      document.getElementById(index + word).disabled = true;
-      customWords.push(element);
-      self.addButton(index, word);
-    }
-
-    self.addButton = function(index, word) {
-      var btnhtml = '<button class="button radius tiny words" ng-disabled="wordsC.disableButtons"' +
-        'data-ng-click="wordsC.removeButton($event)" id="_' + index + word + '" > ' + word + ' </button>';
-      var temp = $compile(btnhtml)($scope);
-      angular.element(document.getElementById('addWord')).append(temp);
-      self.shouldContinue();
-    }
-
-    self.removeButton = function(event) {
-      var id = (event.target.id);
-      document.getElementById(id).remove();
-      self.enableButton(id.substring(1));
-      lodash.remove(customWords, function(d) {
-        return d.index == id.substring(1, 3);
-      });
-      self.shouldContinue();
-    }
-
-    self.shouldContinue = function() {
-      if (customWords.length == 12)
-        self.selectComplete = true;
-      else
-        self.selectComplete = false;
-    }
-
-    function confirm() {
-      self.backupError = false;
-
-      var walletClient = bwcService.getClient();
-      var separator = self.useIdeograms ? '\u3000' : ' ';
-      var customSentence = lodash.pluck(customWords, 'word').join(separator);
-      var passphrase = $scope.passphrase || '';
-
-      try {
-        walletClient.seedFromMnemonic(customSentence, {
-          network: fc.credentials.network,
-          passphrase: passphrase,
-          account: fc.credentials.account
-        })
-      } catch (err) {
-        return backupError(err);
+    function handleEncryptedWallet(client, cb) {
+      if (!walletService.isEncrypted(client)) {
+        $scope.credentialsEncrypted = false;
+        return cb();
       }
 
-      if (walletClient.credentials.xPrivKey != self.xPrivKey) {
-        return backupError('Private key mismatch');
-      }
-
-      $rootScope.$emit('Local/BackupDone');
-    }
+      $rootScope.$emit('Local/NeedsPassword', false, function(err, password) {
+        if (err) return cb(err);
+        return cb(walletService.unlock(client, password));
+      });
+    };
 
     function backupError(err) {
+      ongoingProcess.set('validatingWords', false);
       $log.debug('Failed to verify backup: ', err);
-      self.backupError = true;
+      $scope.backupError = true;
 
       $timeout(function() {
         $scope.$apply();

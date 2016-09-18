@@ -16,7 +16,7 @@ function selectText(element) {
   }
 }
 angular.module('copayApp.directives')
-.directive('validAddress', ['$rootScope', 'bitcore', 'profileService',
+  .directive('validAddress', ['$rootScope', 'bitcore', 'profileService',
     function($rootScope, bitcore, profileService) {
       return {
         require: 'ngModel',
@@ -94,19 +94,25 @@ angular.module('copayApp.directives')
           var val = function(value) {
             var settings = configService.getSync().wallet.settings;
             var vNum = Number((value * settings.unitToSatoshi).toFixed(0));
-
             if (typeof value == 'undefined' || value == 0) {
               ctrl.$pristine = true;
             }
 
+
+
             if (typeof vNum == "number" && vNum > 0) {
-              var decimals = Number(settings.unitDecimals);
-              var sep_index = ('' + value).indexOf('.');
-              var str_value = ('' + value).substring(sep_index + 1);
-              if (sep_index > 0 && str_value.length > decimals) {
+              if (vNum > Number.MAX_SAFE_INTEGER) {
                 ctrl.$setValidity('validAmount', false);
               } else {
-                ctrl.$setValidity('validAmount', true);
+                var decimals = Number(settings.unitDecimals);
+                var sep_index = ('' + value).indexOf('.');
+                var str_value = ('' + value).substring(sep_index + 1);
+                if (sep_index >= 0 && str_value.length > decimals) {
+                  ctrl.$setValidity('validAmount', false);
+                  return;
+                } else {
+                  ctrl.$setValidity('validAmount', true);
+                }
               }
             } else {
               ctrl.$setValidity('validAmount', false);
@@ -162,21 +168,23 @@ angular.module('copayApp.directives')
       }
     }
   })
-  .directive('contact', ['addressbookService', function(addressbookService) {
-    return {
-      restrict: 'E',
-      link: function(scope, element, attrs) {
-        var addr = attrs.address;
-        addressbookService.getLabel(addr, function(label) {
-          if (label) {
-            element.append(label);
-          } else {
-            element.append(addr);
-          }
-        });
-      }
-    };
-  }])
+  .directive('contact', ['addressbookService',
+    function(addressbookService) {
+      return {
+        restrict: 'E',
+        link: function(scope, element, attrs) {
+          var addr = attrs.address;
+          addressbookService.getLabel(addr, function(label) {
+            if (label) {
+              element.append(label);
+            } else {
+              element.append(addr);
+            }
+          });
+        }
+      };
+    }
+  ])
   .directive('highlightOnChange', function() {
     return {
       restrict: 'A',
@@ -317,65 +325,16 @@ angular.module('copayApp.directives')
       templateUrl: 'views/includes/available-balance.html'
     }
   })
-  .directive('fastClick', [ 'isCordova', '$timeout', 'isMobile', function(isCordova, $timeout, isMobile) {
+  .directive('ignoreMouseWheel', function($rootScope, $timeout) {
     return {
-      scope: { someCtrlFn: '&callbackFn'},
+      restrict: 'A',
       link: function(scope, element, attrs) {
-
-        var isWindowsPhoneApp = isMobile.Windows() && isCordova;
-        if (!isCordova || isWindowsPhoneApp) {
-          element.on('click', function(){
-            scope.someCtrlFn();
-          });
-        } else {
-          var trackingClick = false;
-          var targetElement = null;
-          var touchStartX = 0;
-          var touchStartY = 0;
-          var touchBoundary = 10;
-
-          element.on('touchstart', function(event) {
-
-            trackingClick = true;
-            targetElement = event.target;
-            touchStartX = event.targetTouches[0].pageX;
-            touchStartY = event.targetTouches[0].pageY;
-
-            return true;
-          });
-
-          element.on('touchend', function(event) {
-            if (trackingClick) {
-              scope.someCtrlFn();
-              event.preventDefault();
-            }
-            trackingClick = false;
-            return false;
-          });
-
-          element.on('touchmove', function(event) {
-            if (!trackingClick) {
-              return true;
-            }
-
-            // If the touch has moved, cancel the click tracking
-            if (targetElement !== event.target
-                || (Math.abs(event.changedTouches[0].pageX - touchStartX) > touchBoundary
-                  || (Math.abs(event.changedTouches[0].pageY - touchStartY) > touchBoundary))) {
-              trackingClick = false;
-              targetElement = null;
-            }
-
-            return true;
-          });
-
-          element.on('touchcancel', function() {
-            trackingClick = false;
-            targetElement = null;
-          });
-        }
+        element.bind('mousewheel', function(event) {
+          element[0].blur();
+          $timeout(function() {
+            element[0].focus();
+          }, 1);
+        });
       }
     }
-  }]);
-
-;
+  });

@@ -58,12 +58,10 @@ if [ ! -d $PROJECT ]; then
   echo "${OpenColor}${Green}* Creating project... ${CloseColor}"
   cordova create project org.coloredcoins.unicoisa Unicoisa
   checkOK
-
   cd $PROJECT
-
   if [ $CURRENT_OS == "ANDROID" ]; then
     echo "${OpenColor}${Green}* Adding Android platform... ${CloseColor}"
-    cordova platforms add android
+    cordova platforms add android@5.1.1
     checkOK
   fi
 
@@ -81,20 +79,29 @@ if [ ! -d $PROJECT ]; then
 
   echo "${OpenColor}${Green}* Installing plugins... ${CloseColor}"
 
-  cordova plugin add https://github.com/florentvaldelievre/virtualartifacts-webIntent.git
-  checkOK
-
-  if [ $CURRENT_OS != "WP8" ]
+  if [ $CURRENT_OS == "IOS" ]
   then
     cordova plugin add https://github.com/tjwoon/csZBar.git
     checkOK
   else
-    echo "${OpenColor}${Green}* Using plugin phonegap-plugin-barcodescanner for Windows Phone 8  ${CloseColor}"
-    cordova plugin add https://github.com/phonegap/phonegap-plugin-barcodescanner.git
+    cordova plugin add https://github.com/jrontend/phonegap-plugin-barcodescanner
+    checkOK
+  fi
+
+  if [ $CURRENT_OS == "IOS" ]; then
+    cordova plugin add phonegap-plugin-push@1.5.3
+    checkOK
+  fi
+
+  if [ $CURRENT_OS == "ANDROID" ]; then
+    cordova plugin add phonegap-plugin-push@1.2.3
     checkOK
   fi
 
   cordova plugin add cordova-plugin-globalization
+  checkOK
+
+  cordova plugin add cordova.plugins.diagnostic
   checkOK
 
   cordova plugin add cordova-plugin-splashscreen
@@ -103,10 +110,7 @@ if [ ! -d $PROJECT ]; then
   cordova plugin add cordova-plugin-statusbar
   checkOK
 
-  cordova plugin add phonegap-plugin-push@1.2.3
-  checkOK
-
-  cordova plugin add cordova-plugin-customurlscheme --variable URL_SCHEME=bitcoin
+  cordova plugin add https://github.com/cmgustavo/Custom-URL-scheme.git --variable URL_SCHEME=bitcoin --variable SECOND_URL_SCHEME=copay
   checkOK
 
   cordova plugin add cordova-plugin-inappbrowser
@@ -116,9 +120,6 @@ if [ ! -d $PROJECT ]; then
   checkOK
 
   cordova plugin add https://github.com/VersoSolutions/CordovaClipboard
-  checkOK
-
-  cordova plugin add cordova-plugin-email-composer@0.8.3
   checkOK
 
   cordova plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git && cordova prepare
@@ -139,7 +140,7 @@ if [ ! -d $PROJECT ]; then
   cordova plugin add cordova-plugin-uniquedeviceid
   checkOK
 
-  cordova plugin add cordova-plugin-file@3.0.0
+  cordova plugin add cordova-plugin-file
   checkOK
 
   cordova plugin add cordova-plugin-touch-id && cordova prepare
@@ -153,12 +154,17 @@ if [ ! -d $PROJECT ]; then
 
 fi
 
-if [ $CURRENT_OS == "ANDROID" ]; then
-  export UNICOISA_LOG_ENV=android
-fi
+  ## Fix plugin android-fingerprint
+  rm -rf $PROJECT/platforms/android/res/values-es
+  cordova plugin add cordova-plugin-android-fingerprint-auth
+  checkOK
 
-if [ $CURRENT_OS == "IOS" ]; then
-  export UNICOISA_LOG_ENV=ios
+  cordova plugin add cordova-plugin-screen-orientation
+  checkOK
+
+  cordova plugin add ionic-plugin-keyboard
+  checkOK
+
 fi
 
 if $DBGJS
@@ -200,6 +206,12 @@ if [ $CURRENT_OS == "ANDROID" ]; then
   checkOK
 
   cp android/project.properties $PROJECT/platforms/android/project.properties
+  checkOK
+
+  mkdir -p $PROJECT/scripts
+  checkOK
+
+  cp scripts/* $PROJECT/scripts
   checkOK
 
   cp -R android/res/* $PROJECT/platforms/android/res

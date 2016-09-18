@@ -8,20 +8,6 @@
 
 <div class="content glidera p20b" ng-controller="glideraController as glidera">
 
-  <div class="onGoingProcess" ng-show="glidera.loading || index.glideraLoading">
-    <div class="onGoingProcess-content" ng-style="{'background-color':index.backgroundColor}">
-    <div class="spinner">
-      <div class="rect1"></div>
-      <div class="rect2"></div>
-      <div class="rect3"></div>
-      <div class="rect4"></div>
-      <div class="rect5"></div>
-    </div>
-    <span ng-show="glidera.loading">Connecting to Glidera...</span>
-    <span ng-show="index.glideraLoading">{{index.glideraLoading}}</span>
-    </div>
-  </div>
-
   <div class="row">
     <div class="m20b box-notification" ng-if="index.glideraError">
       <div class="text-warning">
@@ -42,13 +28,13 @@
           Retry
         </button>
         <div class="m20t size-12">
-          <a class="text-gray" ng-click="$root.go('preferencesGlidera')">Preferences</a>
+          <a class="text-gray" href ui-sref="preferencesGlidera">Preferences</a>
         </div>
       </div>
     </div>
   </div>
 
-  <div ng-if="!index.glideraToken && !index.glideraLoading && !index.glideraError"
+  <div ng-if="!index.glideraToken && !index.glideraError"
     class="row">
     <div class="box-notification text-center size-12 text-warning" ng-show="index.glideraTestnet">
       <i class="fi-info"></i>
@@ -67,7 +53,7 @@
           service, Glidera has registered with US Treasury Department’s FinCEN as a Money Service Business
           (#31000042625755).  Users of Copay must agree to the service agreement presented by Glidera prior to obtaining
           Glidera’s service of buying or selling bitcoins. Service available in U.S. and Canada only. In U.S. (buy & sell) CA, GA, IL, KS,
-          MA, MD, MO, MT, MN, SC, TX; (buy only) AZ, CO, DE, ME, NJ, PA, TN, UT. In Canada (buy & sell) AB, BC, MB, NB, NL, NS, NT, NU,
+          MA, MD, MO, MT, MN, SC, TX, AZ, CO, DE, ME, NJ, PA, TN, UT, NV, WI. In Canada (buy & sell) AB, BC, MB, NB, NL, NS, NT, NU,
           ON, PE, SK, YT.
         </p>
 
@@ -108,7 +94,7 @@
     <div class="p20v text-center white">
       <img src="img/glidera-logo.png" ng-click="index.updateGlidera(index.glideraToken, index.glideraPermissions)" width="100">
     </div>
-    <div class="sub-header"  ng-click="$root.go('preferencesGlidera')">
+    <div class="sub-header" href ui-sref="preferencesGlidera">
       <div class="left">
         <div ng-show="!index.glideraPersonalInfo && !index.glideraEmail">
           Preferences
@@ -146,11 +132,11 @@
       </div>
     </div>
 
-    <ul class="no-bullet m0 size-14" 
+    <ul class="no-bullet m0 size-14"
       ng-show="index.glideraStatus && index.glideraStatus.userCanTransact">
-      <li ng-show="index.glideraStatus.userCanBuy" 
+      <li ng-show="index.glideraStatus.userCanBuy"
           class="line-b line-t p20 pointer"
-          ng-click="$root.go('buyGlidera')">
+          href ui-sref="buyGlidera">
         <img src="img/buy-bitcoin.svg" alt="buy bitcoin" width="40">
         <span class="m10 text-normal text-bold">Buy Bitcoin</span>
         <span class="right text-gray">
@@ -159,7 +145,7 @@
       </li>
       <li class="line-b p20 pointer"
           ng-show="index.glideraStatus.userCanSell"
-          ng-click="$root.go('sellGlidera')">
+          href ui-sref="sellGlidera">
         <img src="img/sell-bitcoin.svg" alt="buy bitcoin" width="40">
         <span class="m10 text-normal text-bold">Sell Bitcoin</span>
         <span class="right text-gray">
@@ -170,7 +156,7 @@
 
     <div ng-show="index.glideraPermissions.transaction_history">
       <h4>Activity</h4>
-      <div ng-show="index.glideraTxs.length == 0 && !index.glideraLoadingHistory"
+      <div ng-show="index.glideraTxs.length == 0 "
         class="size-12 p10 text-center text-gray">
         No activity in your account
       </div>

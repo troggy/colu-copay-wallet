@@ -1,51 +1,50 @@
 
-<div 
-  class="topbar-container" 
+<div
+  class="topbar-container"
   ng-include="'views/includes/topbar.html'"
-  ng-init="titleSection='Wallet Preferences'; closeToHome = true">
+  ng-init="titleSection=index.setWalletPreferencesTitle(); closeToHome = true">
 </div>
 
 
-<div class="content preferences" ng-controller="preferencesController as preferences" ng-init="preferences.init()">
+<div class="content preferences" ng-controller="preferencesController" ng-init="init()">
 
   <h4></h4>
 
   <ul class="no-bullet m0" ng-show="!index.noFocusedWallet">
 
-    <li  ng-click="$root.go('preferencesAlias')">
+    <li href ui-sref="preferencesAlias">
       <div class="right text-gray">
         {{index.alias||index.walletName}}
-        <i class="icon-arrow-right3 size-24"></i>
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Alias</div>
     </li>
 
-    <li ng-click="$root.go('preferencesEmail')">
+    <li href ui-sref="preferencesEmail">
       <div class="right text-gray">
         <span ng-if="!index.preferences.email" translate>Disabled</span>
         <span ng-if="index.preferences.email">{{index.preferences.email}}</span>
-        <i class="icon-arrow-right3 size-24"></i>
+        <i class="icon-arrow-right3 size-24 right"></i>
       </div>
       <div translate>Email Notifications</div>
     </li>
 
-    <li ng-hide="index.noUserColors" ng-click="$root.go('preferencesColor')">
+    <li ng-hide="index.noUserColors" href ui-sref="preferencesColor">
       <div class="right text-gray">
         <span ng-style="{'color':index.backgroundColor}">&block;</span>
-        <i class="icon-arrow-right3 size-24"></i>
-      </div>      
+        <i class="icon-arrow-right3 size-24 right"></i>
+      </div>
       <div translate>Color</div>
     </li>
 
     <li ng-show="index.isPrivKeyExternal">
-      <div class="right text-gray">
-        {{preferences.externalSource}} 
-        <!-- (Accont {{preferences.externalAccount}}) -->
+      <div class="right text-gray m10r">
+        {{externalSource}}
       </div>
       <div translate>Hardware wallet</div>
-    </li> 
+    </li>
 
-    <li ng-click="$root.go('backup')"  ng-hide="index.isPrivKeyExternal">
+    <li href ui-sref="backup" ng-hide="index.isPrivKeyExternal">
       <div class="right text-gray">
         <span class="text-warning" ng-show="index.needsBackup">
           <i class="fi-alert"></i> <span translate>Not completed</span>
@@ -55,8 +54,8 @@
       <div translate>Backup</div>
     </li>
 
-    <li ng-click="$root.go('preferencesAdvanced')">
-      <i class="icon-arrow-right3 size-24 right text-gray"></i>  
+    <li href ui-sref="preferencesAdvanced">
+      <i class="icon-arrow-right3 size-24 right text-gray"></i>
       <div translate>Advanced</div>
     </li>
 
@@ -67,27 +66,20 @@
   </h4>
 
   <div ng-show="!index.noFocusedWallet && index.canSign">
+    <ion-toggle ng-model="encryptEnabled" toggle-class="toggle-balanced" ng-change="encryptChange()">
+      <span class="toggle-label" translate>Request Spending Password</span>
+    </ion-toggle>
 
-    <ul class="no-bullet m0">
-
-      <li>
-        <switch id="network-name" name="encrypt" ng-model="encrypt" class="green right"></switch>
-        <div translate>Request Password</div>
-      </li>
-
-      <li  ng-show="preferences.touchidAvailable">
-        <switch id="touchid" name="touchid" ng-model="touchid" class="green right"></switch>
-        <div translate>Scan Fingerprint</div>
-      </li>
-    </ul>
-
+    <ion-toggle ng-model="touchidEnabled" toggle-class="toggle-balanced" ng-change="touchidChange()" ng-show="touchidAvailable">
+      <span class="toggle-label" translate>Scan Fingerprint</span>
+    </ion-toggle>
   </div>
   <div ng-show ="!deleted">
 
     <ul class="no-bullet m0">
-      <li ng-click="$root.go('deleteWords')">
+      <li href ui-sref="deleteWords">
         <i class="icon-arrow-right3 size-24 right text-gray"></i>
-        <div translate>Delete seed words</div>
+        <div translate>Delete recovery phrase</div>
       </li>
     </ul>
 

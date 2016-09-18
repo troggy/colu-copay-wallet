@@ -12,8 +12,9 @@ msgstr ""
 "Last-Translator: cmgustavo83\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
-"PO-Revision-Date: 2016-02-29 10:52-0500\n"
+"PO-Revision-Date: 2016-07-15 09:26-0400\n"
 
+#: public/views/modals/search.html
 #: public/views/walletHome.html
 msgid "(possible double spend)"
 msgstr "(二重払い可能性あり)"
@@ -22,14 +23,26 @@ msgstr "(二重払い可能性あり)"
 msgid "(Trusted)"
 msgstr "(信頼済み)"
 
+#: public/views/walletHome.html
+msgid "[Balance Hidden]"
+msgstr "[残高非表示中]"
+
 #: src/js/controllers/walletHome.js
 msgid "{{fee}} will be deducted for bitcoin networking fees"
 msgstr "{{fee}} のビットコインネットワーク手数料が差し引かれます。"
+
+#: public/views/includes/confirm-tx.html
+msgid "{{feeRateStr}} of the transaction"
+msgstr "{{feeRateStr}} のレート"
 
 #: public/views/copayers.html
 #: public/views/includes/walletInfo.html
 msgid "{{index.m}}-of-{{index.n}}"
 msgstr "{{index.m}}-of-{{index.n}}"
+
+#: public/views/modals/search.html
+msgid "{{index.result.length - index.txHistorySearchResults.length}} more"
+msgstr "あと {{index.result.length - index.txHistorySearchResults.length}}"
 
 #: public/views/walletHome.html
 msgid "{{index.txProgress}} transactions downloaded"
@@ -38,10 +51,6 @@ msgstr "{{index.txProgress}} 個の取引ダウンロード済み"
 #: public/views/includes/sidebar.html
 msgid "{{item.m}}-of-{{item.n}}"
 msgstr "{{item.m}}-of-{{item.n}}"
-
-#: src/js/controllers/importLegacy.js
-msgid "{{len}} wallets imported. Funds scanning in progress. Hold on to see updated balance"
-msgstr "{{len}} 個のウォレットをインポートしました。残高照会中のため、少々お待ち下さい。"
 
 #: public/views/modals/txp-details.html
 msgid "* A payment proposal can be deleted if 1) you are the creator, and no other copayer has signed, or 2) 24 hours have passed since the proposal was created."
@@ -52,15 +61,15 @@ msgid "<b>IF YOU LOSE ACCESS TO YOUR COPAY WALLET OR YOUR ENCRYPTED PRIVATE KEYS
 msgstr "<b>Copayウォレットとその中にある秘密鍵の情報を紛失してしまい、尚且つバックアップが無い、若しくはそのバックアップを暗号化した際のパスワードが分からないなどの状況に陥ってしまえば、そのウォレットに含まれた全てのビットコインが永久送金不可能となってしまうことを認識し、同意するものとします。</b>"
 
 #: public/views/backup.html
-msgid "<b>OR</b> 1 wallet export file and the remaining quorum of wallet seeds (e.g. in a 3-5 wallet: 1 wallet export file + 2 wallet seeds of any of the other copayers)."
+msgid "<b>OR</b> 1 wallet export file and the remaining quorum of wallet recovery phrases (e.g. in a 3-5 wallet: 1 wallet export file + 2 wallet recovery phrases of any of the other copayers)."
 msgstr "<b>または</b> 従来ウォレットエクスポートファイル１つに加えて残りの必須人数の復元フレーズ (例： 3-of-5 ウォレットでは従来ウォレットバックアップ１つに加え、他の参加者２人分の復元フレーズさえあればウォレットは復元できます)"
 
 #: public/views/backup.html
-msgid "<b>OR</b> the wallet seed of <b>all</b> copayers in the wallet"
+msgid "<b>OR</b> the wallet recovery phrase of <b>all</b> copayers in the wallet"
 msgstr "<b>または</b> 参加者 <b>全員</b> のウォレット復元フレーズ"
 
 #: public/views/backup.html
-msgid "<b>OR</b> the wallet seeds of <b>all</b> copayers in the wallet"
+msgid "<b>OR</b> the wallet recovery phrases of <b>all</b> copayers in the wallet"
 msgstr "<b>または</b> 参加者 <b>全員</b> のウォレット復元フレーズ"
 
 #: public/views/disclaimer.html
@@ -71,7 +80,6 @@ msgstr "マルチシグネチャビットコインウォレット"
 msgid "About Copay"
 msgstr "Copayについて"
 
-#: public/views/includes/confirm-tx.html
 #: public/views/modals/txp-details.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
@@ -95,28 +103,33 @@ msgstr "ポケット番号"
 msgid "Activity"
 msgstr "履歴"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Add a new entry"
 msgstr "新規追加"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Add a Seed Passphrase"
-msgstr "復元フレーズ用のパスワードを追加"
+msgid "Add a Password"
+msgstr "パスワードを追加"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Add an optional passphrase to secure the seed"
+msgid "Add an optional password to secure the recovery phrase"
 msgstr "フレーズを守るために任意のパスワードをかけて下さい"
+
+#: public/views/includes/note.html
+#: public/views/modals/tx-details.html
+msgid "Add comment"
+msgstr "コメントを追加"
 
 #: public/views/includes/sidebar.html
 msgid "Add wallet"
 msgstr "ウォレットを追加"
 
-#: public/views/paymentUri.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
 #: public/views/modals/paypro.html
+#: public/views/paymentUri.html
 msgid "Address"
 msgstr "アドレス"
 
@@ -136,6 +149,7 @@ msgstr "通称"
 msgid "Alias for <i>{{index.walletName}}</i>"
 msgstr "<i>{{index.walletName}}</i> の通称設定"
 
+#: public/views/preferencesLanguage.html
 #: public/views/translators.html
 msgid "All contributions to Copay's translation are welcome. Sign up at crowdin.com and join the Copay project at"
 msgstr "Copayの翻訳は簡単に投稿することができます。crowdin.comのアカウント作成の後、自由にご参加いただけるプロジェクトページはこちら"
@@ -148,24 +162,24 @@ msgstr "署名が完了してしまった取引は取り消しが不可能とな
 msgid "Alternative Currency"
 msgstr "表示通貨"
 
-#: public/views/paymentUri.html
-#: public/views/walletHome.html
 #: public/views/includes/output.html
 #: public/views/modals/customized-amount.html
+#: public/views/paymentUri.html
+#: public/views/walletHome.html
 msgid "Amount"
 msgstr "金額"
 
-#: src/js/services/bwsError.js
-msgid "Amount below dust threshold"
-msgstr "最小送金額を下回っています。"
+#: src/js/services/bwcError.js
+msgid "Amount below minimum allowed"
+msgstr "送金可能最少額を下回っています"
 
-#: public/views/walletHome.html
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Amount in"
 msgstr "換算済金額"
 
 #: src/js/controllers/preferencesDeleteWords.js
-msgid "Are you sure you want to delete the backup words?"
+msgid "Are you sure you want to delete the recovery phrase?"
 msgstr "復元フレーズを削除してもよろしいですか？"
 
 #: src/js/controllers/copayers.js
@@ -173,6 +187,10 @@ msgstr "復元フレーズを削除してもよろしいですか？"
 msgid "Are you sure you want to delete this wallet?"
 msgstr "本当にこのウォレットを削除しても\n"
 "宜しいですか？"
+
+#: public/views/includes/walletInfo.html
+msgid "Auditable"
+msgstr "監査用"
 
 #: public/views/includes/available-balance.html
 msgid "Available Balance"
@@ -183,9 +201,6 @@ msgid "Average confirmation time: {{fee.nbBlocks * 10}} minutes"
 msgstr "承認までの時間(平均)： {{fee.nbBlocks * 10}} 分"
 
 #: public/views/includes/topbar.html
-#: public/views/includes/tx-details.html
-#: public/views/modals/tx-details.html
-#: public/views/modals/txp-details.html
 msgid "Back"
 msgstr "戻る"
 
@@ -197,6 +212,7 @@ msgstr "バックアップ"
 msgid "Backup failed"
 msgstr "バックアップ失敗"
 
+#: public/views/paperWallet.html
 #: public/views/walletHome.html
 msgid "Backup Needed"
 msgstr "要バックアップ"
@@ -204,10 +220,6 @@ msgstr "要バックアップ"
 #: public/views/walletHome.html
 msgid "Backup now"
 msgstr "今すぐバックアップ"
-
-#: src/js/controllers/preferencesDeleteWords.js
-msgid "Backup words deleted"
-msgstr "復元フレーズを削除しました。"
 
 #: src/js/services/profileService.js
 msgid "Bad wallet invitation"
@@ -217,9 +229,14 @@ msgstr "不正なウォレット招待コード"
 msgid "Balance By Address"
 msgstr "アドレスごとの残高"
 
+#: public/views/paperWallet.html
 #: public/views/walletHome.html
-msgid "Before receiving funds, it is necessary backup your wallet. If you lose this device, it is impossible to access your funds without a backup."
+msgid "Before receiving funds, you must backup your wallet. If this device is lost, it is impossible to access your funds without a backup."
 msgstr "お金を受け取る前に、このウォレットのバックアップを取っておくことを必ずしていただきます。一ウォレットごとにバックアップは一回です。バックアップを取らないまま、この端末が紛失・故障されてしまったら全残高が消失されてしまいます。"
+
+#: public/views/preferencesInformation.html
+msgid "BETA: Android Key Derivation Test:"
+msgstr "β機能： アンドロイド鍵派生テスト"
 
 #: public/views/create.html
 #: public/views/import.html
@@ -236,8 +253,8 @@ msgid "Bitcoin Network Fee Policy"
 msgstr "ビットコインネットワークの手数料設定"
 
 #: public/views/preferencesFee.html
-msgid "Bitcoin transactions may include a fee collected by miners on the network. The higher the fee, the greater the incentive a miner has to include that transaction in a block. Actual fees are determined based on network load and the selected policy."
-msgstr "円滑な送金をしていただくために、ビットコインの送金には少量の手数料を付けることが義務付けられております。この手数料はビットコインのネットワークを運用する人たちに寄付され、より高い手数料であればより優先的にブロックに含まれ、承認されます。選択された手数料基準やネットワークの混雑状況により、実際に払われる手数料が変動することがあります。"
+msgid "Bitcoin transactions may include a fee collected by miners on the network. The higher the fee, the greater the incentive a miner has to include that transaction in a block. Current fees are determined based on network load and the selected policy."
+msgstr "円滑な送金をしていただくために、ビットコインの送金には少量の手数料を付けることが義務付けられております。この手数料はビットコインのネットワークを運用する人たちに寄付され、より高い手数料であればより優先的にブロックに含まれ、承認されます。選択された手数料基準やネットワークの混雑状況により、その時点で払われるべき手数料が変動することがあります。"
 
 #: public/views/paymentUri.html
 msgid "Bitcoin URI is NOT valid!"
@@ -247,11 +264,7 @@ msgstr "Bitcoin URI が無効です！"
 msgid "Broadcast Payment"
 msgstr "取引送信"
 
-#: src/js/controllers/walletHome.js
-msgid "Broadcasting Payment"
-msgstr "取引送信中"
-
-#: src/js/services/txService.js
+#: src/js/services/onGoingProcess.js
 msgid "Broadcasting transaction"
 msgstr "取引送信中"
 
@@ -260,17 +273,19 @@ msgid "Browser unsupported"
 msgstr "ブラウザ未対応"
 
 #: public/views/includes/sidebar.html
-msgid "Buy &amp; Sell Bitcoin"
-msgstr "ビットコインの購入&amp;売却"
+msgid "Buy and Sell"
+msgstr "購入と売却"
 
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Calculating fee"
 msgstr "手数料計算中..."
 
-#: public/views/walletHome.html
 #: public/views/includes/confirm-tx.html
+#: public/views/includes/note.html
+#: public/views/includes/password.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/confirmation.html
-#: public/views/modals/destination-address.html
+#: public/views/walletHome.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
 #: src/js/controllers/preferencesDelete.js
@@ -278,13 +293,13 @@ msgstr "手数料計算中..."
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: public/views/includes/password.html
-msgid "CANCEL"
-msgstr "キャンセル"
-
 #: public/views/copayers.html
 msgid "Cancel and delete the wallet"
 msgstr "キャンセルし、ウォレットを削除"
+
+#: src/js/controllers/walletHome.js
+msgid "Cannot create transaction. Insufficient funds"
+msgstr "取引を作成できません。資金不足です。"
 
 #: src/js/services/profileService.js
 msgid "Cannot join the same wallet more that once"
@@ -302,6 +317,10 @@ msgstr "証明元："
 msgid "Changing wallet alias only affects the local wallet name."
 msgstr "ウォレット通称を変更しても、この端末でしか変わりません。"
 
+#: public/views/translators.html
+msgid "Chinese"
+msgstr "中国語"
+
 #: public/views/import.html
 msgid "Choose a backup file from your computer"
 msgstr "パソコンからバックアップファイルを選択して下さい。"
@@ -311,10 +330,13 @@ msgid "Clear cache"
 msgstr "キャッシュを消去"
 
 #: public/views/includes/topbar.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
 #: public/views/modals/paypro.html
 #: public/views/modals/scanner.html
+#: public/views/modals/search.html
+#: public/views/modals/tx-details.html
+#: public/views/modals/txp-details.html
 msgid "Close"
 msgstr "閉じる"
 
@@ -322,10 +344,15 @@ msgstr "閉じる"
 msgid "Color"
 msgstr "色"
 
+#: public/views/modals/tx-details.html
+msgid "Comment"
+msgstr "コメント"
+
 #: public/views/preferencesAbout.html
 msgid "Commit hash"
 msgstr "コミットのハッシュ値"
 
+#: public/views/includes/confirm-tx.html
 #: src/js/services/confirmDialog.js
 #: src/js/controllers/copayers.js
 #: src/js/controllers/preferencesDelete.js
@@ -333,15 +360,10 @@ msgstr "コミットのハッシュ値"
 msgid "Confirm"
 msgstr "確認"
 
-#: public/views/includes/confirm-tx.html
-msgid "Confirm transaction"
-msgstr "取引を承認する"
-
 #: public/views/backup.html
-msgid "Confirm your wallet seed"
+msgid "Confirm your wallet recovery phrase"
 msgstr "復元フレーズを確認"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Confirmations"
 msgstr "承認回数"
@@ -350,19 +372,15 @@ msgstr "承認回数"
 msgid "Congratulations!"
 msgstr "おめでとうございます！"
 
-#: public/views/create.html
-msgid "Connecting to {{create.hwWallet}} Wallet..."
-msgstr "{{create.hwWallet}} Wallet に接続中…"
+#: src/js/services/onGoingProcess.js
+msgid "Connecting to Coinbase..."
+msgstr "Coinbase に接続中…"
 
-#: public/views/import.html
-msgid "Connecting to {{import.hwWallet}} Wallet..."
-msgstr "{{import.hwWallet}} Wallet に接続中…"
+#: src/js/services/onGoingProcess.js
+msgid "Connecting to Glidera..."
+msgstr "Glidera に接続中…"
 
-#: public/views/join.html
-msgid "Connecting to {{join.hwWallet}} Wallet..."
-msgstr "{{join.hwWallet}} Wallet に接続中…"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Connection reset by peer"
 msgstr "接続がピアによってリセットされました"
 
@@ -370,15 +388,15 @@ msgstr "接続がピアによってリセットされました"
 msgid "Continue"
 msgstr "続ける"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer already in this wallet"
 msgstr "ウォレット参加者が既に存在しています。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer already voted on this spend proposal"
 msgstr "ウォレット参加者が既に送金の提案の意思表明をしています。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Copayer data mismatch"
 msgstr "ウォレット参加者のデータ不整合"
 
@@ -388,7 +406,7 @@ msgstr "ウォレット参加者"
 
 #: src/js/controllers/copayers.js
 #: src/js/controllers/export.js
-#: src/js/controllers/tx.js
+#: src/js/controllers/preferencesInformation.js
 #: src/js/controllers/walletHome.js
 msgid "Copied to clipboard"
 msgstr "クリップボードにコピーしました"
@@ -401,20 +419,23 @@ msgstr "このテキストを安全な場所に貼り付けて保管して下さ
 msgid "Copy to clipboard"
 msgstr "クリップボードへコピー"
 
-#: src/js/services/txService.js
-msgid "Could not accept payment"
-msgstr "送金を承認できませんでした。"
+#: public/views/import.html
+msgid "Could not access the wallet at the server. Please check:"
+msgstr "サーバーにてウォレットの確認ができませんでした。こちらをご確認下さい:"
+
+#: src/js/services/profileService.js
+msgid "Could not access wallet"
+msgstr "ウォレットにアクセスできませんでした。"
 
 #: src/js/controllers/index.js
 msgid "Could not access Wallet Service: Not found"
 msgstr "Wallet Serviceにアクセスできませんでした: 見つかりません"
 
-#: src/js/services/txService.js
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not broadcast payment"
 msgstr "送金を配信できませんでした。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Could not build transaction"
 msgstr "取引を作成できませんでした。"
 
@@ -435,18 +456,14 @@ msgid "Could not create using the specified extended public key"
 msgstr "指定された拡張公開鍵で作成できませんでした。"
 
 #: src/js/services/profileService.js
-msgid "Could not create: Invalid wallet seed"
+msgid "Could not create: Invalid wallet recovery phrase"
 msgstr "作成できません：ウォレットの復元フレーズが不正です。"
-
-#: src/js/controllers/backup.js
-msgid "Could not decrypt"
-msgstr "解読できませんでした"
 
 #: src/js/controllers/import.js
 msgid "Could not decrypt file, check your password"
 msgstr "複合化できませんでした。パスワードが正しいかご確認下さい。"
 
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not delete payment proposal"
 msgstr "送金の提案を削除できませんでした"
 
@@ -463,7 +480,7 @@ msgid "Could not import"
 msgstr "インポートできませんでした。"
 
 #: src/js/services/profileService.js
-msgid "Could not import. Check input file and password"
+msgid "Could not import. Check input file and spending password"
 msgstr "インポートできませんでした。入力ファイルとパスワードが正しいかご確認下さい。"
 
 #: src/js/services/profileService.js
@@ -474,7 +491,7 @@ msgstr "ウォレットに参加できませんでした。"
 msgid "Could not recognize a valid Bitcoin QR Code"
 msgstr "有効なビットコインQRコードが認識できませんでした。"
 
-#: src/js/controllers/walletHome.js
+#: src/js/controllers/modals/txpDetails.js
 msgid "Could not reject payment"
 msgstr "送金を却下できませんでした。"
 
@@ -507,12 +524,11 @@ msgstr "作成、参加、インポート"
 msgid "Created by"
 msgstr "作成者"
 
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Creating transaction"
 msgstr "取引作成中…"
 
-#: public/views/create.html
-#: public/views/disclaimer.html
+#: src/js/services/onGoingProcess.js
 msgid "Creating Wallet..."
 msgstr "ウォレット作成中…"
 
@@ -520,7 +536,10 @@ msgstr "ウォレット作成中…"
 msgid "Current fee rate for this policy: {{fee.feePerKBUnit}}/kiB"
 msgstr "この手数料基準の現レート： {{fee.feePerKBUnit}}/kiB"
 
-#: public/views/includes/tx-details.html
+#: public/views/translators.html
+msgid "Czech"
+msgstr "チェコ語"
+
 #: public/views/modals/tx-details.html
 msgid "Date"
 msgstr "日付"
@@ -538,8 +557,12 @@ msgid "Delete Payment Proposal"
 msgstr "送金の提案を削除"
 
 #: public/views/preferences.html
-msgid "Delete seed words"
-msgstr "復元フレーズの単語を削除する"
+msgid "Delete recovery phrase"
+msgstr "復元フレーズを削除"
+
+#: public/views/preferencesDeleteWords.html
+msgid "Delete Recovery Phrase"
+msgstr "復元フレーズを削除"
 
 #: public/views/preferencesDeleteWallet.html
 msgid "Delete wallet"
@@ -549,13 +572,9 @@ msgstr "ウォレットを削除"
 msgid "Delete Wallet"
 msgstr "ウォレットを削除"
 
-#: public/views/preferencesDeleteWords.html
-msgid "Delete words"
-msgstr "単語データを削除する"
-
-#: src/js/controllers/walletHome.js
-msgid "Deleting payment"
-msgstr "取引削除中…"
+#: src/js/services/onGoingProcess.js
+msgid "Deleting Wallet..."
+msgstr "ウォレット削除中…"
 
 #: public/views/create.html
 #: public/views/import.html
@@ -567,12 +586,15 @@ msgstr "派生パス"
 msgid "Derivation Strategy"
 msgstr "派生パス"
 
+#: public/views/modals/tx-details.html
+#: public/views/modals/txp-details.html
 #: public/views/walletHome.html
-msgid "Destination wallet needs backup"
-msgstr "送り先のウォレットはバックアップが必要です"
+msgid "Description"
+msgstr "詳細"
 
-#: public/views/includes/tx-details.html
+#: public/views/modals/coinbase-tx-details.html
 #: public/views/modals/customized-amount.html
+#: public/views/modals/glidera-tx-details.html
 #: public/views/modals/paypro.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
@@ -587,11 +609,12 @@ msgstr "無効"
 msgid "Do not include private key"
 msgstr "秘密鍵を含めない"
 
+#: public/views/preferencesLanguage.html
 #: public/views/translators.html
 msgid "Don't see your language on Crowdin? Contact the Owner on Crowdin! We'd love to support your language."
 msgstr "ご自分の言語はCrowdinで見当たりませんか？Crowdinの管理者に連絡とってみてください。是非とも対応したく思っております。"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Done"
 msgstr "完了"
 
@@ -603,13 +626,18 @@ msgstr "ダウンロード"
 msgid "Economy"
 msgstr "節約"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Edit"
 msgstr "編集"
 
-#: public/views/importLegacy.html
-msgid "Email"
-msgstr "メールアドレス"
+#: public/views/includes/note.html
+#: public/views/modals/tx-details.html
+msgid "Edit comment"
+msgstr "コメントを編集"
+
+#: public/views/modals/tx-details.html
+msgid "Edited by"
+msgstr "編集者"
 
 #: public/views/preferencesEmail.html
 msgid "Email for wallet notifications"
@@ -619,9 +647,17 @@ msgstr "メールによるウォレットのお知らせ"
 msgid "Email Notifications"
 msgstr "メールのお知らせ"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Empty addresses limit reached. New addresses cannot be generated."
 msgstr "未使用アドレスを生成しすぎたため、これ以上アドレスを生成することができません。"
+
+#: public/views/preferencesGlobal.html
+msgid "Enable Coinbase Service"
+msgstr "Coinbase連携を有効にする"
+
+#: public/views/preferencesGlobal.html
+msgid "Enable Glidera Service"
+msgstr "Glidera連携を有効にする"
 
 #: public/views/preferencesGlobal.html
 msgid "Enable push notifications"
@@ -633,16 +669,16 @@ msgstr "暗号化されたバックアップ保存しました"
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "Enter the seed words (BIP39)"
+msgid "Enter the recovery phrase (BIP39)"
 msgstr "復元フレーズの単語をご入力下さい。"
 
 #: public/views/backup.html
-msgid "Enter your passphrase"
-msgstr "復元フレーズ用のパスワードを入力して下さい"
-
-#: public/views/includes/password.html
 msgid "Enter your password"
 msgstr "パスワードを入力して下さい。"
+
+#: public/views/includes/password.html
+msgid "Enter your spending password"
+msgstr "パスワードを入力してください"
 
 #: src/js/controllers/index.js
 msgid "Error at Wallet Service"
@@ -651,10 +687,6 @@ msgstr "Wallet Serviceにてエラー"
 #: src/js/services/profileService.js
 msgid "Error creating wallet"
 msgstr "ウォレット作成時にエラー"
-
-#: src/js/services/profileService.js
-msgid "Error importing wallet:"
-msgstr "ウォレットインポート時にエラー："
 
 #: public/views/modals/txp-details.html
 msgid "Expired"
@@ -677,17 +709,21 @@ msgstr "ファイルへのエクスポート"
 msgid "Export Wallet"
 msgstr "ウォレットをエクスポート"
 
+#: public/views/export.html
+msgid "Exporting via QR not supported for this wallet"
+msgstr "このウォレットはQRによるエクスポートに対応していません"
+
 #: public/views/preferencesInformation.html
 msgid "Extended Public Keys"
 msgstr "拡張公開鍵"
 
+#: src/js/services/onGoingProcess.js
+msgid "Extracting Wallet Information..."
+msgstr "ウォレット情報を抽出中…"
+
 #: public/views/export.html
 msgid "Failed to export"
 msgstr "エクスポートに失敗しました。"
-
-#: src/js/controllers/importLegacy.js
-msgid "Failed to import wallets"
-msgstr "ウォレットのインポート失敗しました"
 
 #: public/views/backup.html
 msgid "Failed to verify backup. Please check your information"
@@ -698,30 +734,41 @@ msgid "Family vacation funds"
 msgstr "家族旅行貯金"
 
 #: public/views/includes/confirm-tx.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Fee"
 msgstr "手数料"
 
-#. Get information of payment if using Payment Protocol
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Fetching Payment Information"
 msgstr "支払い情報要求しています…"
 
+#: public/views/export.html
 #: public/views/import.html
-msgid "File/Text Backup"
-msgstr "ファイル/テキストのバックアップから"
+msgid "File/Text"
+msgstr "ファイル/テキスト"
+
+#: src/js/services/fingerprintService.js
+msgid "Finger Scan Failed"
+msgstr "指紋認証に失敗しました"
 
 #: public/views/backup.html
 msgid "Finish"
 msgstr "完了"
 
+#: public/views/create.html
+msgid "For audit purposes"
+msgstr "監査用機能"
+
 #: public/views/translators.html
 msgid "French"
 msgstr "フランス語"
 
-#: src/js/services/bwsError.js
+#: public/views/export.html
+msgid "From the destination device, go to Add wallet &gt; Import wallet and scan this QR code"
+msgstr "移行先の端末では、ウォレットを追加から、ウォレットをインポートの画面でQRをスキャンして下さい。"
+
+#: src/js/services/bwcError.js
 msgid "Funds are locked by pending spend proposals"
 msgstr "協議中の送金の提案により、資金がロックされています。"
 
@@ -745,7 +792,7 @@ msgstr "新規アドレスを生成"
 msgid "Generate QR Code"
 msgstr "QRコードを生成"
 
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Generating .csv file..."
 msgstr "CSVファイル作成中…"
 
@@ -753,7 +800,7 @@ msgstr "CSVファイル作成中…"
 msgid "German"
 msgstr "ドイツ語"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Getting address for wallet {{selectedWalletName}} ..."
 msgstr "「{{selectedWalletName}}」のアドレスを取得中…"
 
@@ -766,10 +813,11 @@ msgid "Hardware wallet"
 msgstr "ハードウェアウォレット"
 
 #: public/views/import.html
-msgid "Have a Backup from Copay v0.9?"
-msgstr "Copay v0.9 のバックアップをお持ちですか？"
+msgid "Hardware Wallet"
+msgstr "ハードウェアウォレット"
 
 #: public/views/create.html
+#: public/views/export.html
 #: public/views/import.html
 #: public/views/join.html
 msgid "Hide advanced options"
@@ -784,7 +832,6 @@ msgid "I AGREE. GET STARTED"
 msgstr "同意して始めます"
 
 #: public/views/import.html
-#: public/views/importLegacy.html
 msgid "Import"
 msgstr "インポート"
 
@@ -792,50 +839,40 @@ msgstr "インポート"
 msgid "Import backup"
 msgstr "バックアップをインポート"
 
-#: public/views/importLegacy.html
-msgid "Import from the Cloud?"
-msgstr "クラウドからのインポートを行いますか？"
-
-#: public/views/import.html
-msgid "Import here"
-msgstr "ここでインポート"
-
 #: public/views/add.html
 msgid "Import wallet"
 msgstr "ウォレットをインポート"
 
-#: public/views/import.html
-msgid "Importing wallet..."
+#: src/js/services/onGoingProcess.js
+msgid "Importing Wallet..."
 msgstr "ウォレットインポート中…"
-
-#: public/views/importLegacy.html
-msgid "Importing..."
-msgstr "インポート中…"
 
 #: public/views/includes/terms.html
 msgid "In no event shall the authors of the software, employees and affiliates of Bitpay, copyright holders, or BitPay, Inc. be held liable for any claim, damages or other liability, whether in an action of contract, tort, or otherwise, arising from, out of or in connection with the software."
 msgstr "和訳は簡単な要約と考えて下さい。"
 
 #: public/views/backup.html
-msgid "In order to verify your wallet backup, please type your passphrase:"
+msgid "In order to verify your wallet backup, please type your password:"
 msgstr "ウォレットのバックアップを確認するためには、復元フレーズ用のパスワードをご入力下さい。"
 
-#: public/views/export.html
-msgid "Include address book and history cache"
-msgstr "アドレス帳と履歴のキャッシュを含める"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Incorrect address network"
 msgstr "アドレスのネットワークが不正です。"
 
-#: src/js/services/bwsError.js
+#. Trying to import a malformed wallet export QR code
+#: src/js/controllers/import.js
+msgid "Incorrect code format"
+msgstr "コードの形式が異なります"
+
+#: src/js/services/bwcError.js
 msgid "Insufficient funds"
 msgstr "残高不足"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Insufficient funds for fee"
 msgstr "手数料付けるには残高が足りません"
 
+#: public/views/modals/search.html
 #: public/views/walletHome.html
 msgid "Invalid"
 msgstr "無効"
@@ -846,7 +883,7 @@ msgstr "無効"
 msgid "Invalid account number"
 msgstr "無効なポケット番号です。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Invalid address"
 msgstr "不正アドレス"
 
@@ -859,6 +896,10 @@ msgstr "無効な派生パス"
 #: src/js/controllers/copayers.js
 msgid "Invitation to share a Copay Wallet"
 msgstr "Copay共有ウォレットへの招待"
+
+#: public/views/translators.html
+msgid "Italian"
+msgstr "イタリア語"
 
 #: public/views/translators.html
 msgid "Japanese"
@@ -881,15 +922,15 @@ msgstr "Copayの共有ウォレット作りました： {{secret}} この招待�
 msgid "Join shared wallet"
 msgstr "共有ウォレットに参加"
 
-#: public/views/join.html
+#: src/js/services/onGoingProcess.js
 msgid "Joining Wallet..."
 msgstr "ウォレット参加中…"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Key already associated with an existing wallet"
 msgstr "この鍵は既存のウォレットにて登録されています"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Label"
 msgstr "ラベル"
 
@@ -905,10 +946,6 @@ msgstr "最新ウォレットアドレス"
 msgid "Learn more about Copay backups"
 msgstr "Copay のバックアップの種類について"
 
-#: public/views/importLegacy.html
-msgid "Learn more about Wallet Migration"
-msgstr "ウォレット移行について詳しく"
-
 #: public/views/preferencesFee.html
 msgid "Loading..."
 msgstr "読み込み中..."
@@ -917,11 +954,11 @@ msgstr "読み込み中..."
 msgid "locked by pending payments"
 msgstr "未対応送金の提案によりロック中"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Locktime in effect. Please wait to create a new spend proposal"
 msgstr "Locktime待ち中です。新しい送金の提案が作成できるまであとしばらくお待ち下さい。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Locktime in effect. Please wait to remove this spend proposal"
 msgstr "Locktime待ち中です。この送金の提案が削除できるまであとしばらくお待ち下さい。"
 
@@ -937,11 +974,10 @@ msgstr "結果:"
 msgid "me"
 msgstr "自分"
 
-#: public/views/preferencesInformation.html
 #: public/views/includes/copayers.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
+#: public/views/preferencesInformation.html
 msgid "Me"
 msgstr "自分"
 
@@ -949,7 +985,6 @@ msgstr "自分"
 msgid "Memo"
 msgstr "メモ"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Merchant message"
 msgstr "お店からのメッセージ："
@@ -958,13 +993,17 @@ msgstr "お店からのメッセージ："
 msgid "Message"
 msgstr "メッセージ"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
+msgid "Missing parameter"
+msgstr "不足しているパラメータ"
+
+#: src/js/services/bwcError.js
 msgid "Missing private keys to sign"
 msgstr "署名するための秘密鍵がありません。"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Moved"
 msgstr "移動済"
 
@@ -977,11 +1016,11 @@ msgstr "複数送金先"
 msgid "My Bitcoin address"
 msgstr "私のビットコインアドレス："
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "My contacts"
 msgstr "連絡先"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "My wallets"
 msgstr "アプリ内ウォレット"
 
@@ -993,7 +1032,7 @@ msgstr "バックアップを行う必要があります。"
 msgid "Network"
 msgstr "ネットワーク"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Network connection error"
 msgstr "ネットワーク接続エラー"
 
@@ -1003,8 +1042,8 @@ msgstr "新しい送金の提案"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "New Random Seed"
-msgstr "新規フレーズ作成"
+msgid "New Random Recovery Phrase"
+msgstr "新規復元フレーズ"
 
 #: public/views/import.html
 msgid "No hardware wallets supported on this device"
@@ -1018,7 +1057,7 @@ msgstr "取引がありません"
 msgid "Normal"
 msgstr "通常"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Not authorized"
 msgstr "権限がありません。"
 
@@ -1027,35 +1066,51 @@ msgid "Not completed"
 msgstr "未完了"
 
 #: src/js/controllers/walletHome.js
-msgid "Not enought funds for fee"
+msgid "Not enough funds for fee"
 msgstr "手数料含めたら残高が不足しています。"
 
-#: public/views/walletHome.html
+#: public/views/modals/addressbook.html
 #: public/views/modals/customized-amount.html
-#: public/views/modals/destination-address.html
+#: public/views/walletHome.html
 msgid "Not valid"
 msgstr "無効です"
 
-#: public/views/walletHome.html
 #: public/views/includes/output.html
-#: public/views/includes/tx-details.html
-#: public/views/modals/tx-details.html
-#: public/views/modals/txp-details.html
 msgid "Note"
 msgstr "メモ"
+
+#: src/js/controllers/walletHome.js
+msgid "Note: a total of {{amountAboveMaxSizeStr}} were excluded. The maximum size allowed for a transaction was exceeded"
+msgstr "注意：合計{{amountAboveMaxSizeStr}} を除外しました。取引に許可される最大サイズを超えました"
+
+#: src/js/controllers/walletHome.js
+msgid "Note: a total of {{amountBelowFeeStr}} were excluded. These funds come from UTXOs smaller than the network fee provided."
+msgstr "注意：合計 {{amountBelowFeeStr}} を除外しました。これらのビットコインは手数料よりも低い額となるため除外しました。"
+
+#: public/views/import.html
+msgid "NOTE: To import a wallet from a 3rd party software, please go to Add Wallet &gt; Create Wallet, and specify the Recovery Phrase there."
+msgstr "注意：他アプリのウォレットをインポートする場合、ウォレットを追加 &gt; 新規ウォレット作成にて復元フレーズを指定するオプションを詳細設定にて有効にして下さい。"
 
 #: public/views/disclaimer.html
 #: public/views/termOfUse.html
 msgid "Official English Disclaimer"
 msgstr "公式免責事項 (英語)"
 
+#: public/views/modals/tx-status.html
+msgid "OKAY"
+msgstr "OK"
+
 #: public/views/preferencesDeleteWords.html
-msgid "Once you have copied your wallet seed down, it is recommended to delete it from this device."
+msgid "Once you have copied your wallet recovery phrase down, it is recommended to delete it from this device."
 msgstr "復元フレーズを控えたら、このデバイスから削除することをおすすめします。"
 
 #: public/views/preferencesInformation.html
 msgid "Only Main (not change) addresses are shown. The addresses on this list were not verified locally at this time."
 msgstr "受け取り用のアドレスしか表示していません。現時点ではローカルの端末ではアドレスの正確性を二重確認していなくて、サーバーを信じる必要があります。"
+
+#: public/views/preferencesGlobal.html
+msgid "Open Settings app"
+msgstr "設定を開く"
 
 #: public/views/walletHome.html
 msgid "optional"
@@ -1065,29 +1120,25 @@ msgstr "任意"
 msgid "Paper Wallet Private Key"
 msgstr "ペーパーウォレット秘密鍵"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Participants"
 msgstr "参加者"
 
-#: public/views/import.html
 #: public/views/paperWallet.html
 msgid "Passphrase"
 msgstr "パスワード"
 
+#: public/views/create.html
 #: public/views/import.html
-#: public/views/importLegacy.html
+#: public/views/join.html
+#: public/views/paperWallet.html
 msgid "Password"
 msgstr "パスワード"
 
-#: src/js/services/profileService.js
-msgid "Password needed"
-msgstr "パスワードが必要"
-
-#: src/js/controllers/password.js
-msgid "Passwords do not match"
-msgstr "パスワードが一致しません"
+#: src/js/controllers/import.js
+msgid "Password required. Make sure to enter your password in advanced options"
+msgstr "パスワードが必要です。上級者向け設定にてパスワードを入力してください。"
 
 #: public/views/join.html
 msgid "Paste invitation here"
@@ -1193,40 +1244,51 @@ msgstr "永久にこのウォレットを削除します。\n"
 msgid "Personal Wallet"
 msgstr "個人用ウォレット"
 
-#: public/views/create.html
-#: public/views/join.html
-msgid "Please accept to export two public keys from the Trezor app"
-msgstr "Trezorアプリにて承諾してください。公開鍵が二つがTrezorデバイスよりインポートされます。"
+#: src/js/controllers/import.js
+msgid "Please enter the recovery phrase"
+msgstr "復元フレーズをご入力下さい"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
 msgid "Please enter the required fields"
 msgstr "必須項目をご入力下さい"
 
-#: src/js/controllers/import.js
-msgid "Please enter the seed words"
-msgstr "復元フレーズをご入力下さい"
-
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "Please enter the wallet seed"
-msgstr "シード(復元)フレーズをご入力下さい"
+msgid "Please enter the wallet recovery phrase"
+msgstr "復元フレーズをご入力下さい"
 
 #: public/views/backup.html
 msgid "Please tap the words in order to confirm your backup phrase is correctly written."
 msgstr "正しい順番に単語をタップして、ちゃんと書き留めてあることをご確認下さい。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Please upgrade Copay to perform this action"
 msgstr "この操作を実行するにはCopayを最新バージョンに更新してください"
+
+#: public/views/uri.html
+msgid "Please wait to be redirected..."
+msgstr "ページが切り替わるまでお待ちください..."
 
 #: src/js/controllers/import.js
 msgid "Please, select your backup file"
 msgstr "バックアップファイルを選択"
 
+#: public/views/translators.html
+msgid "Polish"
+msgstr "ポーランド語"
+
+#: public/views/paperWallet.html
+msgid "Preferences"
+msgstr "設定"
+
 #: src/js/controllers/export.js
 msgid "Preparing backup..."
 msgstr "バックアップを準備中..."
+
+#: public/views/preferencesHistory.html
+msgid "preparing..."
+msgstr "準備中..."
 
 #: src/js/routes.js
 msgid "Press again to exit"
@@ -1236,10 +1298,15 @@ msgstr "もう一度押して終了"
 msgid "Priority"
 msgstr "優先"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Private key is encrypted, cannot sign"
 msgstr "秘密鍵が暗号化されており署名できません。"
 
+#: public/views/preferencesGlobal.html
+msgid "Push notifications for Copay are currently disabled. Enable them in the Settings app."
+msgstr "Copayのプッシュ通知は現在無効です。アプリ設定で有効にします。"
+
+#: public/views/export.html
 #: public/views/modals/customized-amount.html
 msgid "QR Code"
 msgstr "QRコード"
@@ -1252,27 +1319,30 @@ msgstr "QRコードを読み取って下さい"
 msgid "Receive"
 msgstr "受取"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Received"
 msgstr "受取済み"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
 msgid "Recipients"
 msgstr "受取人"
 
-#: public/views/walletHome.html
-msgid "Reconnecting to Wallet Service..."
-msgstr "Wallet Serviceへ再接続しています…"
+#: public/views/import.html
+msgid "Recovery Phrase"
+msgstr "復元フレーズ"
+
+#: src/js/controllers/preferencesDeleteWords.js
+msgid "Recovery phrase deleted"
+msgstr "復元フレーズ削除済み"
 
 #: public/views/walletHome.html
 msgid "Recreate"
 msgstr "再登録"
 
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Recreating Wallet..."
 msgstr "ウォレットを再作成中…"
 
@@ -1280,39 +1350,34 @@ msgstr "ウォレットを再作成中…"
 msgid "Reject"
 msgstr "却下"
 
-#: src/js/controllers/walletHome.js
-msgid "Rejecting payment"
-msgstr "送金の提案却下中"
-
 #: public/views/preferencesAbout.html
 msgid "Release Information"
 msgstr "リリース情報"
 
-#: public/views/modals/destination-address.html
+#: public/views/modals/addressbook.html
 msgid "Remove"
 msgstr "削除"
 
 #: public/views/export.html
-#: public/views/includes/password.html
 msgid "Repeat password"
 msgstr "パスワードを再入力"
 
-#: public/views/walletHome.html
+#: public/views/export.html
+msgid "Repeat the password"
+msgstr "パスワードの再入力"
+
+#: public/views/includes/password.html
+msgid "Repeat the spending password"
+msgstr "パスワードの再入力"
+
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Request a specific amount"
 msgstr "指定金額を要求"
 
 #: public/views/preferences.html
-msgid "Request Password"
-msgstr "パスワードをリクエスト"
-
-#: src/js/services/txService.js
-msgid "Requesting Ledger Wallet to sign"
-msgstr "Ledger Walletに署名を要求しています。"
-
-#: src/js/services/txService.js
-msgid "Requesting Trezor Wallet to sign"
-msgstr "Trezor Walletに署名を要求しています。"
+msgid "Request Spending Password"
+msgstr "送金時のパスワード入力"
 
 #: public/views/join.html
 msgid "Required"
@@ -1322,20 +1387,21 @@ msgstr "入力必須"
 msgid "Required number of signatures"
 msgstr "必要な署名の数を選択"
 
+#: src/js/services/onGoingProcess.js
+msgid "Retrieving inputs information"
+msgstr "入力情報の取得中"
+
 #: public/views/translators.html
 msgid "Russian"
 msgstr "ロシア語"
 
+#: public/views/includes/note.html
+#: public/views/modals/addressbook.html
 #: public/views/preferencesAlias.html
 #: public/views/preferencesBwsUrl.html
 #: public/views/preferencesEmail.html
-#: public/views/modals/destination-address.html
 msgid "Save"
 msgstr "保存"
-
-#: public/views/preferencesEmail.html
-msgid "Saving preferences..."
-msgstr "設定を保存中…"
 
 #: public/views/preferencesInformation.html
 msgid "Scan addresses for funds"
@@ -1357,39 +1423,29 @@ msgstr "スキャンがエラーに終わりました"
 msgid "Scan Wallet Funds"
 msgstr "ウォレット残高照会"
 
-#: src/js/services/txService.js
+#: src/js/services/fingerprintService.js
 msgid "Scan your fingerprint please"
 msgstr "指紋をスキャンしてください"
 
-#: public/views/paperWallet.html
-msgid "Scanning wallet funds..."
-msgstr "ウォレット残高照会中…"
-
-#: public/views/walletHome.html
+#: src/js/services/onGoingProcess.js
 msgid "Scanning Wallet funds..."
 msgstr "ウォレット残高照会中…"
 
-#: public/views/walletHome.html
+#: public/views/modals/search.html
 msgid "Search transactions"
+msgstr "取引を検索"
+
+#: public/views/modals/search.html
+msgid "Search Transactions"
 msgstr "取引を検索"
 
 #: public/views/preferences.html
 msgid "Security preferences"
 msgstr "セキュリティ設定"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "See it on the blockchain"
 msgstr "ブロックチェーンで詳細を閲覧"
-
-#: public/views/import.html
-msgid "Seed passphrase"
-msgstr "復元フレーズ用のパスワード"
-
-#: public/views/create.html
-#: public/views/join.html
-msgid "Seed Passphrase"
-msgstr "復元フレーズ用のパスワード"
 
 #: public/views/import.html
 msgid "Select a backup file"
@@ -1412,39 +1468,35 @@ msgstr "送信"
 msgid "Send addresses by email"
 msgstr "ビットコインアドレスをメールにて共有"
 
-#: public/views/walletHome.html
-msgid "Send All"
-msgstr "全額を送金"
+#: public/views/includes/confirm-tx.html
+msgid "Send bitcoin"
+msgstr "ビットコインを送金"
 
 #: public/views/export.html
 #: public/views/preferencesLogs.html
 msgid "Send by email"
 msgstr "メールで送信"
 
+#: public/views/walletHome.html
+msgid "Send Max"
+msgstr "最大額を送金"
+
 #: public/views/includes/transaction.html
 msgid "Sending"
 msgstr "送信中"
 
-#: public/views/paperWallet.html
-msgid "Sending funds..."
-msgstr "送金中..."
-
-#: src/js/controllers/walletHome.js
+#: src/js/services/onGoingProcess.js
 msgid "Sending transaction"
 msgstr "取引送信中"
 
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/tx-status.html
+#: public/views/walletHome.html
 msgid "Sent"
 msgstr "送金済み"
 
-#: public/views/importLegacy.html
-msgid "Server"
-msgstr "サーバー"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Server response could not be verified"
 msgstr "サーバーからの返答を検証できませんでした"
 
@@ -1460,25 +1512,24 @@ msgstr "指定"
 msgid "Set default url"
 msgstr "デフォルトURLに設定"
 
-#: public/views/includes/password.html
+#: public/views/export.html
 msgid "Set up a password"
 msgstr "パスワードを設定"
 
-#: public/views/export.html
-msgid "Set up an Export Password"
-msgstr "バックアップ用のパスワードを設定"
+#: public/views/includes/password.html
+msgid "Set up a spending password"
+msgstr "パスワードを設定"
 
 #: public/views/preferencesEmail.html
 msgid "Setting up email notifications could weaken your privacy, if the wallet service provider is compromised. Information available to an attacker would include your wallet addresses and its balance, but no more."
 msgstr "メールのお知らせを有効にすると、悪意のあるサーバー運用者ならあなたの全てのアドレスとそれぞれの残高・履歴情報が把握できプライバシーの侵害に繋がる可能性があります。"
 
-#: public/views/walletHome.html
 #: public/views/includes/sidebar.html
 msgid "Settings"
 msgstr "設定"
 
-#: public/views/walletHome.html
 #: public/views/modals/customized-amount.html
+#: public/views/walletHome.html
 msgid "Share address"
 msgstr "アドレスを共有"
 
@@ -1493,6 +1544,10 @@ msgstr "ウォレット参加者に\n"
 "送って下さい。"
 
 #: public/views/walletHome.html
+msgid "Share this wallet address to receive payments"
+msgstr "送金を受けるためにはこのウォレットアドレスを共有して下さい。"
+
+#: public/views/walletHome.html
 msgid "Share this wallet address to receive payments. To protect your privacy, new addresses are generated automatically once you use them."
 msgstr "これを人に共有することでビットコインを送ってもらうことができます。プライバシー向上の観点から、アドレスが1回でも使用されたら新しいアドレスが自動生成されます。"
 
@@ -1502,26 +1557,23 @@ msgid "Shared Wallet"
 msgstr "共有ウォレットに参加"
 
 #: public/views/create.html
+#: public/views/export.html
 #: public/views/import.html
 #: public/views/join.html
 msgid "Show advanced options"
 msgstr "詳細設定を表示"
 
-#: public/views/walletHome.html
-msgid "Show more"
-msgstr "もっと見る"
-
-#: public/views/backup.html
-msgid "Show Wallet Seed"
-msgstr "ウォレットの復元フレーズを表示"
-
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Signatures rejected by server"
 msgstr "サーバーより署名が却下されました。"
 
-#: src/js/services/txService.js
-msgid "Signing payment"
-msgstr "送金の提案署名中"
+#: src/js/services/onGoingProcess.js
+msgid "Signing transaction"
+msgstr "取引署名中"
+
+#: public/views/create.html
+msgid "Single Address Wallet"
+msgstr "単一アドレスウォレット"
 
 #: public/views/translators.html
 msgid "Spanish"
@@ -1529,16 +1581,24 @@ msgstr "スペイン語"
 
 #: src/js/controllers/create.js
 #: src/js/controllers/join.js
-msgid "Specify Seed..."
-msgstr "フレーズ指定…"
+msgid "Specify Recovery Phrase..."
+msgstr "復元フレーズを指定…"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Spend proposal is not accepted"
 msgstr "送金の提案が受諾されませんでした。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Spend proposal not found"
 msgstr "送金の提案が見つかりませんでした。"
+
+#: src/js/services/bwcError.js
+msgid "Spending Password needed"
+msgstr "パスワードが必要"
+
+#: src/js/controllers/index.js
+msgid "Spending Passwords do not match"
+msgstr "パスワードが一致しません"
 
 #: src/js/controllers/copayers.js
 #: src/js/controllers/export.js
@@ -1547,6 +1607,10 @@ msgstr "送金の提案が見つかりませんでした。"
 msgid "Success"
 msgstr "成功"
 
+#: src/js/services/feeService.js
+msgid "Super Economy"
+msgstr "超節約"
+
 #: public/views/preferencesAdvanced.html
 msgid "Sweep paper wallet"
 msgstr "ペーパーウォレットの全残高インポート"
@@ -1554,6 +1618,14 @@ msgstr "ペーパーウォレットの全残高インポート"
 #: public/views/paperWallet.html
 msgid "Sweep Wallet"
 msgstr "ウォレットの全残高インポート"
+
+#: src/js/services/onGoingProcess.js
+msgid "Sweeping Wallet..."
+msgstr "ビットコイン回収中…"
+
+#: public/views/walletHome.html
+msgid "Tap and hold to show"
+msgstr "長押しで表示"
 
 #: public/views/walletHome.html
 msgid "Tap to retry"
@@ -1568,9 +1640,17 @@ msgstr "利用規約"
 msgid "The authors of the software, employees and affiliates of Bitpay, copyright holders, and BitPay, Inc. cannot retrieve your private keys or passwords if you lose or forget them and cannot guarantee transaction confirmation as they do not have control over the Bitcoin network."
 msgstr "このソフトの開発者、BitPayの従業員とその関係者、著作権所有者、BitPay, Inc. 自体もパスワード・秘密鍵・パスワードなどへのアクセスが不可能なため、教えることがだきません、なお、ビットコインのネットワークへの影響が無いので、取引の取り消しや優先的な承認などはできません。"
 
+#: public/views/import.html
+msgid "The derivation path"
+msgstr "派生パス"
+
 #: src/js/services/ledger.js
 msgid "The Ledger Chrome application is not installed"
 msgstr "Ledgerのクロームアプリがインストールされていません。"
+
+#: public/views/import.html
+msgid "The password of the recovery phrase (if set)"
+msgstr "復元フレーズ用のパスワード(設定してある場合のみ)"
 
 #: src/js/controllers/walletHome.js
 msgid "The payment was created but could not be completed. Please try again from home screen"
@@ -1580,18 +1660,14 @@ msgstr "送金の提案は作成されましたが完了できませんでした
 msgid "The payment was removed by creator"
 msgstr "送金の提案が作成者により削除されました"
 
-#: public/views/export.html
-msgid "The private key for this wallet is encrypted. Exporting keep the private key encrypted in the export archive."
-msgstr "このウォレットの秘密鍵が暗号化されています。バックアップをエクスポートすると秘密鍵が暗号化された状態でバックアップアーカイブとして守られます。"
-
-#: src/js/services/bwsError.js
-msgid "The request could not be understood by the server"
-msgstr "サーバーが要求を処理できませんでした。"
-
 #: public/views/create.html
 #: public/views/join.html
-msgid "The seed could require a passphrase to be imported"
-msgstr "復元フレーズにパスワードをかけた場合、ここにパスワードを入力して下さい。"
+msgid "The recovery phrase could require a password to be imported"
+msgstr "復元フレーズにパスワードをかけることができるのでかけてある場合はインポート時に必要です。"
+
+#: src/js/services/bwcError.js
+msgid "The request could not be understood by the server"
+msgstr "サーバーが要求を処理できませんでした。"
 
 #: public/views/includes/terms.html
 msgid "The software does not constitute an account where BitPay or other third parties serve as financial intermediaries or custodians of your bitcoin."
@@ -1601,7 +1677,7 @@ msgstr "BitPay, Inc. 若しくはその他の第三者がアクセス権限を�
 msgid "The software you are about to use functions as a free, open source, and multi-signature digital wallet."
 msgstr "当ソフトウェアは無料のオープンソースプロジェクトで、マルチシグネチャを用いるデジタルウォレットです。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "The spend proposal is not pending"
 msgstr "送金の提案が協議中ではありません。"
 
@@ -1610,19 +1686,30 @@ msgstr "送金の提案が協議中ではありません。"
 msgid "The wallet \"{{walletName}}\" was deleted"
 msgstr "ウォレット \"{{walletName}}\" が削除されました"
 
+#: public/views/import.html
+msgid "The Wallet Recovery Phrase could require a password to be imported"
+msgstr "復元フレーズにパスワードをかけることができるのでかけてある場合はインポート時に必要です。"
+
+#: public/views/import.html
+msgid "The wallet service URL"
+msgstr "ウォレットサービスのURL"
+
 #: public/views/paymentUri.html
 msgid "There are no wallets to make this payment"
 msgstr "送金可能なウォレットがありません"
+
+#: src/js/controllers/index.js
+msgid "There is a new version of Copay. Please update"
+msgstr "Copay の新しいバージョンがあります。更新してください。"
 
 #: src/js/controllers/import.js
 msgid "There is an error in the form"
 msgstr "フォームにエラーがありました"
 
 #: public/views/backup.html
-msgid "This seed was created with a passphrase. To recover this wallet both the mnemonic and passphrase are needed."
+msgid "This recovery phrase was created with a password. To recover this wallet both the recovery phrase and password are needed."
 msgstr "この復元フレーズにパスワードがかかっています。このウォレットを復元するためには、復元フレーズに加え、パスワードも必要です。"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "This transaction has become invalid; possibly due to a double spend attempt."
 msgstr "この取引が無効になりました。二重払いの可能性があります。"
@@ -1635,11 +1722,10 @@ msgstr "現在設定中のBitcore Wallet Service (BWS) サーバーにて、こ�
 msgid "Time"
 msgstr "時刻"
 
-#: public/views/walletHome.html
 #: public/views/includes/output.html
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 #: public/views/modals/txp-details.html
+#: public/views/walletHome.html
 msgid "To"
 msgstr "宛先"
 
@@ -1663,16 +1749,15 @@ msgstr "ロック中の残高"
 msgid "Total number of copayers"
 msgstr "参加人数を選択して下さい。"
 
-#: src/js/services/txService.js
+#: src/js/services/fingerprintService.js
 msgid "Touch ID Failed"
 msgstr "Touch ID が失敗しました。"
 
-#: public/views/includes/tx-details.html
 #: public/views/modals/tx-details.html
 msgid "Transaction"
 msgstr "取引"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Transaction already broadcasted"
 msgstr "取引は既に配信されました。"
 
@@ -1693,16 +1778,12 @@ msgid "Try again"
 msgstr "もう一度やり直してください。"
 
 #: public/views/import.html
-msgid "Type the Seed Phrase (usually 12 words)"
+msgid "Type the Recovery Phrase (usually 12 words)"
 msgstr "復元フレーズの単語 (通常 12 個) を入力して下さい。"
 
-#: src/js/controllers/walletHome.js
-msgid "Unable to send transaction proposal"
-msgstr "取引提案を送れませんでした。"
-
-#: public/views/walletHome.html
-#: public/views/includes/tx-details.html
+#: public/views/modals/search.html
 #: public/views/modals/tx-details.html
+#: public/views/walletHome.html
 msgid "Unconfirmed"
 msgstr "未承認"
 
@@ -1726,9 +1807,13 @@ msgstr "ウォレット更新中…"
 msgid "Use Unconfirmed Funds"
 msgstr "未承認ビットコインを使用"
 
-#: public/views/importLegacy.html
-msgid "Username"
-msgstr "ユーザー名"
+#: src/js/services/onGoingProcess.js
+msgid "Validating recovery phrase..."
+msgstr "復元フレーズを検証中…"
+
+#: src/js/services/onGoingProcess.js
+msgid "Validating wallet integrity..."
+msgstr "ウォレットの整合性を検証中..."
 
 #: public/views/preferencesAbout.html
 msgid "Version"
@@ -1742,20 +1827,24 @@ msgstr "表示"
 msgid "Waiting for copayers"
 msgstr "ウォレット参加者を待っています"
 
+#: src/js/services/onGoingProcess.js
+msgid "Waiting for Ledger..."
+msgstr "Ledger を待っています..."
+
+#: src/js/services/onGoingProcess.js
+msgid "Waiting for Trezor..."
+msgstr "Trezor を待っています..."
+
 #: public/views/copayers.html
 msgid "Waiting..."
 msgstr "少々お待ち下さい…"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet already exists"
 msgstr "既存のウォレットです"
 
 #: src/js/services/profileService.js
-msgid "Wallet Already Imported:"
-msgstr "ウォレットがすでにインポート済み："
-
-#: src/js/services/profileService.js
-msgid "Wallet already in Copay:"
+msgid "Wallet already in Copay"
 msgstr "Copay内の既存のウォレットです"
 
 #: public/views/preferencesInformation.html
@@ -1787,15 +1876,15 @@ msgstr "ウォレット招待"
 msgid "Wallet Invitation is not valid!"
 msgstr "ウォレット招待コードが無効です！"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is full"
 msgstr "ウォレットがいっぱいです。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is locked"
 msgstr "ウォレットがロックされています。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet is not complete"
 msgstr "ウォレットが未完成です。"
 
@@ -1807,40 +1896,48 @@ msgstr "ウォレット名"
 msgid "Wallet Name (at creation)"
 msgstr "ウォレット名 (作成時)"
 
+#: src/js/services/bwcError.js
+msgid "Wallet needs backup"
+msgstr "ウォレットバックアップが必要"
+
 #: public/views/preferencesInformation.html
 msgid "Wallet Network"
 msgstr "ウォレットのネットワーク"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet not found"
 msgstr "ウォレットが見つかりません。"
 
-#: src/js/services/bwsError.js
-msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your seed"
+#: src/js/services/bwcError.js
+msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your recovery phrase"
 msgstr "このウォレットは Wallet Service にて登録されていません。再び「新規作成」メニューから詳細設定を選び、復元フレーズをご入力下さい。"
+
+#: src/js/controllers/index.js
+msgid "Wallet Preferences"
+msgstr "ウォレット個別設定"
 
 #: public/views/create.html
 #: public/views/import.html
 #: public/views/join.html
-msgid "Wallet Seed"
-msgstr "ウォレットの復元フレーズ"
+msgid "Wallet Recovery Phrase"
+msgstr "復元フレーズ"
 
-#: public/views/import.html
-msgid "Wallet Seed could require a passphrase to be imported"
-msgstr "復元フレーズにパスワードをかけることができるのでかけてある場合はインポート時に必要です。"
-
-#: src/js/services/bwsError.js
-msgid "Wallet seed is invalid"
+#: src/js/services/bwcError.js
+msgid "Wallet Recovery Phrase is invalid"
 msgstr "ウォレットシードが不正です。"
 
 #: public/views/backup.html
 #: public/views/preferencesDeleteWords.html
-msgid "Wallet seed not available. You can still export it from Advanced &gt; Export."
+msgid "Wallet recovery phrase not available. You can still export it from Advanced &gt; Export."
 msgstr "ウォレットの復元フレーズがありません。バックアップファイルの作成は「上級者向け」⇒「エクスポート」からアクセスできます。"
 
-#: src/js/services/bwsError.js
+#: src/js/services/bwcError.js
 msgid "Wallet service not found"
 msgstr "Wallet serviceが見つかりません。"
+
+#: public/views/walletHome.html
+msgid "WARNING: Key derivation is not working on this device/wallet. Actions cannot be performed on this wallet."
+msgstr "注意：このデバイスでは鍵の派生がちゃんと動いておりません。このウォレットは正常に動作しません。"
 
 #: public/views/export.html
 msgid "WARNING: Not including the private key allows to check the wallet balance, transaction history, and create spend proposals from the export. However, does not allow to approve (sign) proposals, so <b>funds will not be accessible from the export</b>."
@@ -1848,7 +1945,7 @@ msgstr "注意：このウォレットは秘密鍵がありません。残高の
 
 #: public/views/create.html
 #: public/views/join.html
-msgid "WARNING: Passphrase cannot be recovered. <b>Be sure to write it down</b>. The wallet can not be restored without the passphrase."
+msgid "WARNING: The password cannot be recovered. <b>Be sure to write it down</b>. The wallet can not be restored without the password."
 msgstr "注意：パスワードを復元することができませんしリセットできません。<b>絶対に忘れないようにしてください。</b>パスワードなしにこのバックアップファイルを復元することはできません。"
 
 #: public/views/export.html
@@ -1885,15 +1982,15 @@ msgid "While the software has undergone beta testing and continues to be improve
 msgstr "このソフトは長いテスト期間を経てリリースしましたが、今後バグや不具合が見つからないという保障はございません。"
 
 #: public/views/backup.html
-msgid "Write your wallet seed"
+msgid "Write your wallet recovery phrase"
 msgstr "復元フレーズを書き留めて下さい"
 
 #: src/js/controllers/import.js
-msgid "Wrong number of seed words:"
+msgid "Wrong number of recovery words:"
 msgstr "単語の数が間違っています："
 
-#: src/js/services/profileService.js
-msgid "Wrong password"
+#: src/js/services/bwcError.js
+msgid "Wrong spending password"
 msgstr "不正なパスワード"
 
 #: public/views/modals/confirmation.html
@@ -1921,43 +2018,36 @@ msgid "You can safely install your wallet on another device and use it from mult
 msgstr "安全にウォレットを別のデバイスにインポートして、同じウォレットを複数の端末でご利用いただけます。"
 
 #: public/views/walletHome.html
-msgid "You do not have a wallet"
+msgid "You do not have any wallet"
 msgstr "ウォレットがありません"
 
 #: public/views/backup.html
-msgid "You need the wallet seed to restore this personal wallet. Write it down and keep them somewhere safe."
+msgid "You need the wallet recovery phrase to restore this personal wallet. Write it down and keep them somewhere safe."
 msgstr "この個人用ウォレットを復元するには復元フレーズが必要です。紙などに書き留めておき、安全な場所で保管して下さい。"
-
-#: public/views/import.html
-msgid "Your backup password"
-msgstr "バックアップパスワード"
-
-#: public/views/export.html
-msgid "Your export password"
-msgstr "バックアップパスワード"
 
 #: public/views/create.html
 #: public/views/join.html
 msgid "Your nickname"
 msgstr "自分のハンドルネーム"
 
-#: public/views/includes/password.html
+#: public/views/export.html
+#: public/views/import.html
 msgid "Your password"
 msgstr "パスワード"
 
-#: public/views/importLegacy.html
-msgid "Your profile password"
-msgstr "プロフィールパスワード"
+#: public/views/includes/password.html
+msgid "Your spending password"
+msgstr "送金時のパスワード"
 
 #: src/js/controllers/import.js
 msgid "Your wallet has been imported correctly"
 msgstr "ウォレットが正常にインポートされました。"
 
 #: public/views/includes/password.html
-msgid "Your wallet key will be encrypted. Password cannot be recovered. Be sure to write it down"
-msgstr "ウォレットの鍵が暗号化されます。Copayではパスワードをリセットしてくれる機能がありませんので、パスワードを忘れないよう、控えておいて下さい。"
+msgid "Your wallet key will be encrypted. The Spending Password cannot be recovered. Be sure to write it down"
+msgstr "ウォレットの鍵が暗号化されます。Copayでは送金時のパスワードをリセットしてくれる機能がありませんので、パスワードを忘れないよう、控えておいて下さい。"
 
 #: public/views/backup.html
-msgid "Your wallet seed and access to the server that coordinated the initial wallet creation. You still need {{index.m}} keys to spend."
+msgid "Your wallet recovery phrase and access to the server that coordinated the initial wallet creation. You still need {{index.m}} keys to spend."
 msgstr "ウォレットの復元フレーズとそのウォレットが登録してあるサーバーへのアクセスが最低条件です。ただし、送金完了させるにはまだ {{index.m}} 個の鍵が他の参加者の間で持っていないといけませんので、他の参加者のバックアップも合わせてご確認下さい。"
 

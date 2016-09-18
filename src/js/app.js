@@ -3,11 +3,10 @@
 var modules = [
   'ui.router',
   'angularMoment',
-  'mm.foundation',
   'monospaced.qrcode',
   'gettext',
+  'ionic',
   'ngLodash',
-  'uiSwitch',
   'ngSanitize',
   'ngCsv',
   'bwcModule',
