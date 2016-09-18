@@ -275,6 +275,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'exec:coinbase', 'browserify', 'sass', 'concat', 'copy:icons', 'copy:ionic_fonts']);
+  grunt.registerTask('fast', ['sass', 'concat']);
   grunt.registerTask('static', ['default', 'copy:config']);
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
