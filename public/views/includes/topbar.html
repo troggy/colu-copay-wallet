@@ -15,6 +15,9 @@
   </section>
 
   <section class="right-small" ng-show="showPreferences && !index.noFocusedWallet">
+    <a class="p10" ng-show="index.allowAssetChange" ng-click="index.openWalletInfo()">
+      <i class="fi-dollar-bill size-24"></i>
+    </a>
 
     <a class="p10" ng-click="topbar.goPreferences(); index.setCompactTxHistory()">
       <i class="fi-widget size-24"></i>
