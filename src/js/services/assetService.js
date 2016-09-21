@@ -2,7 +2,7 @@
 
 angular.module('copayApp.services').factory('assetService',
   function(profileService, coloredCoins, addonManager, lodash, configService,
-          $q, $log, $rootScope, go, instanceConfig) {
+          $q, $log, $rootScope, go, instanceConfig, walletService) {
 
   var root = {},
       self = this,
@@ -120,6 +120,25 @@ angular.module('copayApp.services').factory('assetService',
       );
     } else {
       fc.sendTxProposal(addonManager.processCreateTxOpts(txOpts), cb);
+    }
+  };
+
+  root.createTransferTx = function(client, txp, cb) {
+    if (root.walletAsset.isAsset) {
+      return coloredCoins.makeTransferTxProposal(txp.amount, txp.toAddress, txp.message, root.walletAsset, function(err, coloredTxp) {
+        if (err) return cb(err);
+
+        client.createTxProposal(coloredTxp, function(err, createdTxp) {
+          if (err) {
+            return cb(err);
+          } else {
+            $log.debug('Transaction created');
+            return cb(null, createdTxp);
+          }
+        });
+      });
+    } else {
+      return walletService.createTx(client, addonManager.processCreateTxOpts(txp), cb);
     }
   };
 

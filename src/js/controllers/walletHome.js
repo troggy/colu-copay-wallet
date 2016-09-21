@@ -443,7 +443,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       txp.feeLevel = walletSettings.feeLevel || 'normal';
 
       ongoingProcess.set('creatingTx', true);
-      walletService.createTx(client, txp, function(err, createdTxp) {
+      assetService.createTransferTx(client, txp, function(err, createdTxp) {
         ongoingProcess.set('creatingTx', false);
         if (err) {
           return self.setSendError(err);
