@@ -99,7 +99,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   }
 
   var disableOngoingProcessListener = $rootScope.$on('Addon/OngoingProcess', function(e, name) {
-    self.setOngoingProcess(name);
+    self.updating = !!name;
+    self.ongoingProcess = name;
   });
 
   $scope.$on('$destroy', function() {
