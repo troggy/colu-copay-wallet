@@ -1,7 +1,7 @@
 'use strict';
 
 // DO NOT INCLUDE STORAGE HERE \/ \/
-angular.module('copayApp.services').factory('walletService', function($log, lodash, trezor, ledger, storageService, configService, uxLanguage) {
+angular.module('copayApp.services').factory('walletService', function($log, lodash, trezor, ledger, configService, uxLanguage) {
 // DO NOT INCLUDE STORAGE HERE ^^
 
   var root = {};
