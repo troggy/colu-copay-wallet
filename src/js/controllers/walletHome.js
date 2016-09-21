@@ -510,7 +510,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
 
             if (signedTxp.status == 'accepted') {
               ongoingProcess.set('broadcastingTx', true);
-              walletService.broadcastTx(client, signedTxp, function(err, broadcastedTxp) {
+              assetService.broadcastTx(client, signedTxp, function(err, broadcastedTxp) {
                 ongoingProcess.set('broadcastingTx', false);
                 if (err) {
                   return self.setSendError(err);

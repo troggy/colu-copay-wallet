@@ -2,7 +2,7 @@
 
 angular.module('copayApp.services').factory('assetService',
   function(profileService, coloredCoins, addonManager, lodash, configService,
-          $q, $log, $rootScope, go, instanceConfig, walletService) {
+          $q, $log, $rootScope, go, instanceConfig, walletService, $timeout) {
 
   var root = {},
       self = this,
@@ -112,17 +112,6 @@ angular.module('copayApp.services').factory('assetService',
     }
   };
 
-  root.sendTxProposal = function(txOpts, cb) {
-    var fc = profileService.focusedClient;
-    if (root.walletAsset.isAsset) {
-      coloredCoins.sendTransferTxProposal(
-        txOpts.amount, txOpts.toAddress, txOpts.message, root.walletAsset, cb
-      );
-    } else {
-      fc.sendTxProposal(addonManager.processCreateTxOpts(txOpts), cb);
-    }
-  };
-
   root.createTransferTx = function(client, txp, cb) {
     if (root.walletAsset.isAsset) {
       return coloredCoins.makeTransferTxProposal(txp.amount, txp.toAddress, txp.message, root.walletAsset, function(err, coloredTxp) {
@@ -139,6 +128,19 @@ angular.module('copayApp.services').factory('assetService',
       });
     } else {
       return walletService.createTx(client, addonManager.processCreateTxOpts(txp), cb);
+    }
+  };
+
+  root.broadcastTx = function(client, txp, cb) {
+    if (root.walletAsset.isAsset) {
+      return coloredCoins.broadcastTx(txp.raw, txp.customData.financeTxId, function(err) {
+        if (err) return cb(err);
+        $timeout(function() {
+          walletService.broadcastTx(client, txp, cb);
+        }, 1000);
+      });
+    } else {
+      return walletService.broadcastTx(client, txp, cb);
     }
   };
 
