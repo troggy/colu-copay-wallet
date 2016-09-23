@@ -1605,6 +1605,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         tx.hasMultiplesOutputs = false;
         tx.alternativeAmountStr = false;
         tx.isColored = true;
+        tx.isAsset = tx.isAsset || true;
       });
       cb(self.allAssetHistory);
     });
