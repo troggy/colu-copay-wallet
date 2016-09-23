@@ -13,9 +13,6 @@ angular.module('copayApp.controllers').controller('txDetailsController', functio
   $scope.copayerId = fc.credentials.copayerId;
   $scope.isShared = fc.credentials.n > 1;
 
-  $scope.btx.amountStr = profileService.formatAmount($scope.btx.amount, true) + ' ' + walletSettings.unitName;
-  $scope.btx.feeStr = profileService.formatAmount($scope.btx.fees, true) + ' ' + walletSettings.unitName;
-
   $scope.showCommentPopup = function() {
     $scope.data = {
       comment: $scope.btx.note ? $scope.btx.note.body : '',

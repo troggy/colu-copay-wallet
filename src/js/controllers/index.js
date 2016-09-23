@@ -382,7 +382,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
         $rootScope.$on('Local/WalletAssetUpdated', function() {
           self.asset = assetService.walletAsset;
-          updateAndFilterHistory(false);
+          updateAndFilterHistory();
           updateAndFilterProposals();
         });
 
@@ -542,7 +542,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       if (tx.creatorId != self.copayerId) {
         self.pendingTxProposalsCountForUs = self.pendingTxProposalsCountForUs + 1;
       }
-      addonManager.formatPendingTxp(tx);
     });
     self.allTxps = txps;
     updateAndFilterProposals();
@@ -730,7 +729,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
       $log.debug('Fixing Tx Cache Unit to:' + name)
       lodash.each(txs, function(tx) {
-
         tx.amountStr = profileService.formatAmount(tx.amount) + name;
         tx.feeStr = profileService.formatAmount(tx.fees) + name;
       });
@@ -786,12 +784,13 @@ angular.module('copayApp.controllers').controller('indexController', function($r
               newHistory = lodash.compact(newHistory.concat(confirmedTxs));
               self.allAssetHistory = self.completeHistory = newHistory;
               updateHistoryColors(function() {
-                updateAndFilterHistory();
+                updateAndFilterHistory(function() {
+                  $timeout(function() {
+                    $rootScope.$apply();
+                  });
+                });
               });
             }
-            $timeout(function() {
-              $rootScope.$apply();
-            });
           }
         });
       };
@@ -842,16 +841,15 @@ angular.module('copayApp.controllers').controller('indexController', function($r
             self.completeHistory = newHistory;
             self.allAssetHistory = self.completeHistory = newHistory;
             updateHistoryColors(function() {
-              updateAndFilterHistory(false);
-              self.setCompactTxHistory();
+              updateAndFilterHistory(function() {
+                return storageService.setTxHistory(historyToSave, walletId, function() {
+                  $log.debug('Tx History saved.');
+
+                  return cb();
+                });
+              });
             });
           }
-
-          return storageService.setTxHistory(historyToSave, walletId, function() {
-            $log.debug('Tx History saved.');
-
-            return cb();
-          });
         });
       });
     });
@@ -1486,8 +1484,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   $rootScope.$on('Local/ClearHistory', function(event) {
     $log.debug('The wallet transaction history has been deleted');
     self.txHistory = self.completeHistory = self.txHistorySearchResults = [];
-    updateAndFilterHistory(false);
-    self.debounceUpdateHistory();
+    updateAndFilterHistory(function() {
+      self.debounceUpdateHistory();
+    });
   });
 
   $rootScope.$on('Local/AddressbookUpdated', function(event, ab) {
@@ -1595,17 +1594,17 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         var colorTx = coloredTxs[tx.txid];
         if (tx.isColored || !colorTx || !colorTx.colored) return;
 
-        tx.isColored = true;
         var nVout = colorTx.ccdata[0].payments[0].output;
         var asset = colorTx.vout[nVout].assets[0];
         tx.assetId = asset.assetId;
         tx.issuanceTxId = asset.issueTxid;
 
         var amount = lodash.sum(lodash.pluck(colorTx.vout[nVout].assets, 'amount'));
-        asset.divisible = asset.divisibility;
-        tx.assetAmountStr = coloredCoins.formatAssetAmount(amount, asset);
-        tx.amountStr = tx.assetAmountStr; // for history details
+        tx.amountStr = coloredCoins.formatAssetAmount(amount, asset);
         tx.addressTo = tx.outputs[0].toAddress || tx.outputs[0].address;
+        tx.hasMultiplesOutputs = false;
+        tx.alternativeAmountStr = false;
+        tx.isColored = true;
       });
       cb(self.allAssetHistory);
     });
@@ -1615,10 +1614,11 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       self.txps = lodash.filter(self.allTxps, self.filterProposals);
   };
 
-  var updateAndFilterHistory = function(showAll) {
+  var updateAndFilterHistory = function(cb) {
     coloredCoins.whenAvailable(function(assets, coloredTxs) {
       self.completeHistory = lodash.filter(self.allAssetHistory, self.filterHistory);
       self.setCompactTxHistory();
+      if (cb) cb();
     });
   };
 
@@ -1629,9 +1629,10 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       addressService.expireAddress(walletId, function(err) {
         $timeout(function() {
           self.txHistory = self.completeHistory = self.txHistorySearchResults = [];
-          updateAndFilterHistory(false);
-          storageService.removeTxHistory(walletId, function() {
-            self.startScan(walletId);
+          updateAndFilterHistory(function() {
+            storageService.removeTxHistory(walletId, function() {
+              self.startScan(walletId);
+            });
           });
         }, 500);
       });
