@@ -1161,9 +1161,9 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   self.filterProposals = function(txp) {
     if (self.asset.isAsset) {
       // for asset wallet show only colored tx of the wallet color
-      return txp.isColored && txp.customData.asset.assetId === self.asset.assetId;
+      return txp.isAsset && txp.customData.asset.assetId === self.asset.assetId;
     } else {
-      return !txp.isColored; // show only colorless tx for btc wallet
+      return !txp.isAsset; // show only colorless tx for btc wallet
     }
   };
 
