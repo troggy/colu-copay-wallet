@@ -543,7 +543,16 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     $scope.color = fc.backgroundColor;
     $scope.cb = cb;
 
-    $ionicModal.fromTemplateUrl('views/modals/tx-status.html', {
+    var txStatusUrl = 'views/modals/tx-status.html';
+    if (txp.customData && txp.customData.asset) {
+      if (txp.customData.asset.action == 'transfer') {
+        txStatusUrl = 'views/coloredcoins/modals/transfer-status.html';
+      } else {
+        txStatusUrl = 'views/coloredcoins/modals/issue-status.html';
+      }
+    }
+
+    $ionicModal.fromTemplateUrl(txStatusUrl, {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
