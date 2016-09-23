@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $ionicModal, ongoingProcess, platformInfo, txStatus, $ionicScrollDelegate, txFormatService, fingerprintService, bwcError, gettextCatalog, lodash, profileService, walletService) {
+angular.module('copayApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $ionicModal, ongoingProcess, platformInfo, txStatus, $ionicScrollDelegate, txFormatService, fingerprintService, bwcError, gettextCatalog, lodash, profileService, walletService, assetService) {
   var self = $scope.self;
   var tx = $scope.tx;
   var copayers = $scope.copayers;
@@ -12,8 +12,7 @@ angular.module('copayApp.controllers').controller('txpDetailsController', functi
   $scope.isShared = fc.credentials.n > 1;
   $scope.canSign = fc.canSign() || fc.isPrivKeyExternal();
   $scope.color = fc.backgroundColor;
-  $scope.isAsset = tx.customData && tx.customData.asset;
-  
+
   checkPaypro();
 
   // ToDo: use tx.customData instead of tx.message
@@ -54,7 +53,7 @@ angular.module('copayApp.controllers').controller('txpDetailsController', functi
 
             if (signedTxp.status == 'accepted') {
               ongoingProcess.set('broadcastingTx', true);
-              walletService.broadcastTx(fc, signedTxp, function(err, broadcastedTxp) {
+              assetService.broadcastTx(fc, signedTxp, function(err, broadcastedTxp) {
                 ongoingProcess.set('broadcastingTx', false);
                 $scope.$emit('UpdateTx');
                 $scope.close(broadcastedTxp);
@@ -125,7 +124,7 @@ angular.module('copayApp.controllers').controller('txpDetailsController', functi
 
     $timeout(function() {
       ongoingProcess.set('broadcastTx', true);
-      walletService.broadcastTx(fc, txp, function(err, txpb) {
+      assetService.broadcastTx(fc, txp, function(err, txpb) {
         ongoingProcess.set('broadcastTx', false);
 
         if (err) {
