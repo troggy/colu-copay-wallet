@@ -215,11 +215,8 @@
                   <span  class="size-12" ng-if="btx.action == 'invalid'" translate>
                   (possible double spend)
                   </span>
-                  <span  ng-if="btx.action != 'invalid'" ng-hide="btx.isColored">
+                  <span  ng-if="btx.action != 'invalid'">
                   {{btx.amountStr}}
-                  </span>
-                  <span  ng-if="btx.action != 'invalid'" ng-show="btx.isColored">
-                  {{btx.assetAmountStr}}
                   </span>
                 </span>
                 <div class="size-12 text-gray">
