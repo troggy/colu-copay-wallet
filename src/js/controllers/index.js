@@ -1785,7 +1785,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     function openConfirmationPopup(txp, cb) {
 
       var config = configService.getSync();
-
+      config.colorFor = config.colorFor || {};
       $scope.color = config.colorFor[txp.walletId] || '#4A90E2';
       $scope.tx = txFormatService.processTx(txp);
 
