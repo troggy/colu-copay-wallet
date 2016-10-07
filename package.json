@@ -45,6 +45,7 @@
   "dependencies": {
     "bitcore-wallet-client": "troggy/bitcore-wallet-client#v2.11.0",
     "coveralls": "^2.11.9",
+    "ejs": "^2.5.2",
     "express": "^4.11.2",
     "fs": "0.0.2",
     "shelljs": "^0.3.0"
