@@ -26,7 +26,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   ret.instanceName = instanceConfig.walletName;
   ret.secondaryColor = instanceConfig.secondaryColor || '#2C3E50';
-  ret.allowAssetChange = instanceConfig.allowAssetChange;
+  ret.allowAssetChange = instanceConfig.allowAssetChange || false;
   ret.noUserColors = instanceConfig.noUserColors;
 
   ret.menu = [{
