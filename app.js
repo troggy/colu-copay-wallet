@@ -5,8 +5,8 @@ var path = require('path');
 var app = express();
 
 var port = process.env.PORT || 3000;
-app.listen(port);
-console.log("App listening on port " + port);
+
+
 
 if (process.env.STATIC_CONFIG) {
   app.use(express.static(__dirname + '/public'));
@@ -34,4 +34,8 @@ if (process.env.STATIC_CONFIG) {
 
   app.use('/img/', express.static(__dirname + '/public/img'));
   app.use('/views/', express.static(__dirname + '/public/views'));
+  app.use('/:walletName/', express.static(__dirname + '/public'));
 }
+
+app.listen(port);
+console.log("App listening on port " + port);
