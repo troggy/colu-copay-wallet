@@ -4,7 +4,7 @@
     <img ng-if="sidebar.isWindowsPhoneApp" src="img/logo-negative.png" alt="Copay" width="120">
     <div ng-include="'views/includes/version.html'"></div>
   </header>
-  <ion-content>
+  <ion-content style="background-color: {{index.secondaryColor}}">
     <ul class="pr">
       <li ng-show="sidebar.wallets[0]"
         ng-repeat="item in sidebar.wallets track by $index" ng-class="{'selected': item.id == index.walletId}" class="nav-item"
