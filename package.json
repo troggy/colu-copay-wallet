@@ -43,7 +43,7 @@
     "type": "git"
   },
   "dependencies": {
-    "bitcore-wallet-client": "troggy/bitcore-wallet-client#ac50a1f",
+    "bitcore-wallet-client": "troggy/bitcore-wallet-client#v2.11.0",
     "coveralls": "^2.11.9",
     "express": "^4.11.2",
     "fs": "0.0.2",
