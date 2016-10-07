@@ -1,8 +1,8 @@
 {
   "name": "Unicoisa",
-  "description": "A multisignature wallet",
+  "description": "Digital wallet for Colu assets",
   "author": "Kosta Korenkov",
-  "version": "1.0.0",
+  "version": "2.7.0-unicoisa.1",
   "androidVersionCode": "1",
   "keywords": [
     "wallet",
@@ -16,7 +16,7 @@
   ],
   "main": "public/index.html",
   "window": {
-    "title": "Unicoisa - A multisignature wallet",
+    "title": "Unicoisa - A multisignature wallet for Colu assets",
     "icon": "./public/img/icons/icon-256.png",
     "show": true,
     "visible": true,
