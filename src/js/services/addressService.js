@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 angular.module('copayApp.services')
   .factory('addressService', function(storageService, profileService, $log, $timeout, lodash, bwcError, gettextCatalog) {
     var root = {};
@@ -20,18 +19,18 @@ angular.module('copayApp.services')
       });
     };
 
-    root._createAddress = function(walletId, isChange, cb) {
+    root._createAddress = function(walletId, cb) {
       var client = profileService.getClient(walletId);
 
       $log.debug('Creating address for wallet:', walletId);
 
-      client.createAddress({ isChange: isChange }, function(err, addr) {
+      client.createAddress({}, function(err, addr) {
         if (err) {
           var prefix = gettextCatalog.getString('Could not create address');
           if (err.error && err.error.match(/locked/gi)) {
             $log.debug(err.error);
             return $timeout(function() {
-              root._createAddress(walletId, isChange, cb);
+              root._createAddress(walletId, cb);
             }, 5000);
           } else if (err.message && err.message == 'MAIN_ADDRESS_GAP_REACHED') {
             $log.warn(err.message);
@@ -50,15 +49,7 @@ angular.module('copayApp.services')
       });
     };
 
-    root.getChangeAddress = function(walletId, cb) {
-      return root._getAddress(walletId, true, true, cb);
-    };
-
     root.getAddress = function(walletId, forceNew, cb) {
-      return root._getAddress(walletId, forceNew, false, cb);
-    }
-
-    root._getAddress = function(walletId, forceNew, isChange, cb) {
 
       var firstStep;
       if (forceNew) {
@@ -77,7 +68,7 @@ angular.module('copayApp.services')
 
           if (addr) return cb(null, addr);
 
-          root._createAddress(walletId, isChange, function(err, addr) {
+          root._createAddress(walletId, function(err, addr) {
             if (err) return cb(err);
             storageService.storeLastAddress(walletId, addr, function() {
               if (err) return cb(err);
