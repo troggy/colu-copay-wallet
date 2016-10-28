@@ -12,8 +12,8 @@ This project can be used in two ways:
 Clone the source:
 
 ```sh
-git clone https://bitbucket.com/teamcolu/wallet-generator.git colu-copay
-cd colu-copay
+git clone https://github.com/troggy/colu-copay-wallet.git
+cd colu-copay-wallet
 ```
 
 Install [bower](http://bower.io/) and [grunt](http://gruntjs.com/getting-started) if you haven't already:
