@@ -152,10 +152,17 @@ if [ ! -d $PROJECT ]; then
   cordova plugin add cordova-ios-requires-fullscreen
   checkOK
 
-fi
-
   ## Fix plugin android-fingerprint
   rm -rf $PROJECT/platforms/android/res/values-es
+  rm -rf $PROJECT/platforms/android/res/values-ru
+  rm -rf $PROJECT/platforms/android/res/values-fr
+  rm -rf $PROJECT/platforms/android/res/values-no
+  rm -rf $PROJECT/platforms/android/res/values-zh-rCN
+  rm -rf $PROJECT/platforms/android/res/values-zh-rHK
+  rm -rf $PROJECT/platforms/android/res/values-zh-rMO
+  rm -rf $PROJECT/platforms/android/res/values-zh-rSG
+  rm -rf $PROJECT/platforms/android/res/values-zh-rTW
+  rm -rf $PROJECT/platforms/android/res/values-zh
   cordova plugin add cordova-plugin-android-fingerprint-auth
   checkOK
 
