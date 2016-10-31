@@ -9,7 +9,7 @@
     <Language code="es" />
     <Language code="ru" />
   </Languages>
-  <App Author="Kosta Korenkov" BitsPerPixel="32" Description="A multisignature Wallet" Genre="apps.normal" ProductID="{5381aa50-9069-11e4-84cc-293caf9cbdc8}" Publisher="Unicoisa Bitcoin Wallet" PublisherID="{31cdd08b-457c-413d-b440-f6665eec847d}" RuntimeType="Silverlight" Title="Unicoisa Wallet" Version="1.0.0.0" xmlns="" NotificationService="MPN">
+  <App Author="Kosta Korenkov" BitsPerPixel="32" Description="A multisignature Wallet" Genre="apps.normal" ProductID="{5381aa50-9069-11e4-84cc-293caf9cbdc8}" Publisher="Unicoisa Bitcoin Wallet" PublisherID="{31cdd08b-457c-413d-b440-f6665eec847d}" RuntimeType="Silverlight" Title="Unicoisa Wallet" Version="1.1.0.0" xmlns="" NotificationService="MPN">
     <IconPath IsRelative="true" IsResource="false">Assets\icon@2.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
