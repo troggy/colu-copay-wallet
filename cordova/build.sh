@@ -178,12 +178,12 @@ if $DBGJS
 then
   echo "${OpenColor}${Green}* Generating copay bundle (debug js)...${CloseColor}"
   cd $BUILDDIR/..
-  grunt
+  grunt static
   checkOK
 else
   echo "${OpenColor}${Green}* Generating copay bundle...${CloseColor}"
   cd $BUILDDIR/..
-  grunt prod
+  grunt prod:static
   checkOK
 fi
 

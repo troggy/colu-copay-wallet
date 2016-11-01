@@ -278,6 +278,7 @@ module.exports = function(grunt) {
   grunt.registerTask('fast', ['sass', 'concat']);
   grunt.registerTask('static', ['default', 'copy:config']);
   grunt.registerTask('prod', ['default', 'uglify']);
+  grunt.registerTask('prod:static', ['prod', 'copy:config']);
   grunt.registerTask('translate', ['nggettext_extract']);
   grunt.registerTask('test', ['karma:unit']);
   grunt.registerTask('test-coveralls', ['browserify', 'karma:prod', 'exec:coveralls']);
