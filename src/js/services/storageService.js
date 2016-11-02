@@ -196,11 +196,11 @@ angular.module('copayApp.services')
     };
 
     root.setHideBalanceFlag = function(walletId, val, cb) {
-      storage.set('hideBalance-' + walletId, val, cb);
+      storage.set(instanceConfig.walletName + '-hideBalance-' + walletId, val, cb);
     };
 
     root.getHideBalanceFlag = function(walletId, cb) {
-      storage.get('hideBalance-' + walletId, cb);
+      storage.get(instanceConfig.walletName + '-hideBalance-' + walletId, cb);
     };
 
     //for compatibility
@@ -229,27 +229,27 @@ angular.module('copayApp.services')
     };
 
     root.setCoinbaseRefreshToken = function(network, token, cb) {
-      storage.set('coinbaseRefreshToken-' + network, token, cb);
+      storage.set(instanceConfig.walletName + '-coinbaseRefreshToken-' + network, token, cb);
     };
 
     root.getCoinbaseRefreshToken = function(network, cb) {
-      storage.get('coinbaseRefreshToken-' + network, cb);
+      storage.get(instanceConfig.walletName + '-coinbaseRefreshToken-' + network, cb);
     };
 
     root.removeCoinbaseRefreshToken = function(network, cb) {
-      storage.remove('coinbaseRefreshToken-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-coinbaseRefreshToken-' + network, cb);
     };
 
     root.setCoinbaseToken = function(network, token, cb) {
-      storage.set('coinbaseToken-' + network, token, cb);
+      storage.set(instanceConfig.walletName + '-coinbaseToken-' + network, token, cb);
     };
 
     root.getCoinbaseToken = function(network, cb) {
-      storage.get('coinbaseToken-' + network, cb);
+      storage.get(instanceConfig.walletName + '-coinbaseToken-' + network, cb);
     };
 
     root.removeCoinbaseToken = function(network, cb) {
-      storage.remove('coinbaseToken-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-coinbaseToken-' + network, cb);
     };
 
     root.setAddressbook = function(network, addressbook, cb) {
@@ -295,15 +295,15 @@ angular.module('copayApp.services')
     }
 
     root.setCoinbaseTxs = function(network, ctx, cb) {
-      storage.set('coinbaseTxs-' + network, ctx, cb);
+      storage.set(instanceConfig.walletName + '-coinbaseTxs-' + network, ctx, cb);
     };
 
     root.getCoinbaseTxs = function(network, cb) {
-      storage.get('coinbaseTxs-' + network, cb);
+      storage.get(instanceConfig.walletName + '-coinbaseTxs-' + network, cb);
     };
 
     root.removeCoinbaseTxs = function(network, cb) {
-      storage.remove('coinbaseTxs-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-coinbaseTxs-' + network, cb);
     };
 
     root.removeAllWalletData = function(walletId, cb) {
@@ -319,15 +319,15 @@ angular.module('copayApp.services')
     };
 
     root.setAmazonGiftCards = function(network, gcs, cb) {
-      storage.set('amazonGiftCards-' + network, gcs, cb);
+      storage.set(instanceConfig.walletName + '-amazonGiftCards-' + network, gcs, cb);
     };
 
     root.getAmazonGiftCards = function(network, cb) {
-      storage.get('amazonGiftCards-' + network, cb);
+      storage.get(instanceConfig.walletName + '-amazonGiftCards-' + network, cb);
     };
 
     root.removeAmazonGiftCards = function(network, cb) {
-      storage.remove('amazonGiftCards-' + network, cb);
+      storage.remove(instanceConfig.walletName + '-amazonGiftCards-' + network, cb);
     };
 
     return root;
