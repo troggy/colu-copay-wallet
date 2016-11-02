@@ -2,7 +2,7 @@
 
 angular.module('copayApp.services').factory('assetService',
   function(profileService, coloredCoins, addonManager, lodash, configService,
-          $q, $log, $rootScope, go, instanceConfig, walletService, $timeout) {
+          $q, $log, $rootScope, go, instanceConfig, walletService, $timeout, storageService) {
 
   var root = {},
       self = this,
@@ -80,21 +80,36 @@ angular.module('copayApp.services').factory('assetService',
           config = configService.getSync();
 
       config.assetFor = config.assetFor || {};
-      self.selectedAssetId = config.assetFor[walletId] || instanceConfig.defaultAsset;
+      root.getSupportedAssets(function(assets) {
+        var supportedAssets = lodash.map(assets, 'assetId');
+        var selectedAsset = config.assetFor[walletId];
+        if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
+          self.selectedAssetId = instanceConfig.defaultAsset;
+        } else {
+          self.selectedAssetId = config.assetFor[walletId];
+        }
+      });
     }
 
     return updateAssetBalance();
   };
 
-  root.setSelectedAsset = function(asset) {
+  root.getSupportedAssets = function(cb) {
+    storageService.getCustomAssets(function(err, customAssets) {
+      if (!customAssets) return cb(instanceConfig.assets);
+      cb(lodash(instanceConfig.assets).concat(customAssets).value());
+    });
+  };
+
+  root.setSelectedAsset = function(assetId) {
     var walletId = profileService.focusedClient.credentials.walletId;
 
     var opts = {
       assetFor: {
       }
     };
-    opts.assetFor[walletId] = asset.assetId;
-    self.selectedAssetId = asset.assetId;
+    opts.assetFor[walletId] = assetId;
+    self.selectedAssetId = assetId;
 
     configService.set(opts, function(err) {
       if (err) $log.warn(err);
@@ -143,6 +158,33 @@ angular.module('copayApp.services').factory('assetService',
       return walletService.broadcastTx(client, txp, cb);
     }
   };
+
+  root.addCustomAsset = function(newAsset, cb) {
+    storageService.getCustomAssets(function(err, customAssets) {
+      customAssets = customAssets || [];
+      customAssets.push(newAsset);
+      $log.debug('Adding new custom asset: ' + JSON.stringify(newAsset))
+      storageService.setCustomAssets(customAssets, cb);
+    });
+  };
+
+  root.removeCustomAsset = function(assetId, cb) {
+    storageService.getCustomAssets(function(err, customAssets) {
+      customAssets = customAssets || [];
+      $log.debug('Removing custom asset: ' + assetId);
+      customAssets = lodash.reject(customAssets, function(a) { return a.assetId === assetId });
+      storageService.setCustomAssets(customAssets, cb);
+    });
+  };
+
+  root.setSupportedAssets = function(cb) {
+    root.getSupportedAssets(function(assets) {
+      coloredCoins.setSupportedAssets(assets);
+      if (cb) cb();
+    });
+  };
+
+  root.setSupportedAssets();
 
   return root;
 });

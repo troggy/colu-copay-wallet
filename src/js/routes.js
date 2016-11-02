@@ -13,7 +13,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('copayApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, coluConfigProvider, instanceConfigProvider, coloredCoinsProvider) {
+angular.module('copayApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, coluConfigProvider, instanceConfigProvider) {
     $urlRouterProvider.otherwise('/');
 
     // default mode is SDK
@@ -30,8 +30,6 @@ angular.module('copayApp').config(function(historicLogProvider, $provide, $logPr
     }
 
     coluConfigProvider.config(coluConfig);
-
-    coloredCoinsProvider.setSupportedAssets(instanceConfigProvider.config.assets);
 
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'platformInfo',

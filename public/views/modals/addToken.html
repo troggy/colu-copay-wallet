@@ -1,0 +1,64 @@
+<ion-modal-view ng-controller="addTokenController as addCtrl">
+  <ion-header-bar align-title="center" class="tab-bar">
+    <div class="left-small">
+      <a ng-click="close()" class="p10">
+        <span class="text-close" translate>Close</span>
+      </a>
+    </div>
+    <h1 class="title ellipsis" translate>
+      Add new token
+    </h1>
+  </ion-header-bar>
+
+  <ion-content>
+
+    <div class="modal-content">
+      <form name="addTokenForm" novalidate>
+        <div class="box-notification m20b" id="notification" ng-show="addCtrl.error">
+          <span class="text-warning">
+            {{addCtrl.error|translate}}
+          </span>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <h4></h4>
+            <div>
+              <label><span translate>Token name</span>
+                <div class="input">
+                  <input type="text" placeholder="" class="form-control"
+                    name="tokenName" ng-model="tokenName" ng-required="true"
+                    ng-focus="addCtrl.formFocus('token-name')" ng-blur="addCtrl.formFocus(false)">
+                </div>
+              </label>
+            </div>
+            <div>
+              <label><span translate>Asset id</span>
+                <div class="input">
+                  <input type="text" placeholder="" class="form-control"
+                    name="assetId" ng-model="assetId" ng-required="true"
+                    ng-focus="addCtrl.formFocus('asset-id')" ng-blur="addCtrl.formFocus(false)">
+                </div>
+              </label>
+            </div>
+            <div>
+              <label><span translate>Symbol</span> <small translate>Currency symbol, e.g. bR$</small>
+                <div class="input">
+                  <input type="text" placeholder="" class="form-control"
+                    name="symbol" ng-model="symbol" ng-required="true"
+                    ng-focus="addCtrl.formFocus('symbol')" ng-blur="addCtrl.formFocus(false)">
+                </div>
+              </label>
+            </div>
+            
+            <button class="button round black expand"
+                    ng-disabled="addTokenForm.$invalid"
+                    ng-click="addCtrl.addToken(addTokenForm)">
+              <span translate>Add new token</span>
+            </button>
+
+          </div> <!-- large-12 columns -->
+        </div> <!-- row -->
+      </form>
+    </div>
+  </ion-content>
+</ion-modal-view>

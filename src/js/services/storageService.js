@@ -330,5 +330,25 @@ angular.module('copayApp.services')
       storage.remove(instanceConfig.walletName + '-amazonGiftCards-' + network, cb);
     };
 
+    root.setCustomAssets = function(customAssets, cb) {
+      if (customAssets && !lodash.isString(customAssets)) {
+        customAssets = JSON.stringify(customAssets);
+      }
+      storage.set(instanceConfig.walletName + '-customAssets', customAssets, cb);
+    };
+
+    root.getCustomAssets = function(cb) {
+      storage.get(instanceConfig.walletName + '-customAssets', function(err, data) {
+        if (lodash.isString(data)) {
+          data = JSON.parse(data);
+        }
+        cb(err, data);
+      });
+    };
+
+    root.removeCustomAssets = function(cb) {
+      storage.remove(instanceConfig.walletName + '-customAssets', cb);
+    };
+
     return root;
   });
