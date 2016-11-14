@@ -7,15 +7,21 @@
 
 <div class="content preferences" ng-controller="walletInfoController as walletInfo">
     <h4 class="title m0" ng-show="walletInfo.assets" translate>Asset</h4>
-    <ul class="no-bullet m0 ">
-        <li ng-repeat="asset in walletInfo.assets" ng-click="walletInfo.setSelectedAsset(asset)">
-            <div class="right">
-                <span class="text-gray">{{ asset.balanceStr | rawHtml }}</span>
-                <div class="check-icon-place" ng-class="{ 'fi-check' : walletInfo.assetId == asset.assetId }"></div>
-            </div>
-            <div translate>{{ asset.assetName | rawHtml }}</div>
-        </li>
-    </ul>
+
+    <div ng-repeat="asset in walletInfo.assets" ng-mouseover="walletInfo.hoverId = asset.assetId">
+      <a class="remove-asset-link" translate ng-show="asset.custom && walletInfo.hoverId == asset.assetId"
+        ng-click="walletInfo.removeCustomAsset(asset.assetId)">
+          <i class="fi-x size-18"></i>
+      </a>
+      <ion-radio class="line-b size-12 radio-label" ng-value="asset.assetId" ng-model="walletInfo.assetId"
+        ng-click="walletInfo.setSelectedAsset(asset.assetId)">
+          {{ asset.assetName | rawHtml }}
+          <span class="right" style="margin-right: 20px">{{ asset.balanceStr | rawHtml }}</span>
+      </ion-radio>
+    </div>
+    <h4></h4>
+    <div class="text-center">
+      <a class="button outline light-gray tiny round" ng-click="walletInfo.showTokenModal()" translate>ADD TOKEN</a>
+    </div>
 </div>
 <div class="extra-margin-bottom"></div>
-

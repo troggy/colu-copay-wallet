@@ -2189,3 +2189,9 @@ input[type="number"] {
   .calculator .header-calc { top: 18%; }
 }
 
+.remove-asset-link {
+  position: absolute;
+  margin-top: 14px;
+  right: 45px;
+  z-index: 999;
+}

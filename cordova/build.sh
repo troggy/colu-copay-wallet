@@ -38,7 +38,7 @@ fi
 
 
 echo "${OpenColor}${Green}* Checking dependencies...${CloseColor}"
-command -v cordova >/dev/null 2>&1 || { echo >&2 "Cordova is not present, please install it: sudo npm -g cordova."; exit 1; }
+command -v cordova >/dev/null 2>&1 || { echo >&2 "Cordova is not present, please install it: npm i -g cordova."; exit 1; }
 #command -v xcodebuild >/dev/null 2>&1 || { echo >&2 "XCode is not present, install it or use [--android]."; exit 1; }
 
 # Create project dir
@@ -178,12 +178,12 @@ if $DBGJS
 then
   echo "${OpenColor}${Green}* Generating copay bundle (debug js)...${CloseColor}"
   cd $BUILDDIR/..
-  grunt
+  grunt static
   checkOK
 else
   echo "${OpenColor}${Green}* Generating copay bundle...${CloseColor}"
   cd $BUILDDIR/..
-  grunt prod
+  grunt prod:static
   checkOK
 fi
 

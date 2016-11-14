@@ -12,8 +12,8 @@ This project can be used in two ways:
 Clone the source:
 
 ```sh
-git clone https://bitbucket.com/teamcolu/wallet-generator.git colu-copay
-cd colu-copay
+git clone https://github.com/troggy/colu-copay-wallet.git
+cd colu-copay-wallet
 ```
 
 Install [bower](http://bower.io/) and [grunt](http://gruntjs.com/getting-started) if you haven't already:
@@ -53,10 +53,13 @@ Colu-Copay is now ready to serve your wallets. E.g. `foo` wallet will be served 
 If you set up the wallet using Colu dashboard, you can download your config using the link (adjust it to include your wallet name):
 ``https://dashboard.colu.co/config/wallets/<your wallet name>``. E.g. config file for web wallet https://wallets.colu.co/SmashCoin#/ is available at https://dashboard.colu.co/config/wallets/SmashCoin
 
-2. Build the app:
+2. Build the app.
 
+  non-minified version for debug:
         grunt static
 
+  uglified version for production:
+        grunt prod:static
 
 3. Your app is now ready to be served from the ``public/`` folder as a web wallet. It is a static web site (no backend required), so you can use webserver like Nginx or any static file hosting to serve it.
 

@@ -197,7 +197,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       }
 
       profileService.needsBackup(fc, function(needsBackup) {
-        self.needsBackup = needsBackup;
+        self.needsBackup = needsBackup && instanceConfig.needsBackup;
         self.openWallet(function() {
           if (!self.isComplete) {
             $log.debug('Wallet not complete after update... redirecting');
