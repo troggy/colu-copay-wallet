@@ -1,7 +1,9 @@
 <div class="sidebar" ng-controller="sidebarController as sidebar" style="background-color: {{index.secondaryColor}}">
   <header>
-    <logo ng-if="!sidebar.isWindowsPhoneApp" width="120"></logo>
-    <img ng-if="sidebar.isWindowsPhoneApp" src="img/logo-negative.png" alt="Copay" width="120">
+    <div class="cc-logo-holder negative">
+      <logo ng-if="!sidebar.isWindowsPhoneApp" negative="true" width="120"></logo>
+      <logo ng-if="sidebar.isWindowsPhoneApp" negative="true" width="120"></logo>
+    </div>
     <div ng-include="'views/includes/version.html'"></div>
   </header>
   <ion-content style="background-color: {{index.secondaryColor}}">
