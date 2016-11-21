@@ -158,6 +158,7 @@ if [ ! -d $PROJECT ]; then
   rm -rf $PROJECT/platforms/android/res/values-fr
   rm -rf $PROJECT/platforms/android/res/values-no
   rm -rf $PROJECT/platforms/android/res/values-pt
+  rm -rf $PROJECT/platforms/android/res/values-it
   rm -rf $PROJECT/platforms/android/res/values-zh-rCN
   rm -rf $PROJECT/platforms/android/res/values-zh-rHK
   rm -rf $PROJECT/platforms/android/res/values-zh-rMO
