@@ -93,18 +93,22 @@ angular.module('copayApp.directives')
         link: function(scope, element, attrs, ctrl) {
           var val = function(value) {
             var settings = configService.getSync().wallet.settings;
-            var vNum = Number((value * settings.unitToSatoshi).toFixed(0));
+            var vNum;
+            if (attrs.unitDecimals) {
+              vNum = Number(value);
+            } else {
+              vNum = Number((value * settings.unitToSatoshi).toFixed(0));
+            }
+
             if (typeof value == 'undefined' || value == 0) {
               ctrl.$pristine = true;
             }
-
-
 
             if (typeof vNum == "number" && vNum > 0) {
               if (vNum > Number.MAX_SAFE_INTEGER) {
                 ctrl.$setValidity('validAmount', false);
               } else {
-                var decimals = Number(settings.unitDecimals);
+                var decimals = Number(attrs.unitDecimals || settings.unitDecimals);
                 var sep_index = ('' + value).indexOf('.');
                 var str_value = ('' + value).substring(sep_index + 1);
                 if (sep_index >= 0 && str_value.length > decimals) {

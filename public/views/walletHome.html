@@ -431,6 +431,7 @@
                         ng-attr-placeholder="{{'Amount in'|translate}} {{home.unitName}}"
                         ng-model="_amount"
                         valid-amount
+                        unit-decimals = "{{ index.asset.isAsset ? index.asset.divisibility : '' }}"
                         required
                         autocomplete="off"
                         ng-click="openInputAmountModal()"
@@ -458,6 +459,7 @@
                         ng-attr-placeholder="{{'Amount in'|translate}} {{index.asset.unitSymbol.pluralSymbol}}"
                         ng-model="_amount"
                         valid-amount
+                        unit-decimals = "{{ index.asset.isAsset ? index.asset.divisibility : '' }}"
                         required
                         autocomplete="off"
                         ng-click="openInputAmountModal()"
@@ -473,6 +475,7 @@
                         ng-attr-placeholder="{{'Amount in'|translate}} {{home.unitName}}"
                         ng-model="_amount"
                         valid-amount
+                        unit-decimals = "{{ index.asset.isAsset ? index.asset.divisibility : '' }}"
                         required
                         autocomplete="off"
                         ignore-mouse-wheel>
@@ -496,6 +499,7 @@
                         ng-attr-placeholder="{{'Amount in'|translate}} {{index.asset.unitSymbol.pluralSymbol}}"
                         ng-model="_amount"
                         valid-amount
+                        unit-decimals = "{{ index.asset.isAsset ? index.asset.divisibility : '' }}"
                         required
                         autocomplete="off"
                         ignore-mouse-wheel>
