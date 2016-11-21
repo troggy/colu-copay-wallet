@@ -197,7 +197,7 @@ angular.module('copayApp.controllers').controller('exportController',
         if ($scope.noSignEnabled)
           name = name + '(No Private Key)';
 
-        var subject = 'Unicoisa Wallet Backup: ' + name;
+        var subject = 'ColuWallet Wallet Backup: ' + name;
         var body = 'Here is the encrypted backup of the wallet ' + name + ': \n\n' + ew + '\n\n To import this backup, copy all text between {...}, including the symbols {}';
         window.plugins.socialsharing.shareViaEmail(
           body,

@@ -56,7 +56,7 @@ echo "Project directory is $PROJECT"
 if [ ! -d $PROJECT ]; then
   cd $BUILDDIR
   echo "${OpenColor}${Green}* Creating project... ${CloseColor}"
-  cordova create project org.coloredcoins.unicoisa Unicoisa
+  cordova create project co.colu.wallets.copay ColuWallet
   checkOK
   cd $PROJECT
   if [ $CURRENT_OS == "ANDROID" ]; then
@@ -178,12 +178,12 @@ fi
 
 if $DBGJS
 then
-  echo "${OpenColor}${Green}* Generating copay bundle (debug js)...${CloseColor}"
+  echo "${OpenColor}${Green}* Generating ColuWallet bundle (debug js)...${CloseColor}"
   cd $BUILDDIR/..
   grunt static
   checkOK
 else
-  echo "${OpenColor}${Green}* Generating copay bundle...${CloseColor}"
+  echo "${OpenColor}${Green}* Generating ColuWallet bundle...${CloseColor}"
   cd $BUILDDIR/..
   grunt prod:static
   checkOK

@@ -70,7 +70,7 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
             return;
           };
 
-          var body = 'Unicoisa Wallet "' + $scope.walletName + '" Addresses\n  Only Main Addresses are  shown.\n\n';
+          var body = 'ColuWallet Wallet "' + $scope.walletName + '" Addresses\n  Only Main Addresses are  shown.\n\n';
           body += "\n";
           body += addrs.map(function(v) {
             return ('* ' + v.address + ' ' + base + v.path.substring(1) + ' ' + formatDate(v.createdOn));
@@ -78,7 +78,7 @@ angular.module('copayApp.controllers').controller('preferencesInformation',
 
           window.plugins.socialsharing.shareViaEmail(
             body,
-            'Unicoisa Addresses',
+            'ColuWallet Addresses',
             null, // TO: must be null or an array
             null, // CC: must be null or an array
             null, // BCC: must be null or an array

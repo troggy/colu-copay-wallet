@@ -35,7 +35,7 @@ Next steps depend on how you plan to use the app.
 ### Option 1. Run as an app hosting multiple web wallets
 
 1. This option will require you to setup another service hosting configurations for your wallets (not described here). This service should vend configuration files by their name like https://<some-domain-and-optional-uri>/<wallet name>. Example of working URL vending configuration for SmashCoin wallet: https://dashboard.colu.co/config/wallets/SmashCoin
-[Config file example](https://github.com/troggy/unicoisa/blob/master/config.js)
+[Config file example](https://github.com/troggy/colu-copay-wallet/blob/master/config.js)
 
 2. Set `CONFIG_URL_BASE` env variable to the base URL of the service that serves configs. If not set, `https://dashboard.colu.co/config/wallets` will be used.
 

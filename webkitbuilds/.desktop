@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
 Version=1.1.0
-Name=Unicoisa
+Name=ColuWallet
 Comment=A multisignature wallet
-Exec=Unicoisa
+Exec=ColuWallet
 Icon=icon-256.png
 Terminal=false
 Categories=Finance
