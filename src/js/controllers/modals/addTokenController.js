@@ -14,13 +14,12 @@ angular.module('copayApp.controllers')
 
   this.addToken = function(form) {
     if (form && form.$invalid) {
-      this.error = gettext('Please enter the required fields');
+      self.error = 'Please enter the required fields';
       return;
     }
 
     var newAsset = {
       assetId: form.assetId.$modelValue,
-      name: form.tokenName.$modelValue,
       symbol: form.symbol.$modelValue,
       pluralSymbol: form.symbol.$modelValue,
       custom: true
@@ -28,7 +27,9 @@ angular.module('copayApp.controllers')
 
     assetService.addCustomAsset(newAsset, function(err) {
       if (err) {
-        this.error = err;
+        $timeout(function() {
+          self.error = err;
+        });
         return;
       }
       $scope.$emit('Local/NewCustomAsset');

@@ -162,9 +162,14 @@ angular.module('copayApp.services').factory('assetService',
   root.addCustomAsset = function(newAsset, cb) {
     storageService.getCustomAssets(function(err, customAssets) {
       customAssets = customAssets || [];
-      customAssets.push(newAsset);
-      $log.debug('Adding new custom asset: ' + JSON.stringify(newAsset))
-      storageService.setCustomAssets(customAssets, cb);
+      coloredCoins.getAssetData(newAsset.assetId, function(err, assetData) {
+        if (err) return cb(err);
+        if (assetData.assetData.length === 0) return cb('No such asset found');
+        newAsset['name'] = assetData.assetData[0].metadata.metadataOfIssuence.data.assetName;
+        customAssets.push(newAsset);
+        $log.debug('Adding new custom asset: ' + JSON.stringify(newAsset))
+        storageService.setCustomAssets(customAssets, cb);
+      });
     });
   };
 

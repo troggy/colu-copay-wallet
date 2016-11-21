@@ -1,7 +1,7 @@
 window.unicoisaConfig = {
 
   // wallet UI configuration
-  walletName: 'BitReais',
+  walletName: 'Espressos',
   mainColor: '',      // if blank default color will be used
   secondaryColor: '', // if blank default color will be used
   logo: '',           // if blank default logo will be used
