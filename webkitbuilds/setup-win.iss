@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Colu Wallet"
-#define MyAppVersion "2.7.0.2"
+#define MyAppVersion "2.7.0-2"
 #define MyAppPublisher "Kosta Korenkov"
 #define MyAppURL "https://github.com/troggy/colu-copay-wallet"
 #define MyAppExeName "ColuWallet.exe"
