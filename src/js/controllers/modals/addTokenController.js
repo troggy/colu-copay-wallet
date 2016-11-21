@@ -12,6 +12,8 @@ angular.module('copayApp.controllers')
 
   var self = this;
 
+  this.updating = false;
+
   this.addToken = function(form) {
     if (form && form.$invalid) {
       self.error = 'Please enter the required fields';
@@ -25,16 +27,20 @@ angular.module('copayApp.controllers')
       custom: true
     };
 
+    self.updating = true;
+
     assetService.addCustomAsset(newAsset, function(err) {
       if (err) {
         $timeout(function() {
           self.error = err;
+          self.updating = false;
         });
         return;
       }
       $scope.$emit('Local/NewCustomAsset');
       assetService.setSupportedAssets(function() {
         $rootScope.$emit('Local/RefreshAssets');
+        self.updating = false;
       });
       $scope.close();
     });
