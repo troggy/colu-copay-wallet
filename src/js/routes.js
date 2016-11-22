@@ -24,7 +24,7 @@ angular.module('copayApp').config(function(historicLogProvider, $provide, $logPr
 
     if (instanceConfigProvider.config.colu && instanceConfigProvider.config.colu.mode === 'rpc') {
       coluConfig = {
-        rpcConfig: instanceConfigProvider.config.colu.rpcServer,
+        rpcConfig: instanceConfigProvider.config.colu.rpcConfig,
         mode: 'rpc'
       };
     }
