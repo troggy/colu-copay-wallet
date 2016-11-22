@@ -75,23 +75,22 @@ angular.module('copayApp.services').factory('assetService',
   };
 
   root.updateWalletAsset = function() {
-    if (!self.selectedAssetId) {
-      var walletId = profileService.focusedClient.credentials.walletId,
-          config = configService.getSync();
+    if (self.selectedAssetId) return updateAssetBalance();
 
-      config.assetFor = config.assetFor || {};
-      root.getSupportedAssets(function(assets) {
-        var supportedAssets = lodash.map(assets, 'assetId');
-        var selectedAsset = config.assetFor[walletId];
-        if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
-          self.selectedAssetId = instanceConfig.defaultAsset;
-        } else {
-          self.selectedAssetId = config.assetFor[walletId];
-        }
-      });
-    }
+    var walletId = profileService.focusedClient.credentials.walletId,
+        config = configService.getSync();
 
-    return updateAssetBalance();
+    config.assetFor = config.assetFor || {};
+    root.getSupportedAssets(function(assets) {
+      var supportedAssets = lodash.map(assets, 'assetId');
+      var selectedAsset = config.assetFor[walletId];
+      if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
+        self.selectedAssetId = instanceConfig.defaultAsset;
+      } else {
+        self.selectedAssetId = config.assetFor[walletId];
+      }
+      updateAssetBalance();
+    });
   };
 
   root.getSupportedAssets = function(cb) {
