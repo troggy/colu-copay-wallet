@@ -16,12 +16,6 @@ window.unicoisaConfig = {
       name: 'BitReal',
       symbol: 'R$',
       pluralSymbol: 'R$'
-    },
-    {
-      assetId: 'La8UymFqWDfWZMRrytuvwHeREUSTTioXR2vjZa',
-      name: 'Old BitReal',
-      symbol: 'R$',
-      pluralSymbol: 'R$'
     }
   ],
   defaultAsset: 'Ua9E8E4kY4XrEezyamNAqZAQ4fZzAsUmeKEf4b',
@@ -30,7 +24,7 @@ window.unicoisaConfig = {
   // see https://github.com/troggy/colu-copay-addon
   colu: {
     mode: 'sdk',
-    rpcServer: {
+    rpcConfig: {
       livenet: {
         baseUrl: ''
       },
