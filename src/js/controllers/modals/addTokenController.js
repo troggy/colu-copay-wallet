@@ -12,28 +12,35 @@ angular.module('copayApp.controllers')
 
   var self = this;
 
+  this.updating = false;
+
   this.addToken = function(form) {
     if (form && form.$invalid) {
-      this.error = gettext('Please enter the required fields');
+      self.error = 'Please enter the required fields';
       return;
     }
 
     var newAsset = {
       assetId: form.assetId.$modelValue,
-      name: form.tokenName.$modelValue,
       symbol: form.symbol.$modelValue,
       pluralSymbol: form.symbol.$modelValue,
       custom: true
     };
 
+    self.updating = true;
+
     assetService.addCustomAsset(newAsset, function(err) {
       if (err) {
-        this.error = err;
+        $timeout(function() {
+          self.error = err;
+          self.updating = false;
+        });
         return;
       }
       $scope.$emit('Local/NewCustomAsset');
       assetService.setSupportedAssets(function() {
         $rootScope.$emit('Local/RefreshAssets');
+        self.updating = false;
       });
       $scope.close();
     });

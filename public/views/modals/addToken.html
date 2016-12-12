@@ -23,18 +23,10 @@
           <div class="large-12 columns">
             <h4></h4>
             <div>
-              <label><span translate>Token name</span>
-                <div class="input">
-                  <input type="text" placeholder="" class="form-control"
-                    name="tokenName" ng-model="tokenName" ng-required="true"
-                    ng-focus="addCtrl.formFocus('token-name')" ng-blur="addCtrl.formFocus(false)">
-                </div>
-              </label>
-            </div>
-            <div>
               <label><span translate>Asset id</span>
                 <div class="input">
                   <input type="text" placeholder="" class="form-control"
+                    ng-disabled="addCtrl.updating"
                     name="assetId" ng-model="assetId" ng-required="true"
                     ng-focus="addCtrl.formFocus('asset-id')" ng-blur="addCtrl.formFocus(false)">
                 </div>
@@ -44,14 +36,15 @@
               <label><span translate>Symbol</span> <small translate>Currency symbol, e.g. bR$</small>
                 <div class="input">
                   <input type="text" placeholder="" class="form-control"
+                    ng-disabled="addCtrl.updating"
                     name="symbol" ng-model="symbol" ng-required="true"
                     ng-focus="addCtrl.formFocus('symbol')" ng-blur="addCtrl.formFocus(false)">
                 </div>
               </label>
             </div>
-            
+
             <button class="button round black expand"
-                    ng-disabled="addTokenForm.$invalid"
+                    ng-disabled="addTokenForm.$invalid || addCtrl.updating"
                     ng-click="addCtrl.addToken(addTokenForm)">
               <span translate>Add new token</span>
             </button>

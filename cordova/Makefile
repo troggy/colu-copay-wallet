@@ -7,14 +7,14 @@ all:
 plugins:
 	make -C project plugins
 
-project: 
-	cordova create project org.coloredcoins.unicoisa Unicoisa
+project:
+	cordova create project co.colu.wallets.copay ColuWallet
 	cp config.xml project/config.xml
 	cp ProjectMakefile project/Makefile
 	cp -af ../dist/web/** project/www
 	sed "s/<\!-- PLACEHOLDER: CORDOVA SRIPT -->/<script type='text\/javascript' charset='utf-8' src='cordova.js'><\/script>/g" ../index.html > project/www/index.html
 
- 
+
 android: project plugins
 	mkdir -p project/platforms/android/res/xml/
 	cp android/AndroidManifest.xml project/platforms/android/AndroidManifest.xml
@@ -41,10 +41,8 @@ open-ios: ios
 run-android: android
 	make -C project run-android
 
-release-android: android 
+release-android: android
 	make -C project release-android
 
 clean:
 	rm -rf project
-
-

@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Unicoisa",
+  "name": "ColuWallet",
   "description": "A secure wallet for friends and companies",
   "version": "APP_VERSION",
   "permissions": [

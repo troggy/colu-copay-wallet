@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.coloredcoins.unicoisa"
-  version="2.7.0-unicoisa.1"
+<widget id="co.colu.wallets"
+  version="2.7.0-2"
   android-versionCode="1"
   ios-CFBundleVersion="1.0.0">
-    <name>Unicoisa</name>
+    <name>Colu Wallet</name>
     <description>
-      Digital Wallet
+      Digital Asset Wallet
     </description>
-    <author email="7r0ggy@gmail.com" href="http://unicoisa.coloredcoins.org">
+    <author email="7r0ggy@gmail.com" href="http://wallets.colu.co">
         Kosta Korenkov
     </author>
     <content src="index.html" />

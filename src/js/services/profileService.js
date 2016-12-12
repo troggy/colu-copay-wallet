@@ -31,6 +31,20 @@ angular.module('copayApp.services')
       return this.Utils.formatAmount(amount, config.unitCode, opts);
     };
 
+    // Create the client
+    var getBWSURL = function(walletId) {
+      var config = configService.getSync();
+      var defaults = configService.getDefaults();
+      return ((config.bwsFor && config.bwsFor[walletId]) || defaults.bws.url);
+    };
+
+    var withBwsUrl = function(opts, walletId) {
+      if (!opts.bwsurl) {
+        opts.bwsurl = getBWSURL(walletId);
+      }
+      return opts;
+    };
+
     root._setFocus = function(walletId, cb) {
       $log.debug('Set focus:', walletId);
 
@@ -165,15 +179,6 @@ angular.module('copayApp.services')
       if (!credentials.walletId)
         return cb('bindWallet should receive credentials JSON');
 
-
-      // Create the client
-      var getBWSURL = function(walletId) {
-        var config = configService.getSync();
-        var defaults = configService.getDefaults();
-        return ((config.bwsFor && config.bwsFor[walletId]) || defaults.bws.url);
-      };
-
-
       var client = bwcService.getClient(JSON.stringify(credentials), {
         bwsurl: getBWSURL(credentials.walletId),
       });
@@ -285,7 +290,7 @@ angular.module('copayApp.services')
 
     var seedWallet = function(opts, cb) {
       opts = opts || {};
-      var walletClient = bwcService.getClient(null, opts);
+      var walletClient = bwcService.getClient(null, withBwsUrl(opts));
       var network = opts.networkName || 'livenet';
 
       if (opts.mnemonic) {
@@ -377,7 +382,7 @@ angular.module('copayApp.services')
 
       opts.m = 1;
       opts.n = 1;
-      opts.network = 'livenet';
+      opts.networkName = 'livenet';
 
       doCreateWallet(opts, function(err, walletClient) {
         if (err) return cb(err);

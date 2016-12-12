@@ -14,10 +14,10 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License. 
+ under the License.
 -->
-<phone:PhoneApplicationPage 
-    x:Class="org.coloredcoins.unicoisa.MainPage"
+<phone:PhoneApplicationPage
+    x:Class="co.colu.wallets.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -29,18 +29,17 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     Background="Black"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" d:DesignHeight="768" d:DesignWidth="480"
     xmlns:my="clr-namespace:WPCordovaClassLib">
     <Grid x:Name="LayoutRoot" Background="Transparent">
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <my:CordovaView 
-        HorizontalAlignment="Stretch" 
-        Margin="1,0,0,0"  
-        x:Name="CordovaView" 
+      <my:CordovaView
+        HorizontalAlignment="Stretch"
+        Margin="1,0,0,0"
+        x:Name="CordovaView"
         VerticalAlignment="Stretch" />
     </Grid>
-    
-</phone:PhoneApplicationPage>
 
+</phone:PhoneApplicationPage>

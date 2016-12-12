@@ -1361,7 +1361,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       to: tx.toAddr,
       amount: tx.amount.amount,
       currency: tx.amount.currency,
-      description: 'To Copay Wallet'
+      description: 'To ColuWallet Wallet'
     };
     coinbaseService.sendTo(self.coinbaseToken, self.coinbaseAccount.id, data, function(err, res) {
       if (err) {

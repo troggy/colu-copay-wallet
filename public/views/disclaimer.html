@@ -3,8 +3,12 @@
   ng-controller="disclaimerController as disclaimer" ng-init="disclaimer.init()">
   <div class="row">
     <div class="medium-centered small-centered large-centered columns size-14">
-      <span class="text-bold text-white" translate>WELCOME TO COPAY</span>
-      <p class="text-gray m0 text-light" translate>A multisignature bitcoin wallet</p>
+      <div class="cc-logo-holder negative">
+        <logo ng-if="!sidebar.isWindowsPhoneApp" negative="true" width="120"></logo>
+        <logo ng-if="sidebar.isWindowsPhoneApp" negative="true" width="120"></logo>
+      </div>
+      <span class="text-bold text-white m10t" translate>WELCOME TO COLU WALLET</span>
+      <p class="text-gray m0 text-light" translate>A multisignature colored coins wallet</p>
     </div>
   </div>
   <div class="row">

@@ -74,6 +74,6 @@ angular.module('copayApp.filters', [])
   })
   .filter('rawHtml', function(){
     return function(val) {
-      return he.decode(val);
+      return val ? he.decode(val) : val;
     };
   });

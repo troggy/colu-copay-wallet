@@ -93,18 +93,22 @@ angular.module('copayApp.directives')
         link: function(scope, element, attrs, ctrl) {
           var val = function(value) {
             var settings = configService.getSync().wallet.settings;
-            var vNum = Number((value * settings.unitToSatoshi).toFixed(0));
+            var vNum;
+            if (attrs.unitDecimals) {
+              vNum = Number(value);
+            } else {
+              vNum = Number((value * settings.unitToSatoshi).toFixed(0));
+            }
+
             if (typeof value == 'undefined' || value == 0) {
               ctrl.$pristine = true;
             }
-
-
 
             if (typeof vNum == "number" && vNum > 0) {
               if (vNum > Number.MAX_SAFE_INTEGER) {
                 ctrl.$setValidity('validAmount', false);
               } else {
-                var decimals = Number(settings.unitDecimals);
+                var decimals = Number(attrs.unitDecimals || settings.unitDecimals);
                 var sep_index = ('' + value).indexOf('.');
                 var str_value = ('' + value).substring(sep_index + 1);
                 if (sep_index >= 0 && str_value.length > decimals) {
@@ -313,9 +317,25 @@ angular.module('copayApp.directives')
       },
       controller: function($scope, instanceConfig) {
         $scope.logo_url = instanceConfig.logo || 'img/logo-negative.svg';
+        if ($scope.width) {
+          var logo_width = $scope.width * 1.5;
+          var logo_height = logo_width / (220 / 43);
+          $scope.copay_logo_style = 'width: ' + $scope.width + 'px;';
+          $scope.logo_style = "background-size: " + logo_width + "px " + logo_height + "px;" +
+              "width: " + logo_width + "px; height: " + logo_height + "px;";
+        } else {
+          var copay_width = 100 / 1.5 + '%';
+          $scope.copay_logo_style = 'width: ' + copay_width + '%; max-width: 147px';
+          $scope.logo_style = "background-size: 100% auto; width: 100%; max-width: 220px; height: 43px;";
+        }
       },
       replace: true,
-      template: '<img ng-src="{{ logo_url }}" alt="Copay">'
+      template: '' +
+          '<div class="cc-logo-holder" ng-class="{ \'negative\' : negative, \'inline\' : width < 50, }">' +
+            '<img ng-src="{{ logo_url }}" alt="Copay" style="{{ copay_logo_style }}">' +
+            '<div class="cc-plus">+</div>' +
+            '<div class="cc-logo" style="{{ logo_style }}"></div>' +
+          '</div>'
     }
   })
   .directive('availableBalance', function() {

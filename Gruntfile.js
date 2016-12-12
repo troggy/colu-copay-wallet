@@ -245,7 +245,7 @@ module.exports = function(grunt) {
     },
     nwjs: {
       options: {
-        appName: 'Unicoisa',
+        appName: 'ColuWallet',
         platforms: ['win64', 'osx64', 'linux64'],
         buildDir: './webkitbuilds',
         version: '0.16.0',

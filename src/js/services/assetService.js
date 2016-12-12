@@ -75,23 +75,22 @@ angular.module('copayApp.services').factory('assetService',
   };
 
   root.updateWalletAsset = function() {
-    if (!self.selectedAssetId) {
-      var walletId = profileService.focusedClient.credentials.walletId,
-          config = configService.getSync();
+    if (self.selectedAssetId) return updateAssetBalance();
 
-      config.assetFor = config.assetFor || {};
-      root.getSupportedAssets(function(assets) {
-        var supportedAssets = lodash.map(assets, 'assetId');
-        var selectedAsset = config.assetFor[walletId];
-        if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
-          self.selectedAssetId = instanceConfig.defaultAsset;
-        } else {
-          self.selectedAssetId = config.assetFor[walletId];
-        }
-      });
-    }
+    var walletId = profileService.focusedClient.credentials.walletId,
+        config = configService.getSync();
 
-    return updateAssetBalance();
+    config.assetFor = config.assetFor || {};
+    root.getSupportedAssets(function(assets) {
+      var supportedAssets = lodash.map(assets, 'assetId');
+      var selectedAsset = config.assetFor[walletId];
+      if (!selectedAsset || supportedAssets.indexOf(selectedAsset) === -1) {
+        self.selectedAssetId = instanceConfig.defaultAsset;
+      } else {
+        self.selectedAssetId = config.assetFor[walletId];
+      }
+      updateAssetBalance();
+    });
   };
 
   root.getSupportedAssets = function(cb) {
@@ -162,9 +161,14 @@ angular.module('copayApp.services').factory('assetService',
   root.addCustomAsset = function(newAsset, cb) {
     storageService.getCustomAssets(function(err, customAssets) {
       customAssets = customAssets || [];
-      customAssets.push(newAsset);
-      $log.debug('Adding new custom asset: ' + JSON.stringify(newAsset))
-      storageService.setCustomAssets(customAssets, cb);
+      coloredCoins.getAssetData(newAsset.assetId, function(err, assetData) {
+        if (err) return cb(err);
+        if (!assetData.metadataOfIssuence) return cb('No such asset found');
+        newAsset['name'] = assetData.metadataOfIssuence.data.assetName;
+        customAssets.push(newAsset);
+        $log.debug('Adding new custom asset: ' + JSON.stringify(newAsset))
+        storageService.setCustomAssets(customAssets, cb);
+      });
     });
   };
 
