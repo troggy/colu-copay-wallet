@@ -12,7 +12,7 @@ angular.module('copayApp.services').factory('configService', function(instanceCo
 
     // Bitcore wallet service URL
     bws: {
-      url: 'https://bws.coloredcoins.org/bws/api',
+      url: 'https://bws.coloredcoins.org:8080/bws/api',
       //url: 'http://localhost:3232/bws/api',
     },
 
