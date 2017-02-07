@@ -109,3 +109,6 @@ public/config.js
 # IDEA project files
 .idea/
 *.iml
+
+# tmp folder for build
+.tmp/

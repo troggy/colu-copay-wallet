@@ -107,7 +107,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   });
 
   if (isCordova && StatusBar.isVisible) {
-    var backgroundColor = profileService.focusedClient ? profileService.focusedClient.backgroundColor : "#4B6178";
+    var backgroundColor = profileService.focusedClient && profileService.focusedClient.backgroundColor  ? profileService.focusedClient.backgroundColor : "#4B6178";
     StatusBar.backgroundColorByHexString(backgroundColor);
   }
 

@@ -3,6 +3,7 @@
 module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-angular-templates');
 
   // Project Configuration
   grunt.initConfig({
@@ -126,7 +127,8 @@ module.exports = function(grunt) {
           'src/js/coinbase.js',
           'src/js/init.js',
           'src/js/trezor-url.js',
-          'bower_components/trezor-connect/login.js'
+          'bower_components/trezor-connect/login.js',
+          '.tmp/templates.js'
         ],
         dest: 'public/js/copay.js'
       },
@@ -271,10 +273,30 @@ module.exports = function(grunt) {
           'angular-bitcore-wallet-client/angular-bitcore-wallet-client.js': ['angular-bitcore-wallet-client/index.js']
         },
       }
+    },
+    ngtemplates:    {
+      copayApp:          {
+        src:        'public/views/**/*.html',
+        dest:       '.tmp/templates.js',
+        options:    {
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            keepClosingSlash:               true, // Only if you are using SVG in HTML
+            removeAttributeQuotes:          true,
+            removeComments:                 true, // Only if you don't use comment directives!
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true
+          },
+          url:    function(url) { return url.replace('public/', ''); }
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'exec:coinbase', 'browserify', 'sass', 'concat', 'copy:icons', 'copy:ionic_fonts']);
+  grunt.registerTask('default', ['nggettext_compile', 'exec:version', 'exec:coinbase', 'browserify', 'sass', 'ngtemplates', 'concat', 'copy:icons', 'copy:ionic_fonts']);
   grunt.registerTask('fast', ['sass', 'concat']);
   grunt.registerTask('static', ['default', 'copy:config']);
   grunt.registerTask('prod', ['default', 'uglify']);

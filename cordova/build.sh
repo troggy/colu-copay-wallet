@@ -15,7 +15,7 @@ checkOK() {
 # Configs
 BUILDDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT="$BUILDDIR/project"
-
+TMPDIR="$BUILDDIR/../.tmp"
 CURRENT_OS=$1
 
 if [ -z "CURRENT_OS" ]
@@ -176,6 +176,9 @@ if [ ! -d $PROJECT ]; then
 
 fi
 
+mkdir -p $TMPDIR
+checkOK
+
 if $DBGJS
 then
   echo "${OpenColor}${Green}* Generating ColuWallet bundle (debug js)...${CloseColor}"
@@ -188,6 +191,8 @@ else
   grunt prod:static
   checkOK
 fi
+
+rm -rf $TMPDIR
 
 echo "${OpenColor}${Green}* Copying files...${CloseColor}"
 cd $BUILDDIR/..
