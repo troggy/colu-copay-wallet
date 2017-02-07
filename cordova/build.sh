@@ -165,6 +165,7 @@ if [ ! -d $PROJECT ]; then
   rm -rf $PROJECT/platforms/android/res/values-zh-rSG
   rm -rf $PROJECT/platforms/android/res/values-zh-rTW
   rm -rf $PROJECT/platforms/android/res/values-zh
+  rm -rf $PROJECT/platforms/android/res/values-ja
   cordova plugin add cordova-plugin-android-fingerprint-auth
   checkOK
 
@@ -192,12 +193,13 @@ else
   checkOK
 fi
 
-rm -rf $TMPDIR
-
 echo "${OpenColor}${Green}* Copying files...${CloseColor}"
 cd $BUILDDIR/..
 cp -af public/** $PROJECT/www
 checkOK
+
+rm -rf $TMPDIR
+rm -rf $PROJECT/www/views
 
 sed "s/<\!-- PLACEHOLDER: CORDOVA SRIPT -->/<script type='text\/javascript' charset='utf-8' src='cordova.js'><\/script>/g" public/index.html > $PROJECT/www/index.html
 checkOK
