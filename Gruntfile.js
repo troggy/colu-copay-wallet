@@ -281,7 +281,7 @@ module.exports = function(grunt) {
         options:    {
           htmlmin: {
             collapseBooleanAttributes:      true,
-            collapseWhitespace:             true,
+            collapseWhitespace:             false,
             keepClosingSlash:               true, // Only if you are using SVG in HTML
             removeAttributeQuotes:          true,
             removeComments:                 true, // Only if you don't use comment directives!
