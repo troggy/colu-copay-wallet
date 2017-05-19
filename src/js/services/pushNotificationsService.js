@@ -1,6 +1,6 @@
 'use strict';
 angular.module('copayApp.services')
-  .factory('pushNotificationsService', function($log, platformInfo, storageService, configService, lodash) {
+  .factory('pushNotificationsService', function($log, platformInfo, storageService, configService, lodash, $timeout) {
     var root = {};
     var isCordova = platformInfo.isCordova;
     var isWP = platformInfo.isWP;
@@ -62,11 +62,12 @@ angular.module('copayApp.services')
 
       var config = configService.getSync();
       if (!config.pushNotifications.enabled) return;
-
-      walletClient.pushNotificationsSubscribe(opts, function(err, resp) {
-        if (err) return cb(err);
-        return cb(null, resp);
-      });
+      $timeout(function () {
+        walletClient.pushNotificationsSubscribe(opts, function (err, resp) {
+          if (err) return cb(err);
+          return cb(null, resp);
+        });
+      }, 2000)
     }
 
     root.unsubscribe = function(walletClient, cb) {
